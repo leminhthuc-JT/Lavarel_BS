@@ -1,0 +1,54 @@
+<?php
+
+return [
+    'name' => env('APP_NAME', 'The Little Prince Pâtisserie'),
+    'env' => env('APP_ENV', 'local'),
+    'debug' => (bool) env('APP_DEBUG', true),
+    'url' => env('APP_URL', 'http://localhost:8000'),
+    'asset_url' => env('ASSET_URL'),
+    'timezone' => 'Asia/Ho_Chi_Minh',
+    'locale' => 'vi',
+    'fallback_locale' => 'en',
+    'faker_locale' => 'vi_VN',
+    'key' => env('APP_KEY', 'base64:V21TbzM0MWd5cWR4ZDNrczdrM2V6cWVyaDRxZnd0eHE='),
+    'cipher' => 'AES-256-CBC',
+
+    'providers' => [
+        /*
+         * Laravel Framework Service Providers...
+         */
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+
+        /*
+         * MongoDB Service Provider
+         */
+        MongoDB\Laravel\MongoDBServiceProvider::class,
+
+        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+    ],
+];

@@ -1,0 +1,136 @@
+<?php
+
+namespace App\Http\Controllers\Client;
+
+use App\Http\Controllers\Controller;
+use App\Services\Client\AuthService;
+use Illuminate\Http\Request;
+
+class AuthController extends Controller
+{
+    protected AuthService $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+    }
+
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function showForgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function showResetPassword()
+    {
+        return view('auth.reset-password');
+    }
+
+    public function login(Request $request)
+    {
+        try {
+            $user = $this->authService->login([
+                'email' => trim((string) ($request->input('email') ?? '')),
+                'password' => (string) ($request->input('password') ?? ''),
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng nhập thành công.',
+                'user' => $user
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $user = $this->authService->register($request->all());
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng ký thành công.',
+                'user' => $user
+            ], 201);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function googleLogin(Request $request)
+    {
+        try {
+            $credential = $request->input('credential', '');
+            if (!$credential) {
+                throw new \Exception('Thiếu thông tin đăng nhập Google.');
+            }
+            $user = $this->authService->googleLogin($credential);
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng nhập Google thành công.',
+                'user' => $user
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        try {
+            $email = trim($request->input('email', ''));
+            if (!$email) {
+                throw new \Exception('Vui lòng nhập email.');
+            }
+            $result = $this->authService->forgotPassword($email);
+            $message = is_array($result) ? ($result['message'] ?? 'Đã gửi yêu cầu đặt lại mật khẩu.') : (string) $result;
+            return response()->json(['success' => true, 'message' => $message]);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $token = trim($request->input('token', ''));
+            $password = $request->input('password', '');
+            $confirmPassword = $request->input('confirmPassword', '');
+
+            if (!$token) throw new \Exception('Token đặt lại mật khẩu không hợp lệ.');
+            if (!$password) throw new \Exception('Vui lòng nhập mật khẩu mới.');
+            if ($password !== $confirmPassword) throw new \Exception('Mật khẩu xác nhận không khớp.');
+            if (strlen($password) < 6) throw new \Exception('Mật khẩu phải có ít nhất 6 ký tự.');
+
+            $result = $this->authService->resetPassword($token, $password, $confirmPassword);
+            $message = is_array($result) ? ($result['message'] ?? 'Đặt lại mật khẩu thành công.') : (string) $result;
+            return response()->json(['success' => true, 'message' => $message]);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        try {
+            $email = trim((string) ($request->input('email') ?? ''));
+            $currentPassword = (string) ($request->input('currentPassword') ?? '');
+            $newPassword = (string) ($request->input('newPassword') ?? '');
+            $confirmPassword = (string) ($request->input('confirmPassword') ?? '');
+
+            $result = $this->authService->changePassword($email, $currentPassword, $newPassword, $confirmPassword);
+            return response()->json(['success' => true, 'message' => $result['message'] ?? 'Đổi mật khẩu thành công.']);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+}

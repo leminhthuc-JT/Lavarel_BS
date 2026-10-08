@@ -1,0 +1,96 @@
+/* ==========================================================================
+   LIKED PRODUCTS PAGE — REDESIGN
+   ========================================================================== */
+
+.like-page {
+    padding: 56px 0 90px;
+    background: var(--cream);
+}
+
+/* ==========================================================================
+   HEADER (đồng bộ với trang Thông Tin Tài Khoản / Giỏ Hàng)
+   ========================================================================== */
+
+.like-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.like-page .eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    margin-bottom: 14px;
+}
+
+.like-header .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.like-header .title-line {
+    width: 64px;
+    height: 1px;
+    flex-shrink: 0;
+}
+
+.like-header .title-line.left {
+    background: linear-gradient(to left, var(--accent-gold), transparent);
+}
+
+.like-header .title-line.right {
+    background: linear-gradient(to right, var(--accent-gold), transparent);
+}
+
+.like-header h1 {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.like-header h1 i {
+    color: var(--accent-red);
+    font-size: 0.8em;
+    margin-left: 4px;
+}
+
+.like-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+    .like-header .title-line {
+        width: 30px;
+    }
+}
+
+/* ==========================================================================
+   PRODUCT GRID — trước đây hoàn toàn chưa có, đây là nguyên nhân
+   các thẻ sản phẩm xếp chồng dọc thay vì xếp lưới
+   ========================================================================== */
+
+.like-page .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+.like-page .product-actions-group {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 480px) {
+    .like-page .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

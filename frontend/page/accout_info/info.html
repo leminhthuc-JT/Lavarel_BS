@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Tài Khoản | The Little Prince Sweet Bakery</title>
+
+    <!-- Google Fonts & Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="info.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="../home/index.html" class="logo">
+            <span class="logo-script"><img src="../../assets/logo.png" alt="The Little Prince Logo" width="80"></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
+
+        <nav class="main-nav" id="mainNav">
+            <a href="../home/index.html" data-nav="home">Trang chủ</a>
+            <a href="../menu/menu.html" data-nav="menu">Sản phẩm</a>
+            <a href="../categories/cate.html" data-nav="categories">Danh mục</a>
+            <a href="../about/about.html" data-nav="about">Về chúng tôi</a>
+            <a href="../contact/contact.html" data-nav="contact">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="../menu/menu.html" class="nav-icon-btn" title="Tìm kiếm" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="../like_list/like.html" class="nav-icon-btn" title="Yêu thích" aria-label="Yêu thích">
+                <i class="fa-regular fa-heart"></i><span class="badge-count like-count">0</span>
+            </a>
+            <a href="../cart/cart.html" class="nav-icon-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+                <i class="fa-solid fa-bag-shopping"></i><span class="badge-count cart-count">0</span>
+            </a>
+            <button class="avatar-btn active" id="headerAvatarBtn" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
+        </div>
+    </div>
+</header>
+
+<main class="account-page">
+    <div class="container">
+        
+        <header class="account-header">
+            <p class="eyebrow">TÀI KHOẢN CÁ NHÂN</p>
+            <h1>Thông Tin Tài Khoản</h1>
+        </header>
+
+        <div class="account-card" id="accountCard">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Đang tải thông tin tài khoản...</p>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- EDIT PROFILE MODAL -->
+<div class="modal-overlay" id="editProfileModal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Chỉnh Sửa Thông Tin Cá Nhân</h3>
+            <button class="modal-close" onclick="closeEditModal()">✕</button>
+        </div>
+        <form id="editProfileForm" class="modal-body">
+            <div class="form-group">
+                <label for="editFullName">Họ và tên *</label>
+                <input type="text" id="editFullName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="editPhone">Số điện thoại</label>
+                <input type="tel" id="editPhone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editDob">Ngày sinh</label>
+                <input type="date" id="editDob" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editGender">Giới tính</label>
+                <select id="editGender" class="form-control">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editAddress">Địa chỉ mặc định</label>
+                <textarea id="editAddress" class="form-control"></textarea>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button type="button" class="btn btn-outline" onclick="closeEditModal()">Hủy</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal-overlay" id="changePasswordModal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Đổi Mật Khẩu</h3>
+            <button class="modal-close" onclick="closePasswordModal()">✕</button>
+        </div>
+        <form id="changePasswordForm" class="modal-body">
+            <div class="form-group">
+                <label for="oldPassword">Mật khẩu hiện tại *</label>
+                <input type="password" id="oldPassword" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Mật khẩu mới *</label>
+                <input type="password" id="newPassword" class="form-control" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword">Xác nhận mật khẩu mới *</label>
+                <input type="password" id="confirmNewPassword" class="form-control" required minlength="6">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button type="button" class="btn btn-outline" onclick="closePasswordModal()">Hủy</button>
+                <button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <div class="logo" style="display:inline-flex; align-items:flex-start; margin-bottom:8px; color:var(--text-main);">
+                <img src="../../assets/logo.png" alt="The Little Prince Logo" width="80">
+            </div>
+            <p>"Một chút ngọt ngào cho ngày thật đẹp" - Tiệm bánh thủ công mang hương vị lãng mạn tới từng gian bếp Việt Nam.</p>
+        </div>
+
+        <div>
+            <h4>Danh mục chính</h4>
+            <a href="../menu/menu.html">Bánh kem sinh nhật</a>
+            <a href="../menu/menu.html">Bánh ngọt Chiffon</a>
+            <a href="../menu/menu.html">Bánh Tart hoa quả</a>
+            <a href="../menu/menu.html">Set bánh quà tặng</a>
+        </div>
+
+        <div>
+            <h4>Chăm sóc khách hàng</h4>
+            <a href="../about/about.html">Hướng dẫn đặt bánh</a>
+            <a href="../contact/contact.html">Chính sách vận chuyển</a>
+            <a href="../contact/contact.html">Chính sách bảo mật</a>
+            <a href="../contact/contact.html">Điều khoản dịch vụ</a>
+        </div>
+
+        <div>
+            <h4>Liên hệ &amp; Ghé thăm</h4>
+            <p><i class="fa-solid fa-location-dot"></i> 140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh</p>
+            <p><i class="fa-solid fa-phone"></i> +84 8 26506125</p>
+            <p><i class="fa-solid fa-envelope"></i> hello@littleprince.vn</p>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+    <span>
+        © <span id="year">2026</span> The Little Prince Pâtisserie.
+        Tất cả quyền được bảo lưu.
+    </span>
+
+    <div class="footer-socials" aria-label="Mạng xã hội">
+        <a href="#" aria-label="Facebook" title="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="#" aria-label="Instagram" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" aria-label="TikTok" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+</div>
+</footer>
+
+<script src="../common.js"></script>
+<script src="info.js"></script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+/* =========================================================
+   THE LITTLE PRINCE — CATEGORY PAGE
+   Same Editorial Heading Style as ABOUT PAGE
+========================================================= */
+
+.cate-page {
+    background: var(--cream);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER / HERO
+   Đồng bộ với .about-hero
+========================================================= */
+
+.cate-header {
+    position: relative;
+
+    padding: 70px 0 60px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 12% 20%,
+            rgba(245, 184, 204, 0.18),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 88% 30%,
+            rgba(184, 220, 232, 0.20),
+            transparent 25%
+        ),
+        var(--cream-light);
+
+    border-bottom: 1px solid var(--border-color);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER DECORATION
+========================================================= */
+
+.cate-header::before,
+.cate-header::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(5px);
+}
+
+
+.cate-header::before {
+    width: 180px;
+    height: 180px;
+
+    background: rgba(245, 184, 204, 0.16);
+
+    left: -70px;
+    top: 25px;
+}
+
+
+.cate-header::after {
+    width: 220px;
+    height: 220px;
+
+    background: rgba(184, 220, 232, 0.14);
+
+    right: -80px;
+    bottom: -80px;
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+========================================================= */
+
+.cate-header > * {
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   EYEBROW
+   Giống About Page
+========================================================= */
+
+.cate-header .eyebrow {
+    margin: 0 0 18px;
+
+    letter-spacing: 0.16em;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: var(--sage-dark);
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MAIN TITLE
+   Giống .about-hero h1
+========================================================= */
+
+.cate-header h1 {
+    max-width: 850px;
+
+    margin: 0 auto 12px;
+
+    font-family: var(--font-serif);
+
+    font-size: clamp(42px, 6vw, 72px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.025em;
+
+    color: var(--text-main);
+}
+
+
+/* =========================================================
+   SUBTITLE
+   Giống .about-subtitle
+========================================================= */
+
+.cate-subtitle {
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    color: var(--text-muted);
+
+    font-size: 16px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION
+========================================================= */
+
+.cate-section {
+    padding: 70px 0 90px;
+
+    background: var(--cream);
+}
+
+
+/* =========================================================
+   CATEGORY GRID
+========================================================= */
+
+.cate-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 22px;
+
+    align-items: stretch;
+
+    margin: 30px 0;
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+   Thu gọn hơn bản trước
+========================================================= */
+
+.cate-box {
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+
+    /*
+       Card ngắn hơn
+    */
+    height: 335px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 11px;
+
+    text-decoration: none;
+
+    background: rgba(255, 255, 255, 0.90);
+
+    border: 1px solid rgba(120, 130, 115, 0.14);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(55, 63, 51, 0.055);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+
+/* =========================================================
+   CARD DECORATIVE BLOBS
+========================================================= */
+
+.cate-box::before {
+    content: "";
+
+    position: absolute;
+
+    width: 105px;
+    height: 105px;
+
+    left: -48px;
+    top: -48px;
+
+    border-radius: 50%;
+
+    background: rgba(245, 184, 204, 0.10);
+
+    pointer-events: none;
+}
+
+
+.cate-box::after {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    right: -60px;
+    bottom: -65px;
+
+    border-radius: 50%;
+
+    background: rgba(184, 220, 232, 0.12);
+
+    pointer-events: none;
+
+    transition: transform 0.4s ease;
+}
+
+
+.cate-box:hover::after {
+    transform: scale(1.2);
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.cate-box:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(120, 130, 115, 0.25);
+
+    box-shadow:
+        0 18px 45px rgba(55, 63, 51, 0.10);
+}
+
+
+/* =========================================================
+   IMAGE
+   Tất cả ảnh cùng kích thước
+========================================================= */
+
+.cate-image {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    height: 160px;
+
+    flex: 0 0 160px;
+
+    overflow: hidden;
+
+    border-radius: 19px;
+
+    background: #F3EBE2;
+}
+
+
+/* =========================================================
+   IMAGE ELEMENT
+========================================================= */
+
+.cate-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    opacity: 0.90;
+
+    filter:
+        saturate(0.92)
+        brightness(1.02);
+
+    transition:
+        transform 0.5s ease,
+        opacity 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.cate-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255, 250, 242, 0.02),
+            rgba(255, 250, 242, 0.04) 60%,
+            rgba(92, 64, 51, 0.10)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   IMAGE HOVER
+========================================================= */
+
+.cate-box:hover .cate-image img {
+    transform: scale(1.045);
+
+    opacity: 1;
+
+    filter:
+        saturate(1)
+        brightness(1.03);
+}
+
+
+/* =========================================================
+   CATEGORY CODE
+========================================================= */
+
+.cate-box-code {
+    position: absolute;
+
+    z-index: 6;
+
+    top: 19px;
+    right: 19px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 252, 246, 0.90);
+
+    border: 1px solid rgba(92, 64, 51, 0.10);
+
+    color: #5C4033;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.cate-content {
+    position: relative;
+
+    z-index: 3;
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 14px 8px 3px;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.cate-box-icon {
+    position: absolute;
+
+    z-index: 7;
+
+    left: 18px;
+
+    top: -35px;
+
+    width: 44px;
+    height: 44px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 14px;
+
+    background: #FFF9F2;
+
+    border: 2px solid rgba(255, 255, 255, 0.95);
+
+    color: #5C4033;
+
+    font-size: 17px;
+
+    box-shadow:
+        0 6px 18px rgba(92, 64, 51, 0.13);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.cate-box:hover .cate-box-icon {
+    background: #5C4033;
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CATEGORY TITLE
+========================================================= */
+
+.cate-box h3 {
+    position: relative;
+
+    z-index: 4;
+
+    width: 100%;
+
+    min-height: 28px;
+
+    margin: 0 0 7px;
+
+    font-family: var(--font-serif);
+
+    font-size: 21px;
+
+    font-weight: 400;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.01em;
+
+    color: #5C4033;
+
+    overflow: visible;
+
+    text-overflow: clip;
+
+    white-space: normal;
+}
+
+
+/* =========================================================
+   TITLE DECORATION
+========================================================= */
+
+.cate-box h3::after {
+    content: "";
+
+    display: block;
+
+    width: 28px;
+
+    height: 2px;
+
+    margin-top: 5px;
+
+    border-radius: 999px;
+
+    background: rgba(92, 64, 51, 0.25);
+
+    transition:
+        width 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.cate-box:hover h3::after {
+    width: 44px;
+
+    background: #5C4033;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.cate-box p {
+    position: relative;
+
+    z-index: 4;
+
+    width: 100%;
+
+    height: 36px;
+
+    flex: 0 0 36px;
+
+    margin: 1px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 11.8px;
+
+    line-height: 1.55;
+
+    display: -webkit-box;
+
+    -webkit-box-orient: vertical;
+
+    -webkit-line-clamp: 2;
+
+    overflow: hidden;
+
+    word-break: normal;
+
+    overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.cate-box-action {
+    position: relative;
+
+    z-index: 4;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: auto;
+
+    padding-top: 9px;
+
+    border-top: 1px solid rgba(92, 64, 51, 0.08);
+
+    color: #5C4033;
+
+    font-size: 11.5px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    transition:
+        color 0.25s ease,
+        gap 0.25s ease;
+}
+
+
+.cate-box-action i {
+    font-size: 12px;
+
+    transition: transform 0.25s ease;
+}
+
+
+.cate-box:hover .cate-box-action {
+    color: #7A5847;
+
+    gap: 10px;
+}
+
+
+.cate-box:hover .cate-box-action i {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading-spinner {
+    grid-column: 1 / -1;
+
+    min-height: 220px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--text-muted);
+}
+
+
+.loading-spinner p {
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1000px
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .cate-header {
+        padding: 90px 0 80px;
+    }
+
+    .cate-section {
+        padding: 60px 0 75px;
+    }
+
+    .cate-grid {
+        gap: 18px;
+    }
+
+    .cate-box {
+        height: 330px;
+    }
+
+    .cate-image {
+        height: 155px;
+
+        flex-basis: 155px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 768px
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .cate-header {
+        padding: 75px 20px 70px;
+    }
+
+    .cate-header h1 {
+        font-size: clamp(38px, 11vw, 54px);
+    }
+
+    .cate-subtitle {
+        font-size: 14px;
+
+        line-height: 1.75;
+    }
+
+    .cate-section {
+        padding: 55px 0 70px;
+    }
+
+    .cate-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+    .cate-box {
+        height: 325px;
+
+        padding: 10px;
+
+        border-radius: 22px;
+    }
+
+    .cate-image {
+        height: 150px;
+
+        flex-basis: 150px;
+
+        border-radius: 17px;
+    }
+
+    .cate-content {
+        padding: 14px 7px 3px;
+    }
+
+    .cate-box-icon {
+        left: 17px;
+
+        top: -34px;
+
+        width: 42px;
+        height: 42px;
+
+        border-radius: 13px;
+    }
+
+    .cate-box h3 {
+        font-size: 20px;
+    }
+
+    .cate-box p {
+        font-size: 11.5px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .cate-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .cate-box {
+        height: 325px;
+    }
+
+    .cate-image {
+        height: 155px;
+
+        flex-basis: 155px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 480px
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .cate-header {
+        padding: 65px 18px;
+    }
+
+    .cate-header .eyebrow {
+        margin-bottom: 15px;
+
+        font-size: 10px;
+
+        letter-spacing: 0.15em;
+    }
+
+    .cate-header h1 {
+        font-size: 38px;
+
+        line-height: 1.08;
+    }
+
+    .cate-subtitle {
+        font-size: 13px;
+    }
+
+    .cate-section {
+        padding: 48px 0 60px;
+    }
+
+    .cate-box {
+        height: 315px;
+
+        padding: 9px;
+
+        border-radius: 20px;
+    }
+
+    .cate-image {
+        height: 150px;
+
+        flex-basis: 150px;
+
+        border-radius: 16px;
+    }
+
+    .cate-content {
+        padding: 13px 7px 3px;
+    }
+
+    .cate-box h3 {
+        height: 27px;
+
+        flex-basis: 27px;
+
+        font-size: 19px;
+    }
+
+    .cate-box p {
+        height: 36px;
+
+        flex-basis: 36px;
+
+        font-size: 11.5px;
+    }
+
+    .cate-box-action {
+        font-size: 11px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cate-box,
+    .cate-box-icon,
+    .cate-box-action,
+    .cate-box-action i,
+    .cate-image img {
+        transition: none;
+    }
+}

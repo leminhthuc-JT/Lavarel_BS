@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Đánh giá sản phẩm | The Little Prince Sweet Bakery</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Global -->
+    <link
+        rel="stylesheet"
+        href="../../style.css"
+    >
+
+    <!-- Rating -->
+    <link
+        rel="stylesheet"
+        href="../../page/add_rating/add_rating.css"
+    >
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="site-header">
+
+    <div class="container nav-wrap">
+
+        <a
+            href="../home/index.html"
+            class="logo"
+        >
+            <span class="logo-script">
+                <img
+                    src="../../assets/logo.png"
+                    alt="The Little Prince Logo"
+                    width="80"
+                >
+            </span>
+        </a>
+
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Mở menu"
+        >
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+
+        <nav
+            class="main-nav"
+            id="mainNav"
+        >
+            <a href="../home/index.html">
+                Trang chủ
+            </a>
+
+            <a href="../menu/menu.html">
+                Sản phẩm
+            </a>
+
+            <a href="../categories/cate.html">
+                Danh mục
+            </a>
+
+            <a href="../about/about.html">
+                Về chúng tôi
+            </a>
+
+            <a href="../contact/contact.html">
+                Liên hệ
+            </a>
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <a
+                href="../menu/menu.html"
+                class="nav-icon-btn"
+                title="Tìm kiếm"
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+
+
+            <a
+                href="../like_list/like.html"
+                class="nav-icon-btn"
+                title="Yêu thích"
+            >
+                <i class="fa-regular fa-heart"></i>
+
+                <span class="badge-count like-count">
+                    0
+                </span>
+            </a>
+
+
+            <a
+                href="../cart/cart.html"
+                class="nav-icon-btn"
+                title="Giỏ hàng"
+            >
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span class="badge-count cart-count">
+                    0
+                </span>
+            </a>
+
+
+            <button
+                class="avatar-btn"
+                id="headerAvatarBtn"
+                title="Tài khoản"
+            >
+                <i class="fa-regular fa-user"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="rating-page">
+
+    <div class="container rating-container">
+
+
+        <!-- PAGE HEADING -->
+
+        <section class="rating-heading">
+
+            <span class="rating-eyebrow">
+                YOUR EXPERIENCE
+            </span>
+
+            <h1>
+                Đánh Giá Sản Phẩm
+            </h1>
+
+            <p>
+                Chia sẻ trải nghiệm của bạn để giúp những khách hàng khác
+                lựa chọn sản phẩm phù hợp.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUCT CARD
+        ================================================== -->
+
+        <section class="rating-card product-card">
+
+            <div
+                class="product-image"
+                id="productImage"
+            >
+                <i class="fa-solid fa-cake-candles"></i>
+            </div>
+
+
+            <div class="product-info">
+
+                <span
+                    class="product-category"
+                    id="productCategory"
+                >
+                    SẢN PHẨM
+                </span>
+
+                <h2 id="productName">
+                    Bánh Kem Dâu Tây Trái Tim
+                </h2>
+
+                <p
+                    class="product-code"
+                    id="productCode"
+                >
+                    Mã sản phẩm: BK01
+                </p>
+
+                <p
+                    class="product-price"
+                    id="productPrice"
+                >
+                    590.000đ
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RATING FORM
+        ================================================== -->
+
+        <form
+            id="ratingForm"
+            class="rating-form"
+            novalidate
+        >
+
+
+            <!-- =================================================
+                 STAR RATING
+            ================================================== -->
+
+            <section class="rating-card">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+                        <h2>
+                            Đánh giá của bạn
+                        </h2>
+
+                        <p>
+                            Sản phẩm này xứng đáng với bao nhiêu sao?
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="quick-stars"
+                    id="quickStars"
+                    role="radiogroup"
+                    aria-label="Đánh giá số sao"
+                >
+
+                    <button
+                        type="button"
+                        class="star"
+                        data-rating="1"
+                        aria-label="1 sao"
+                    >
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="star"
+                        data-rating="2"
+                        aria-label="2 sao"
+                    >
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="star"
+                        data-rating="3"
+                        aria-label="3 sao"
+                    >
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="star"
+                        data-rating="4"
+                        aria-label="4 sao"
+                    >
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="star"
+                        data-rating="5"
+                        aria-label="5 sao"
+                    >
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+
+                </div>
+
+
+                <p
+                    class="rating-label"
+                    id="quickRatingLabel"
+                >
+                    Hãy chọn số sao
+                </p>
+
+
+                <input
+                    type="hidden"
+                    id="quickRatingValue"
+                    value="0"
+                >
+
+            </section>
+
+
+
+            <!-- =================================================
+                 COMMENT
+            ================================================== -->
+
+            <section class="rating-card">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+                        <h2>
+                            Nhận xét của bạn
+                        </h2>
+
+                        <p>
+                            Hãy chia sẻ cảm nhận thật của bạn.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <textarea
+                    id="commentText"
+                    rows="6"
+                    maxlength="500"
+                    placeholder="Ví dụ: Bánh rất ngon, kem mềm, vị dâu thơm và không quá ngọt..."
+                ></textarea>
+
+
+                <div class="textarea-footer">
+
+                    <span>
+                        Nội dung đánh giá
+                    </span>
+
+                    <span>
+                        <strong id="characterCount">0</strong>/500
+                    </span>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 IMAGE
+            ================================================== -->
+
+            <section class="rating-card">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+                        <h2>
+                            Thêm hình ảnh
+                        </h2>
+
+                        <p>
+                            Hình ảnh thực tế giúp đánh giá của bạn hữu ích hơn.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="image-upload-row"
+                    id="imageUploadRow"
+                >
+
+                    <label
+                        class="upload-box"
+                        for="imageInput"
+                        id="uploadBox"
+                    >
+
+                        <i class="fa-solid fa-camera"></i>
+
+                        <strong>
+                            Thêm ảnh
+                        </strong>
+
+                        <span>
+                            Tối đa 5 ảnh
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                        multiple
+                        hidden
+                    >
+
+                </div>
+
+
+                <p class="upload-note">
+                    Mỗi ảnh tối đa 5MB.
+                </p>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MODERATION
+            ================================================== -->
+
+            <div
+                id="moderationResult"
+                class="moderation-result hidden"
+            ></div>
+
+
+
+            <!-- =================================================
+                 SUBMIT
+            ================================================== -->
+
+            <button
+                type="submit"
+                id="submitComment"
+                class="submit-button"
+            >
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                <span>
+                    Gửi đánh giá
+                </span>
+
+            </button>
+
+
+            <p class="submit-note">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Đánh giá sẽ được kiểm tra trước khi hiển thị.
+
+            </p>
+
+
+        </form>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="site-footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <div
+                class="logo"
+                style="display:inline-flex; align-items:flex-start; margin-bottom:8px;"
+            >
+
+                <img
+                    src="../../assets/logo.png"
+                    alt="The Little Prince Logo"
+                    width="80"
+                >
+
+            </div>
+
+            <p>
+                "Một chút ngọt ngào cho ngày thật đẹp" -
+                Tiệm bánh thủ công mang hương vị lãng mạn
+                tới từng gian bếp Việt Nam.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Danh mục chính
+            </h4>
+
+            <a href="../menu/menu.html">
+                Bánh kem sinh nhật
+            </a>
+
+            <a href="../menu/menu.html">
+                Bánh ngọt Chiffon
+            </a>
+
+            <a href="../menu/menu.html">
+                Bánh Tart hoa quả
+            </a>
+
+            <a href="../menu/menu.html">
+                Set bánh quà tặng
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Chăm sóc khách hàng
+            </h4>
+
+            <a href="../about/about.html">
+                Hướng dẫn đặt bánh
+            </a>
+
+            <a href="../contact/contact.html">
+                Chính sách vận chuyển
+            </a>
+
+            <a href="../contact/contact.html">
+                Chính sách bảo mật
+            </a>
+
+            <a href="../contact/contact.html">
+                Điều khoản dịch vụ
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Liên hệ & Ghé thăm
+            </h4>
+
+            <p>
+                <i class="fa-solid fa-location-dot"></i>
+                140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone"></i>
+                +84 8 26506125
+            </p>
+
+            <p>
+                <i class="fa-solid fa-envelope"></i>
+                hello@littleprince.vn
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="container footer-bottom">
+
+        <span>
+            © <span id="year">2026</span>
+            The Little Prince Pâtisserie.
+            Tất cả quyền được bảo lưu.
+        </span>
+
+
+        <div
+            class="footer-socials"
+            aria-label="Mạng xã hội"
+        >
+
+            <a href="#" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a href="#" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a href="#" aria-label="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<script src="../../page/add_rating/add_rating.js"></script>
+
+</body>
+
+</html>

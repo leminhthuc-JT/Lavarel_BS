@@ -1,0 +1,1271 @@
+
+/* =========================================================
+   THE LITTLE PRINCE PÂTISSERIE
+   AUTHENTICATION UI
+========================================================= */
+
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+    --sage: #98AA9F;
+    --sage-dark: #71877A;
+    --sage-deep: #536A5E;
+    --sage-soft: #DDE4DF;
+
+    --cream: #F7F3EA;
+    --cream-light: #FCFAF5;
+    --ivory: #FFFDF8;
+
+    --charcoal: #2F342F;
+    --text: #343A35;
+    --text-soft: #737A74;
+
+    --border: #D4D5CE;
+
+    --danger: #A94D4D;
+    --success: #567563;
+
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Inter", Arial, sans-serif;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--cream);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    border: none;
+}
+
+a {
+    color: inherit;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.auth-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns:
+        46%
+        54%;
+
+    background: var(--cream);
+}
+
+
+/* =========================================================
+   LEFT SHOWCASE
+========================================================= */
+
+.auth-showcase {
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 55px 64px;
+
+    color: #ffffff;
+
+    background-image:
+        url("../../assets/background.png");
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+    background-position: 58% center;
+}
+
+
+/* =========================================================
+   SHOWCASE OVERLAY
+========================================================= */
+
+.showcase-overlay {
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(111, 139, 124, 0.32) 0%,
+            rgba(120, 145, 132, 0.20) 45%,
+            rgba(112, 137, 123, 0.08) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SHOWCASE DECORATIVE CIRCLE
+========================================================= */
+
+.auth-showcase::after {
+    content: "";
+
+    position: absolute;
+
+    width: 620px;
+    height: 620px;
+
+    top: -385px;
+    right: -230px;
+
+    z-index: 2;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.30);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    position: relative;
+
+    z-index: 5;
+
+    align-self: center;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+}
+
+.brand-logo-image {
+    display: block;
+
+    width: 205px;
+    height: auto;
+
+    object-fit: contain;
+
+    filter:
+        brightness(0)
+        invert(1);
+
+    opacity: 0.97;
+}
+
+
+/* =========================================================
+   MOBILE BRAND
+========================================================= */
+
+.mobile-brand {
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+}
+
+.mobile-logo-image {
+    display: block;
+
+    width: 190px;
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   SHOWCASE CONTENT
+========================================================= */
+
+.showcase-content {
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+
+    transform: translateY(35px);
+}
+
+.showcase-label {
+    display: block;
+
+    margin-bottom: 38px;
+
+    font-family: var(--sans);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 6px;
+
+    color:
+        rgba(255, 255, 255, 0.94);
+}
+
+.showcase-content h1 {
+    max-width: 600px;
+
+    font-family: var(--serif);
+
+    font-size:
+        clamp(66px, 5.3vw, 96px);
+
+    font-weight: 400;
+
+    line-height: 0.98;
+
+    letter-spacing: -3px;
+
+    color: #FFFDF8;
+
+    text-shadow:
+        0 2px 20px
+        rgba(31, 46, 38, 0.06);
+}
+
+.showcase-content h1 em {
+    font-weight: 400;
+    font-style: italic;
+
+    color: #FFFDF8;
+}
+
+.showcase-content p {
+    max-width: 500px;
+
+    margin-top: 42px;
+
+    font-family: var(--serif);
+
+    font-size: 18px;
+
+    font-style: italic;
+
+    line-height: 1.7;
+
+    color:
+        rgba(255, 255, 255, 0.92);
+}
+
+
+/* =========================================================
+   SHOWCASE SIGNATURE
+========================================================= */
+
+.showcase-signature {
+    position: relative;
+
+    z-index: 5;
+
+    width: 175px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 8px;
+}
+
+.showcase-signature span {
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        rgba(255, 255, 255, 0.70);
+}
+
+.showcase-signature small {
+    font-family: var(--serif);
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    color:
+        rgba(255, 255, 255, 0.95);
+}
+
+
+/* =========================================================
+   RIGHT AUTH PANEL
+========================================================= */
+
+.auth-panel {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        60px
+        85px;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 255, 255, 0.85),
+            rgba(247, 243, 234, 0.55) 55%,
+            rgba(247, 243, 234, 1) 100%
+        ),
+        var(--cream);
+}
+
+
+/* =========================================================
+   AUTH CONTAINER
+========================================================= */
+
+.auth-container {
+    width: min(590px, 100%);
+}
+
+.register-container {
+    width: min(590px, 100%);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.auth-header {
+    margin-bottom: 34px;
+}
+
+.register-container .auth-header {
+    margin-bottom: 25px;
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 14px;
+
+    color: #496057;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    letter-spacing: 5px;
+}
+
+.auth-header h2 {
+    font-family: var(--serif);
+
+    font-size:
+        clamp(48px, 4vw, 64px);
+
+    font-weight: 400;
+
+    line-height: 1.08;
+
+    letter-spacing: -2px;
+
+    color: #26332F;
+}
+
+.auth-header p {
+    margin-top: 15px;
+
+    color: #59635D;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+.auth-header a {
+    color: #36463F;
+
+    text-decoration: none;
+
+    border-bottom:
+        1px solid #69776F;
+}
+
+.auth-header a:hover {
+    color: var(--sage-deep);
+}
+
+
+/* =========================================================
+   GOOGLE LOGIN / REGISTER
+========================================================= */
+
+.google-login-wrapper {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin:
+        22px 0
+        26px;
+}
+
+
+/*
+   Google Identity Services render button
+*/
+
+#googleLoginButton,
+#googleRegisterButton {
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*
+   Google tạo container bên trong.
+   Chỉ căn giữa, không can thiệp iframe.
+*/
+
+#googleLoginButton > div,
+#googleRegisterButton > div {
+    display: flex !important;
+
+    justify-content: center !important;
+
+    align-items: center !important;
+
+    max-width: 100%;
+}
+
+
+/*
+   Không dùng:
+   - iframe width override
+   - transform iframe
+   - border iframe
+   - background iframe
+
+   Vì Google kiểm soát phần UI bên trong.
+*/
+
+.register-container .google-login-wrapper {
+    margin-top: 0;
+
+    margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    margin:
+        30px 0;
+}
+
+.register-container .divider {
+    margin:
+        20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        #CDD0CB;
+}
+
+.divider span {
+    color: #59635D;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.auth-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.register-container .auth-form {
+    gap: 13px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #283630;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+.label-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-password {
+    color: #45574F;
+
+    font-size: 13px;
+
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form-group input {
+    width: 100%;
+
+    height: 64px;
+
+    padding:
+        0 20px;
+
+    color: #293630;
+
+    background:
+        rgba(255, 255, 255, 0.30);
+
+    border:
+        1px solid #BFC4BF;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #969E99;
+}
+
+.form-group input:hover {
+    border-color:
+        #98A49D;
+}
+
+.form-group input:focus {
+    background:
+        rgba(255, 255, 255, 0.70);
+
+    border-color:
+        var(--sage-dark);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(113, 135, 122, 0.09);
+}
+
+.form-group.invalid input {
+    border-color:
+        var(--danger);
+}
+
+
+/* =========================================================
+   REGISTER INPUT
+========================================================= */
+
+.register-container .form-group input {
+    height: 57px;
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 62px;
+}
+
+.toggle-password {
+    position: absolute;
+
+    right: 15px;
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+
+    place-items: center;
+
+    color: #6C7A73;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.toggle-password:hover {
+    color:
+        var(--sage-deep);
+
+    background:
+        rgba(152, 170, 159, 0.10);
+}
+
+.eye-icon {
+    width: 23px;
+    height: 23px;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+.error-message {
+    display: block;
+
+    min-height: 2px;
+
+    margin-top: 5px;
+
+    color:
+        var(--danger);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   REMEMBER ME
+========================================================= */
+
+.remember {
+    width: fit-content;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #46554E;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.remember input {
+    appearance: none;
+
+    width: 20px;
+    height: 20px;
+
+    flex-shrink: 0;
+
+    border:
+        1.5px solid #52675E;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.remember input:hover {
+    border-color:
+        var(--sage-deep);
+}
+
+.remember input:checked {
+    background:
+        var(--sage-deep);
+
+    border-color:
+        var(--sage-deep);
+}
+
+.remember input:checked::after {
+    content: "✓";
+
+    position: absolute;
+
+    inset: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   AGREEMENT
+========================================================= */
+
+.agreement {
+    align-items: flex-start;
+}
+
+.agreement a {
+    color:
+        var(--sage-deep);
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.primary-button {
+    width: 100%;
+
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 30px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            100deg,
+            #657E70,
+            #405C4F
+        );
+
+    border-radius: 9px;
+
+    font-family: var(--serif);
+
+    font-size: 20px;
+
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.register-container .primary-button {
+    height: 59px;
+}
+
+.primary-button:hover {
+    background:
+        #486355;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(66, 91, 78, 0.17);
+}
+
+.primary-button:active {
+    transform:
+        translateY(0);
+}
+
+.primary-button:disabled {
+    opacity: 0.65;
+
+    cursor: wait;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+.button-arrow {
+    font-family: var(--serif);
+
+    font-size: 28px;
+
+    font-weight: 300;
+}
+
+
+/* =========================================================
+   FORM MESSAGE
+========================================================= */
+
+.form-message {
+    display: none;
+
+    padding:
+        13px 15px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+.form-message.error {
+    display: block;
+
+    color: #8E4242;
+
+    background: #F9EDEC;
+
+    border:
+        1px solid #E9C8C5;
+}
+
+.form-message.success {
+    display: block;
+
+    color: #456554;
+
+    background: #EAF1EC;
+
+    border:
+        1px solid #C8D8CE;
+}
+
+
+/* =========================================================
+   TERMS
+========================================================= */
+
+.terms {
+    max-width: 480px;
+
+    margin:
+        38px auto 0;
+
+    color: #7F8983;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    text-align: center;
+}
+
+.terms a {
+    color: #5C6962;
+}
+
+.terms a:hover {
+    color:
+        var(--sage-deep);
+}
+
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .auth-page {
+        grid-template-columns:
+            45%
+            55%;
+    }
+
+    .auth-showcase {
+        padding:
+            45px
+            45px
+            50px;
+
+        background-position:
+            58% center;
+    }
+
+    .brand-logo-image {
+        width: 185px;
+    }
+
+    .showcase-content h1 {
+        font-size: 65px;
+    }
+
+    .showcase-content p {
+        font-size: 16px;
+    }
+
+    .auth-panel {
+        padding:
+            50px
+            60px;
+    }
+
+    .auth-container {
+        width: min(560px, 100%);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .auth-page {
+        display: block;
+    }
+
+    .auth-showcase {
+        display: none;
+    }
+
+    .auth-panel {
+        min-height: 100vh;
+
+        padding:
+            40px
+            28px
+            55px;
+    }
+
+    .auth-container,
+    .register-container {
+        width:
+            min(590px, 100%);
+    }
+
+    .mobile-brand {
+        display: flex;
+
+        margin-bottom: 42px;
+    }
+
+    .mobile-logo-image {
+        width: 180px;
+    }
+
+    .auth-header {
+        text-align: center;
+    }
+
+    .auth-header h2 {
+        font-size: 48px;
+    }
+
+    .auth-header p {
+        font-size: 14px;
+    }
+
+    .google-login-wrapper {
+        margin:
+            20px 0
+            24px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .auth-panel {
+        padding:
+            30px
+            20px
+            45px;
+    }
+
+    .mobile-brand {
+        margin-bottom: 34px;
+    }
+
+    .mobile-logo-image {
+        width: 165px;
+    }
+
+    .auth-header {
+        margin-bottom: 28px;
+    }
+
+    .register-container .auth-header {
+        margin-bottom: 22px;
+    }
+
+    .auth-header h2 {
+        font-size: 39px;
+
+        letter-spacing:
+            -1.2px;
+    }
+
+    .auth-header p {
+        font-size: 13px;
+    }
+
+    .google-login-wrapper {
+        margin:
+            18px 0
+            22px;
+    }
+
+    #googleLoginButton,
+    #googleRegisterButton {
+        width: 100%;
+    }
+
+    .divider {
+        gap: 13px;
+
+        margin:
+            26px 0;
+    }
+
+    .register-container .divider {
+        margin:
+            18px 0;
+    }
+
+    .divider span {
+        font-size: 11px;
+    }
+
+    .auth-form {
+        gap: 20px;
+    }
+
+    .register-container .auth-form {
+        gap: 12px;
+    }
+
+    .form-group input {
+        height: 61px;
+
+        font-size: 14px;
+    }
+
+    .register-container .form-group input {
+        height: 55px;
+    }
+
+    .remember {
+        font-size: 13px;
+    }
+
+    .remember input {
+        width: 19px;
+        height: 19px;
+    }
+
+    .primary-button {
+        height: 68px;
+
+        padding:
+            0 23px;
+
+        font-size: 18px;
+    }
+
+    .register-container .primary-button {
+        height: 57px;
+    }
+
+    .button-arrow {
+        font-size: 25px;
+    }
+
+    .terms {
+        margin-top: 32px;
+
+        font-size: 10px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .auth-panel {
+        padding:
+            25px
+            16px
+            35px;
+    }
+
+    .mobile-logo-image {
+        width: 150px;
+    }
+
+    .auth-header h2 {
+        font-size: 35px;
+    }
+
+    .auth-header p {
+        font-size: 12px;
+    }
+
+    .primary-button {
+        height: 64px;
+
+        padding:
+            0 20px;
+
+        font-size: 17px;
+    }
+
+    .divider {
+        gap: 10px;
+    }
+}

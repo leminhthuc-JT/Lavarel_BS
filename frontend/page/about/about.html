@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về Chúng Tôi | The Little Prince Sweet Bakery</title>
+
+    <!-- Google Fonts & Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="../home/index.html" class="logo">
+            <span class="logo-script"><img src="../../assets/logo.png" alt="The Little Prince Logo" width="80"></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
+
+        <nav class="main-nav" id="mainNav">
+            <a href="../home/index.html"  data-nav="home">Trang chủ</a>
+            <a href="../menu/menu.html" data-nav="menu">Sản phẩm</a>
+            <a href="../categories/cate.html" data-nav="categories">Danh mục</a>
+            <a href="../about/about.html" class="active" data-nav="about">Về chúng tôi</a>
+            <a href="../contact/contact.html" data-nav="contact">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="../menu/menu.html" class="nav-icon-btn" title="Tìm kiếm" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="../like_list/like.html" class="nav-icon-btn" title="Yêu thích" aria-label="Yêu thích">
+                <i class="fa-regular fa-heart"></i><span class="badge-count like-count">0</span>
+            </a>
+            <a href="../cart/cart.html" class="nav-icon-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+                <i class="fa-solid fa-bag-shopping"></i><span class="badge-count cart-count">0</span>
+            </a>
+            <button class="avatar-btn" id="headerAvatarBtn" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
+        </div>
+    </div>
+</header>
+
+<main class="about-page">
+    
+    <!-- ABOUT HERO -->
+    <section class="about-hero">
+        <div class="container">
+            <p class="eyebrow">CÂU CHUYỆN THƯƠNG HIỆU</p>
+            <h1>Hành Trình Ngọt Ngào</h1>
+            <p class="about-subtitle">Nơi mỗi mẻ bánh tươi được gửi gắm đam mê, sự tỉ mỉ và tình yêu nồng nàn với nghệ thuật làm bánh thủ công tinh tế.</p>
+        </div>
+    </section>
+
+    <!-- BRAND STORY -->
+    <section class="section story-detail">
+        <div class="container grid-2-col">
+            <div class="image-frame">
+                <img src="../../assets/theShop.png" alt="Khởi nguồn Little Prince">
+            </div>
+            <div class="story-content">
+                <p class="eyebrow">KHỞI NGUỒN</p>
+                <h2>Câu chuyện lãng mạn từ lò nướng</h2>
+                <p>Khởi nguồn từ giấc mơ mang hương vị bánh ngọt chuẩn vị Pháp tinh tế đến gần hơn với những tâm hồn yêu ẩm thực Việt Nam, The Little Prince Pâtisserie bắt đầu từ những nguyên liệu nhỏ bé nhưng chứa đựng đam mê mãnh liệt.</p>
+                <p>Chúng tôi coi mỗi chiếc bánh là một tác phẩm nghệ thuật cần sự kiên nhẫn, nâng niu từng giác quan để biến mỗi ngày bình thường của bạn trở nên thật đặc biệt và ngọt ngào.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAKING PHILOSOPHY -->
+    <section class="section philosophy">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Triết lý làm bánh của chúng tôi</h2>
+                <p>Tôn trọng sự tự nhiên, tinh khiết và cảm xúc của người thưởng thức.</p>
+            </div>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <span class="philo-num">01</span>
+                    <h3>Nguyên liệu thượng hạng</h3>
+                    <p>Bơ Isigny AOP Pháp, socola Valrhona, vani Bourbon Madagascar và trái cây tươi được tuyển chọn khắt khe mỗi sáng.</p>
+                </div>
+                <div class="philosophy-card">
+                    <span class="philo-num">02</span>
+                    <h3>Thủ công tận tâm</h3>
+                    <p>Không sản xuất công nghiệp đại trà. Mỗi chiếc bánh đều trải qua hàng giờ nhào nặn, tạo hình và nướng bằng sự kiên nhẫn.</p>
+                </div>
+                <div class="philosophy-card">
+                    <span class="philo-num">03</span>
+                    <h3>Độ ngọt thanh tự nhiên</h3>
+                    <p>Công thức độc quyền giảm lượng đường, tôn vinh hương thơm tự nhiên nguyên bản và bảo vệ sức khỏe người dùng.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTISANAL PROCESS -->
+    <section class="section process">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Quy trình tạo nên chiếc bánh<br>hoàn hảo</h2>
+                <p>Từ lúc 04:00 sáng mỗi ngày, bếp bánh Little Prince đã thắp sáng ngọn lửa nướng đầu tiên.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step-item">
+                    <div class="step-circle">1</div>
+                    <h4>Tuyển chọn nguyên liệu</h4>
+                    <p>Trái cây mọng hái sáng sớm và bơ Pháp hảo hạng.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle">2</div>
+                    <h4>Ủ men &amp; Cán bột thủ công</h4>
+                    <p>Quy trình cán ngàn lớp tỉ mỉ giữ độ giòn xốp tự nhiên.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <h4>Nướng mẻ tươi sớm</h4>
+                    <p>Bánh được nướng tươi chuẩn nhiệt độ và thời gian hoàn hảo.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle">4</div>
+                    <h4>Trang trí nghệ thuật</h4>
+                    <p>Điểm xuyết hoa tươi và kem chantilly trước khi trao tới tay bạn.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="newsletter" style="background:var(--sage-dark);">
+        <div class="container">
+            <h2>Hãy để Little Prince làm ngọt ngào ngày của bạn</h2>
+            <p>Ghé thăm cửa hàng hoặc khám phá ngay thực đơn bánh tươi mới vừa rời lò nướng!</p>
+            <a href="../menu/menu.html" class="btn btn-primary btn-lg" style="background:var(--cream); color:var(--text-main);">Khám phá thực đơn <span>→</span></a>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <div class="logo" style="display:inline-flex; align-items:flex-start; margin-bottom:8px; color:var(--text-main);">
+                <img src="../../assets/logo.png" alt="The Little Prince Logo" width="80">
+            </div>
+            <p>"Một chút ngọt ngào cho ngày thật đẹp" - Tiệm bánh thủ công mang hương vị lãng mạn tới từng gian bếp Việt Nam.</p>
+        </div>
+
+        <div>
+            <h4>Danh mục chính</h4>
+            <a href="../menu/menu.html">Bánh kem sinh nhật</a>
+            <a href="../menu/menu.html">Bánh ngọt Chiffon</a>
+            <a href="../menu/menu.html">Bánh Tart hoa quả</a>
+            <a href="../menu/menu.html">Set bánh quà tặng</a>
+        </div>
+
+        <div>
+            <h4>Chăm sóc khách hàng</h4>
+            <a href="../about/about.html">Hướng dẫn đặt bánh</a>
+            <a href="../contact/contact.html">Chính sách vận chuyển</a>
+            <a href="../contact/contact.html">Chính sách bảo mật</a>
+            <a href="../contact/contact.html">Điều khoản dịch vụ</a>
+        </div>
+
+        <div>
+            <h4>Liên hệ &amp; Ghé thăm</h4>
+            <p><i class="fa-solid fa-location-dot"></i> 140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh</p>
+            <p><i class="fa-solid fa-phone"></i> +84 8 26506125</p>
+            <p><i class="fa-solid fa-envelope"></i> hello@littleprince.vn</p>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+    <span>
+        © <span id="year">2026</span> The Little Prince Pâtisserie.
+        Tất cả quyền được bảo lưu.
+    </span>
+
+    <div class="footer-socials" aria-label="Mạng xã hội">
+        <a href="#" aria-label="Facebook" title="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="#" aria-label="Instagram" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" aria-label="TikTok" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+</div>
+</footer>
+
+<script src="../common.js"></script>
+<script src="about.js"></script>
+</body>
+</html>

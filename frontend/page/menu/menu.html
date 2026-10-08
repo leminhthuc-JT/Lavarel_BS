@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực Đơn Bánh Ngọt | The Little Prince Sweet Bakery</title>
+
+    <!-- Google Fonts & Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="../home/index.html" class="logo">
+            <span class="logo-script"><img src="../../assets/logo.png" alt="The Little Prince Logo" width="80"></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
+
+        <nav class="main-nav" id="mainNav">
+            <a href="../home/index.html"  data-nav="home">Trang chủ</a>
+            <a href="../menu/menu.html" class="active" data-nav="menu">Sản phẩm</a>
+            <a href="../categories/cate.html" data-nav="categories">Danh mục</a>
+            <a href="../about/about.html" data-nav="about">Về chúng tôi</a>
+            <a href="../contact/contact.html" data-nav="contact">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="../menu/menu.html" class="nav-icon-btn" title="Tìm kiếm" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="../like_list/like.html" class="nav-icon-btn" title="Yêu thích" aria-label="Yêu thích">
+                <i class="fa-regular fa-heart"></i><span class="badge-count like-count">0</span>
+            </a>
+            <a href="../cart/cart.html" class="nav-icon-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+                <i class="fa-solid fa-bag-shopping"></i><span class="badge-count cart-count">0</span>
+            </a>
+            <button class="avatar-btn" id="headerAvatarBtn" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
+        </div>
+    </div>
+</header>
+
+<main class="menu-page" style="margin-bottom: 20px;">
+<!-- ==========================================
+             PAGE HEADER
+        =========================================== -->
+        <section class="about-hero">
+            <div class="container">
+                <p class="eyebrow">BÁNH TƯƠI MỖI NGÀY</p>
+                <h1>Thực Đơn Bánh Ngọt</h1>
+                <p class="about-subtitle">Mỗi chiếc bánh được chế tác tỉ mỉ từ bơ Pháp cao cấp
+                    và nguyên liệu tươi ngon nhất trong ngày.</p>
+            </div>
+        </section>
+    <div class="container">
+
+        
+
+
+        <!-- ==========================================
+             SHOP LAYOUT
+        =========================================== -->
+        <div class="shop-layout">
+
+
+            <!-- ======================================
+                 SIDEBAR
+            ======================================= -->
+            <aside class="filter-sidebar">
+
+
+                <!-- SORT -->
+                    <div class="sort-box">
+
+                        <select
+                            id="sortSelect"
+                            class="form-control"
+                        >
+
+                            <option value="newest">
+                                Sắp xếp mặc định
+                            </option>
+
+                            <option value="priceAsc">
+                                Giá: Thấp đến Cao
+                            </option>
+
+                            <option value="priceDesc">
+                                Giá: Cao đến Thấp
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                <!-- ==============================
+                     PRICE
+                =============================== -->
+                <div class="filter-section">
+
+                    <h3>
+                        Khoảng giá
+                    </h3>
+
+
+                    <div class="price-options">
+
+
+                        <!-- ALL -->
+                        <label class="price-option">
+
+                            <input
+                                type="radio"
+                                name="priceFilter"
+                                value="all"
+                                checked
+                            >
+
+                            <span>
+                                Tất cả
+                            </span>
+
+                        </label>
+
+
+                        <!-- UNDER 100 -->
+                        <label class="price-option">
+
+                            <input
+                                type="radio"
+                                name="priceFilter"
+                                value="under100"
+                            >
+
+                            <span>
+                                Dưới 100.000 ₫
+                            </span>
+
+                        </label>
+
+
+                        <!-- 100 - 200 -->
+                        <label class="price-option">
+
+                            <input
+                                type="radio"
+                                name="priceFilter"
+                                value="100to200"
+                            >
+
+                            <span>
+                                100.000 ₫ - 200.000 ₫
+                            </span>
+
+                        </label>
+
+
+                        <!-- OVER 200 -->
+                        <label class="price-option">
+
+                            <input
+                                type="radio"
+                                name="priceFilter"
+                                value="over200"
+                            >
+
+                            <span>
+                                Trên 200.000 ₫
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!--
+                        Hidden select
+                        menu.js vẫn sử dụng element này
+                    -->
+                    <select
+                        id="priceRangeSelect"
+                        class="hidden-filter"
+                    >
+
+                        <option value="all">
+                            Tất cả
+                        </option>
+
+                        <option value="under100">
+                            Dưới 100.000 ₫
+                        </option>
+
+                        <option value="100to200">
+                            100.000 ₫ - 200.000 ₫
+                        </option>
+
+                        <option value="over200">
+                            Trên 200.000 ₫
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </aside>
+
+
+
+            <!-- ======================================
+                 PRODUCTS AREA
+            ======================================= -->
+            <section class="products-area">
+
+
+                <!-- ==================================
+                     SEARCH + SORT TOOLBAR
+                =================================== -->
+                <div class="products-toolbar">
+
+
+                    <!-- SEARCH -->
+                    <div class="search-box">
+
+                        <i
+                            class="fa-solid fa-magnifying-glass search-icon"
+                        ></i>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="form-control"
+                            placeholder="Tìm kiếm tên bánh ngọt..."
+                        >
+
+                    </div>
+
+
+                    
+
+                </div>
+
+
+
+                <!-- ==================================
+                     CATEGORY QUICK TABS
+                     NẰM NGANG TRÊN SẢN PHẨM
+                =================================== -->
+                <nav
+                    class="category-tabs"
+                    id="categoryTabs"
+                    aria-label="Danh mục sản phẩm"
+                >
+
+                    <!--
+                        menu.js sẽ tự động tạo các button
+                        danh mục tại đây.
+                    -->
+
+                    <button
+                        type="button"
+                        class="tab-btn active"
+                        data-madm="all"
+                    >
+                        Tất cả sản phẩm
+                    </button>
+
+                </nav>
+
+
+
+                <!-- ==================================
+                     PRODUCT GRID
+                =================================== -->
+                <section
+                    class="product-grid"
+                    id="productGrid"
+                >
+
+                    <div
+                        class="loading-spinner"
+                        style="grid-column: 1 / -1;"
+                    >
+
+                        <div class="spinner"></div>
+
+                        <p>
+                            Đang tải danh sách bánh ngọt...
+                        </p>
+
+                    </div>
+
+                </section>
+
+                <div class="products-section">
+
+                    <div
+                        class="product-grid"
+                        id="productGrid"
+                    ></div>
+
+                    <!-- BUTTON PHÂN TRANG -->
+                    <div
+                        class="product-pagination"
+                        id="productPagination"
+                        aria-label="Phân trang sản phẩm"
+                    ></div>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <div class="logo" style="display:inline-flex; align-items:flex-start; margin-bottom:8px; color:var(--text-main);">
+                <img src="../../assets/logo.png" alt="The Little Prince Logo" width="80">
+            </div>
+            <p>"Một chút ngọt ngào cho ngày thật đẹp" - Tiệm bánh thủ công mang hương vị lãng mạn tới từng gian bếp Việt Nam.</p>
+        </div>
+
+        <div>
+            <h4>Danh mục chính</h4>
+            <a href="../menu/menu.html">Bánh kem sinh nhật</a>
+            <a href="../menu/menu.html">Bánh ngọt Chiffon</a>
+            <a href="../menu/menu.html">Bánh Tart hoa quả</a>
+            <a href="../menu/menu.html">Set bánh quà tặng</a>
+        </div>
+
+        <div>
+            <h4>Chăm sóc khách hàng</h4>
+            <a href="../about/about.html">Hướng dẫn đặt bánh</a>
+            <a href="../contact/contact.html">Chính sách vận chuyển</a>
+            <a href="../contact/contact.html">Chính sách bảo mật</a>
+            <a href="../contact/contact.html">Điều khoản dịch vụ</a>
+        </div>
+
+        <div>
+            <h4>Liên hệ &amp; Ghé thăm</h4>
+            <p><i class="fa-solid fa-location-dot"></i> 140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh</p>
+            <p><i class="fa-solid fa-phone"></i> +84 8 26506125</p>
+            <p><i class="fa-solid fa-envelope"></i> hello@littleprince.vn</p>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+    <span>
+        © <span id="year">2026</span> The Little Prince Pâtisserie.
+        Tất cả quyền được bảo lưu.
+    </span>
+
+    <div class="footer-socials" aria-label="Mạng xã hội">
+        <a href="#" aria-label="Facebook" title="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="#" aria-label="Instagram" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" aria-label="TikTok" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+</div>
+</footer>
+
+<script src="../common.js"></script>
+<script src="menu.js"></script>
+</body>
+</html>

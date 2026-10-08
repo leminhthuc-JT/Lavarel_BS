@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ &amp; Ghé Thăm | The Little Prince Sweet Bakery</title>
+
+    <!-- Google Fonts & Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="../home/index.html" class="logo">
+            <span class="logo-script"><img src="../../assets/logo.png" alt="The Little Prince Logo" width="80"></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
+
+        <nav class="main-nav" id="mainNav">
+            <a href="../home/index.html" data-nav="home">Trang chủ</a>
+            <a href="../menu/menu.html" data-nav="menu">Sản phẩm</a>
+            <a href="../categories/cate.html" data-nav="categories">Danh mục</a>
+            <a href="../about/about.html" data-nav="about">Về chúng tôi</a>
+            <a href="../contact/contact.html" class="active" data-nav="contact">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="../menu/menu.html" class="nav-icon-btn" title="Tìm kiếm" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="../like_list/like.html" class="nav-icon-btn active" title="Yêu thích" aria-label="Yêu thích">
+                <i class="fa-regular fa-heart"></i><span class="badge-count like-count">0</span>
+            </a>
+            <a href="../cart/cart.html" class="nav-icon-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
+                <i class="fa-solid fa-bag-shopping"></i><span class="badge-count cart-count">0</span>
+            </a>
+            <button class="avatar-btn" id="headerAvatarBtn" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
+        </div>
+    </div>
+</header>
+
+<main class="contact-page">
+    <div class="container">
+        
+        <!-- HERO HEADER -->
+        <header class="contact-header">
+            <p class="eyebrow"><i class="fa-solid fa-cookie-bite"></i> LIÊN HỆ &amp; GHÉ THĂM</p>
+            <h1>Kết Nối Với Little Prince</h1>
+            <p class="contact-subtitle">"Một chút ngọt ngào cho ngày thật đẹp" — Chúng tôi luôn lắng nghe ý kiến đóng góp và sẵn sàng tư vấn cho bữa tiệc ngọt ngào của bạn.</p>
+        </header>
+
+        <!-- MAIN LAYOUT: INFO + FORM -->
+        <div class="contact-layout">
+            <!-- CONTACT INFO PANEL -->
+            <aside class="contact-info-card">
+                <div class="store-status-bar">
+                    <span class="status-indicator active"></span>
+                    <span class="status-text">Đang mở cửa tiệm (07:00 - 21:30)</span>
+                </div>
+
+                <h2>Thông Tin Cửa Hàng</h2>
+
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <strong>Địa chỉ tiệm bánh</strong>
+                        <p>140 Lê Trọng Tấn, Phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh</p>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <strong>Điện thoại hotline</strong>
+                        <p><a href="tel:+84826506125" class="info-link">+84 8 26506125</a> (07:00 - 21:30)</p>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <strong>Email hỗ trợ</strong>
+                        <p><a href="mailto:hello@littleprince.vn" class="info-link">hello@littleprince.vn</a></p>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <strong>Giờ nướng bánh tươi</strong>
+                        <p>07:00 - 21:30 (Mở cửa tất cả các ngày trong tuần)</p>
+                    </div>
+                </div>
+
+                <div class="info-actions">
+                    <a href="tel:+84826506125" class="btn btn-outline-sage"><i class="fa-solid fa-phone"></i> Gọi ngay</a>
+                    <a href="https://maps.google.com/?q=140+Lê+Trọng+Tấn,+Tây+Thạnh,+Tân+Phú,+Hồ+Chí+Minh" target="_blank" rel="noopener" class="btn btn-outline-sage"><i class="fa-solid fa-map-location-dot"></i> Chỉ đường</a>
+                </div>
+            </aside>
+
+            <!-- CONTACT FORM PANEL -->
+            <section class="contact-form-card">
+                <div class="form-header">
+                    <h2>Gửi Tin Nhắn Cho Chúng Tôi</h2>
+                    <p class="form-intro">Hãy chọn chủ đề hoặc gửi thắc mắc của bạn. Đội ngũ Little Prince sẽ phản hồi qua email trong thời gian sớm nhất!</p>
+                </div>
+                
+                <!-- Quick Subject Selection Pills -->
+                <div class="topic-selection">
+                    <label class="topic-label">Chủ đề bạn cần tư vấn:</label>
+                    <div class="topic-pills">
+                        <button type="button" class="topic-pill active" data-topic="Tư vấn &amp; Đặt bánh">
+                            <i class="fa-solid fa-cake-candles"></i> Đặt bánh sinh nhật
+                        </button>
+                        <button type="button" class="topic-pill" data-topic="Đặt bánh tiệc / Công ty">
+                            <i class="fa-solid fa-champagne-glasses"></i> Bánh tiệc / Sự kiện
+                        </button>
+                        <button type="button" class="topic-pill" data-topic="Tư vấn hương vị &amp; Menu">
+                            <i class="fa-solid fa-utensils"></i> Tư vấn hương vị
+                        </button>
+                        <button type="button" class="topic-pill" data-topic="Đóng góp ý kiến / Khác">
+                            <i class="fa-solid fa-comment-dots"></i> Góp ý dịch vụ
+                        </button>
+                    </div>
+                </div>
+
+                <form id="contactForm" novalidate>
+                    <input type="hidden" id="contactSubject" value="Tư vấn &amp; Đặt bánh">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contactName"><i class="fa-regular fa-user"></i> Họ và tên của bạn *</label>
+                            <input type="text" id="contactName" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail"><i class="fa-regular fa-envelope"></i> Địa chỉ email *</label>
+                            <input type="email" id="contactEmail" class="form-control" placeholder="nguyenvana@gmail.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPhone"><i class="fa-solid fa-phone"></i> Số điện thoại liên hệ *</label>
+                        <input type="tel" id="contactPhone" class="form-control" placeholder="Ví dụ: 0987654321" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage"><i class="fa-regular fa-message"></i> Nội dung liên hệ / Đặt bánh tiệc *</label>
+                        <textarea id="contactMessage" class="form-control" rows="4" placeholder="Nhập chi tiết yêu cầu, loại bánh mong muốn, ngày nhận bánh hoặc câu hỏi cần giải đáp..." required></textarea>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-submit-contact" id="btnSubmitContact">
+                            <span class="btn-text">Gửi liên hệ</span>
+                            <i class="fa-solid fa-paper-plane btn-icon icon-send"></i>
+                            <i class="fa-solid fa-spinner fa-spin btn-icon icon-loading" style="display: none;"></i>
+                        </button>
+                        <p class="form-privacy-note">
+                            <i class="fa-solid fa-shield-halved"></i> Thông tin của bạn được bảo mật tuyệt đối và chỉ sử dụng để liên hệ phản hồi.
+                        </p>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <!-- MAP SECTION -->
+        <section class="contact-map-card">
+            <div class="map-card-header">
+                <div>
+                    <h3>Vị Trí Tiệm Bánh Trên Bản Đồ</h3>
+                    <p>Ghé thăm không gian tiệm bánh tại 140 Lê Trọng Tấn, Tân Phú, TP.HCM</p>
+                </div>
+                <a href="https://maps.google.com/?q=140+Lê+Trọng+Tấn,+Tây+Thạnh,+Tân+Phú,+Hồ+Chí+Minh" target="_blank" rel="noopener" class="btn-map-directions">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở Google Maps
+                </a>
+            </div>
+            <div class="map-container">
+                <iframe 
+                    title="Bản đồ chỉ đường tới tiệm bánh The Little Prince"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.062495679905!2d106.62629857480535!3d10.806526989343763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be3cbdf119d%3A0xb5b79e27c156e9c4!2zMTQwIEzDqiBUcuG7jW5nIFThuqVuLCBUw6J5IFRo4bqhbmgsIFTDom4gUGjDuiwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1711000000000!5m2!1svi!2s" 
+                    width="100%" 
+                    height="380" 
+                    style="border:0; border-radius:12px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="contact-faq-card">
+            <div class="faq-header">
+                <h2>Câu Hỏi Thường Gặp (FAQ)</h2>
+                <p>Giải đáp nhanh các thắc mắc về thời gian đặt bánh, giao hàng và bảo quản</p>
+            </div>
+            <div class="faq-accordion">
+                <details class="faq-item" open>
+                    <summary class="faq-question">
+                        <span>Tiệm bánh có nhận giao bánh tận nơi không?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Có! The Little Prince hỗ trợ giao bánh tươi tận nơi trong toàn bộ khu vực TP. Hồ Chí Minh. Bánh được đóng gói trong thùng giữ nhiệt chuyên dụng và vận chuyển bằng xe máy/ô tô cẩn thận để giữ nguyên hình dáng và độ tươi ngon.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>Tôi nên đặt bánh sinh nhật / tiệc trước bao lâu?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Đối với các dòng bánh kem nướng tiêu chuẩn có sẵn tại tiệm, bạn có thể đặt trước từ 2 – 4 tiếng. Với các dòng bánh thiết kế theo yêu cầu riêng, bánh tiệc số lượng lớn hoặc sự kiện, bạn nên đặt trước từ 1 – 2 ngày để tiệm chuẩn bị hoàn hảo nhất.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>Cách bảo quản bánh ngọt của tiệm để giữ được hương vị ngon nhất?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Do tất cả sản phẩm đều được làm thủ công từ nguyên liệu tự nhiên không dùng chất bảo quản, bạn nên bảo quản bánh trong ngăn mát tủ lạnh (từ 2°C – 8°C) và thưởng thức ngon nhất trong vòng 2 – 3 ngày kể từ khi nhận bánh.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>Đơn hàng bánh sinh nhật có được tặng kèm nến và phụ kiện không?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Tất cả đơn hàng bánh sinh nhật tại tiệm đều được tặng kèm bộ nến cao cấp, dao cắt bánh và bộ đĩa nĩa gỗ bảo vệ môi trường, cùng dịch vụ ghi chữ thông điệp chúc mừng miễn phí lên mặt bánh hoặc bảng socola.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <div class="logo" style="display:inline-flex; align-items:flex-start; margin-bottom:8px; color:var(--text-main);">
+                <img src="../../assets/logo.png" alt="The Little Prince Logo" width="80">
+            </div>
+            <p>"Một chút ngọt ngào cho ngày thật đẹp" - Tiệm bánh thủ công mang hương vị lãng mạn tới từng gian bếp Việt Nam.</p>
+        </div>
+
+        <div>
+            <h4>Danh mục chính</h4>
+            <a href="../menu/menu.html">Bánh kem sinh nhật</a>
+            <a href="../menu/menu.html">Bánh ngọt Chiffon</a>
+            <a href="../menu/menu.html">Bánh Tart hoa quả</a>
+            <a href="../menu/menu.html">Set bánh quà tặng</a>
+        </div>
+
+        <div>
+            <h4>Chăm sóc khách hàng</h4>
+            <a href="../about/about.html">Hướng dẫn đặt bánh</a>
+            <a href="../contact/contact.html">Chính sách vận chuyển</a>
+            <a href="../contact/contact.html">Chính sách bảo mật</a>
+            <a href="../contact/contact.html">Điều khoản dịch vụ</a>
+        </div>
+
+        <div>
+            <h4>Liên hệ &amp; Ghé thăm</h4>
+            <p><i class="fa-solid fa-location-dot"></i> 140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh</p>
+            <p><i class="fa-solid fa-phone"></i> +84 8 26506125</p>
+            <p><i class="fa-solid fa-envelope"></i> hello@littleprince.vn</p>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        <span>
+            © <span id="year">2026</span> The Little Prince Pâtisserie. Tất cả quyền được bảo lưu.
+        </span>
+
+        <div class="footer-socials" aria-label="Mạng xã hội">
+            <a href="#" aria-label="Facebook" title="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" aria-label="Instagram" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="TikTok" title="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script src="../common.js"></script>
+<script src="contact.js"></script>
+</body>
+</html>

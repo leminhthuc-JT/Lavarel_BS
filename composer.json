@@ -1,0 +1,33 @@
+{
+    "name": "bakery-shop/laravel",
+    "type": "project",
+    "description": "The Little Prince Bakery Shop - Laravel",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^10.0",
+        "mongodb/laravel-mongodb": "^4.0",
+        "mongodb/mongodb": "^1.18",
+        "vlucas/phpdotenv": "^5.7",
+        "phpmailer/phpmailer": "^7.1",
+        "google/apiclient": "^2.19"
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "files": [
+            "app/Helpers/DatabaseConnection.php"
+        ],
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    }
+}
