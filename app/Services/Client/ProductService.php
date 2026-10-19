@@ -80,7 +80,7 @@ final class ProductService
             throw new \RuntimeException('Không tìm thấy đánh giá');
         }
 
-        $repo->updateByCode($maSP, ['DanhGia' => $reviews]);
+        $repo->updateReviewLikes($maSP, $reviewId, $matchedReview);
 
         return [
             'LuotThich' => (int)($matchedReview['LuotThich'] ?? 0),

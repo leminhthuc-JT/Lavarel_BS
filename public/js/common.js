@@ -51,7 +51,11 @@ function setCurrentUser(user, remember = true) {
     }
 }
 
-function logoutUser() {
+async function logoutUser() {
+    try {
+        const response = await fetch('/api/auth/logout', {method: 'POST', headers: {'Accept': 'application/json'}});
+        if (!response.ok) throw new Error('Không thể đăng xuất. Vui lòng thử lại.');
+    } catch (error) { showToast(error.message, 'error'); return; }
     localStorage.removeItem('user');
     sessionStorage.removeItem('user');
 

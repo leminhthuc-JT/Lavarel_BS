@@ -26,6 +26,13 @@ final class PromotionRequest
             throw new \InvalidArgumentException('{"GiaTri":"Khuyến mãi phần trăm không được vượt quá 100%"}');
         }
 
+        \Illuminate\Support\Facades\Validator::make($data, [
+            'TenKM' => 'required|string|max:200', 'MoTa' => 'nullable|string|max:3000',
+            'TrangThai' => 'required|in:Đang hoạt động,Ngừng hoạt động',
+            'LoaiKM' => 'required|in:Tiền,Phần trăm',
+            'NgayBatDau' => 'required|date', 'NgayKetThuc' => 'required|date|after_or_equal:NgayBatDau',
+            'SoLuong' => 'nullable|integer|min:0',
+        ])->validate();
         return $data;
     }
 }

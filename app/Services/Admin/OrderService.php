@@ -15,6 +15,13 @@ final class OrderService extends BaseCrudService
 
     protected function codeField(): string { return 'MaDH'; }
 
+    public function list(int $page = 1, int $limit = 10, string $search = '', string $status = ''): array
+    {
+        $result = parent::list($page, $limit, $search, $status);
+        $result['filters'] = $this->repository->filterOptions();
+        return $result;
+    }
+
     protected function validate(array $data, bool $isUpdate = false): array
     {
         return OrderRequest::validate($data, $isUpdate);
@@ -35,6 +42,8 @@ final class OrderService extends BaseCrudService
         if ($status !== '') {
             $filter['TrangThaiDonHang'] = $status;
         }
+        $data = request()->validate(['payment_status' => 'nullable|string|max:100']);
+        if (!empty($data['payment_status'])) $filter['TrangThaiThanhToan'] = $data['payment_status'];
 
         return $filter;
     }

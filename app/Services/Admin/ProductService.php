@@ -117,6 +117,9 @@ final class ProductService extends BaseCrudService
                 ?? ''
             );
 
+        $this->validate($data);
+        if ($this->repository->existsByCode($productCode)) throw new \RuntimeException('Mã đã tồn tại');
+
 
         /*
          * Upload ảnh từ $_FILES.
@@ -171,6 +174,9 @@ final class ProductService extends BaseCrudService
     $data = $this->normalizeMultipartData(
         $data
     );
+
+    $this->validate($data, true);
+    if (!$this->repository->existsByCode($code)) throw new \RuntimeException('Dữ liệu không tồn tại');
 
     $uploadedImages = $this->uploadImages(
         $code
@@ -301,12 +307,7 @@ final class ProductService extends BaseCrudService
          *
          * backend/public/uploads/products/
          */
-        $uploadDir =
-            dirname(
-                __DIR__,
-                2
-            )
-            . '/public/uploads/products/';
+        $uploadDir = public_path('assets/');
 
 
         /*

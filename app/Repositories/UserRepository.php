@@ -103,6 +103,14 @@ class UserRepository
         $this->nhanViens->updateOne($filter, $update);
     }
 
+    public function updateProfile($userId, array $data): void
+    {
+        $result = $this->khachHangs->updateOne(['_id' => $userId], ['$set' => $data]);
+        if ($result->getMatchedCount() === 0) {
+            $this->nhanViens->updateOne(['_id' => $userId], ['$set' => $data]);
+        }
+    }
+
     public function setResetPasswordToken($userId, string $tokenHash, UTCDateTime $expiresAt): void
     {
         $update = [

@@ -1,0 +1,93 @@
+/* Customer theme. Imported only by the storefront and authentication styles. */
+:root:root {
+    --matcha-primary: #53614A;
+    --matcha-hover: #414D39;
+    --matcha-secondary: #B1B89A;
+    --matcha-soft: #E6E9DA;
+    --matcha-background: #FAF5E9;
+    --matcha-card: #FFFEFA;
+    --matcha-accent: #B88B68;
+    --matcha-accent-ink: #8A6144;
+    --matcha-text: #382D28;
+    --matcha-muted: #70665D;
+    --matcha-border: #DED8C9;
+    --sage: var(--matcha-primary);
+    --sage-dark: var(--matcha-primary);
+    --sage-deep: var(--matcha-hover);
+    --sage-light: var(--matcha-secondary);
+    --sage-soft: var(--matcha-soft);
+    --cream: var(--matcha-background);
+    --cream-light: var(--matcha-card);
+    --cream-dark: #EEE9DD;
+    --white: var(--matcha-card);
+    --ivory: var(--matcha-card);
+    --text-main: var(--matcha-text);
+    --text: var(--matcha-text);
+    --charcoal: var(--matcha-text);
+    --text-muted: var(--matcha-muted);
+    --text-soft: var(--matcha-muted);
+    --text-light: var(--matcha-muted);
+    --border: var(--matcha-border);
+    --border-color: var(--matcha-border);
+    --border-subtle: #EBE4D7;
+    --accent-gold: var(--matcha-accent);
+    --success: var(--matcha-primary);
+}
+
+:root body { background-color: var(--matcha-background); color: var(--matcha-text); }
+:root .site-header, :root .main-nav { background: var(--matcha-primary); }
+:root .site-header :is(.main-nav a, .nav-icon-btn, .menu-toggle, .logo-script, .logo-sub) { color: var(--matcha-background); }
+:root .main-nav a.active::after { background-color: var(--matcha-background); }
+:root .site-header .avatar-btn { background: transparent; color: var(--matcha-background); }
+:root .site-header .avatar-btn:hover { background: var(--matcha-hover); color: var(--matcha-background); }
+:root .site-header .logo img { background-color: var(--matcha-card); border-radius: var(--radius-sm, 8px); }
+
+:root body :is(.btn-primary, .btn-add-cart, .add-cart-btn, .primary-button, .btn-submit-contact, .btn-submit-order, .voucher-apply-btn, .qr-confirm-btn, .submit-button) {
+    background: var(--matcha-primary); border-color: var(--matcha-primary); color: var(--matcha-card);
+}
+:root body :is(.btn-primary, .btn-add-cart, .add-cart-btn, .primary-button, .btn-submit-contact, .btn-submit-order, .voucher-apply-btn, .qr-confirm-btn, .submit-button):hover:not(:disabled) {
+    background: var(--matcha-hover); border-color: var(--matcha-hover); color: var(--matcha-card);
+}
+:root body :is(.tab-btn.active, .pagination-btn.active, .page-btn.active, .review-filter.active, .topic-pill.active, .size-btn.active) {
+    background: var(--matcha-primary); border-color: var(--matcha-primary); color: var(--matcha-card);
+}
+:root body :is(.tab-btn.active, .pagination-btn.active, .page-btn.active):hover:not(:disabled) {
+    background: var(--matcha-hover); border-color: var(--matcha-hover); color: var(--matcha-card);
+}
+:root body :is(.btn-outline, .btn-outline-sage, .btn-map-directions):hover {
+    background: var(--matcha-primary); border-color: var(--matcha-primary); color: var(--matcha-card);
+}
+:root body :is(input, select, textarea) { accent-color: var(--matcha-primary); }
+:root body :is(input, select, textarea):focus {
+    border-color: var(--matcha-primary); box-shadow: 0 0 0 3px rgba(83, 97, 74, .16);
+}
+:root body :is(.product-card, .contact-info-card, .contact-form-card, .checkout-card, .order-summary-panel, .account-card, .order-card, .rating-card, .modal-content, .auth-panel) {
+    background-color: var(--matcha-card); border-color: var(--matcha-border);
+}
+:root body :is(.status-badge.confirmed, .status-badge.delivered, .status-badge.received, .store-status-bar, .toast.success, .form-message.success, .success-message, .voucher-message.success, .review-type:not(.negative), .moderation-result.safe, .review-badge-sentiment.positive) {
+    background: var(--matcha-secondary); color: var(--matcha-text); border-color: var(--matcha-secondary);
+}
+:root body .status-indicator.active { background: var(--matcha-primary); }
+:root body .discount-value { color: var(--matcha-primary); }
+:root body .view-rating-box { background-color: var(--matcha-soft); }
+:root body :is(.auth-header h1, .auth-header h2, .section-title h2, .contact-title, .cate-title) { color: var(--matcha-text); }
+:root body :is(.auth-header p, .form-group label, .auth-footer, .field-hint, .remember) { color: var(--matcha-muted); }
+:root body :is(.auth-header a, .forgot-password, .section-label) { color: var(--matcha-primary); }
+/* The existing homepage includes inline title colors and a nested important rule. */
+:root body .hero h1 { color: var(--matcha-text) !important; }
+:root body .hero h1 :is(em, in), :root body .story h2 b[style] { color: var(--matcha-primary) !important; }
+:root body :is(.hero, .about-hero, .cate-header) {
+    background: radial-gradient(circle at 8% 20%, rgba(184, 139, 104, .16), transparent 25%), radial-gradient(circle at 90% 70%, rgba(177, 184, 154, .18), transparent 25%), var(--matcha-background);
+}
+:root body .showcase-overlay {
+    background: linear-gradient(90deg, rgba(83, 97, 74, .32), rgba(83, 97, 74, .20) 45%, rgba(83, 97, 74, .08));
+}
+:root body :is(.stars, .review-stars, .rating-stars, .star-btn.active, .star-btn:hover) { color: var(--matcha-accent-ink); }
+:root body .details-arrow-btn:hover { background: var(--matcha-hover); color: var(--matcha-card); }
+:root body .related-products .section-heading { background: var(--matcha-primary); }
+:root body .category-tabs { scrollbar-color: var(--matcha-secondary) transparent; }
+:root body .category-tabs::-webkit-scrollbar-thumb { background: var(--matcha-secondary); }
+:root body :is(.terms, .divider span) { color: var(--matcha-muted); }
+:root body :is(.terms a, .auth-header a) { color: var(--matcha-primary); border-color: var(--matcha-secondary); }
+:root body .form-group input { color: var(--matcha-text); border-color: var(--matcha-border); }
+:root body .form-group input:hover, :root body .remember input { border-color: var(--matcha-primary); }

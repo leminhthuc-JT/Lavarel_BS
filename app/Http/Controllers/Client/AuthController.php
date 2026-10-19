@@ -15,6 +15,22 @@ class AuthController extends Controller
         $this->authService = new AuthService();
     }
 
+    private function rememberReviewUser(Request $request, array $user): void
+    {
+        if (!$request->hasSession()) return;
+        $request->session()->regenerate();
+        $request->session()->put('review_user', [
+            'id' => $user['id'] ?? '', 'email' => $user['email'] ?? '',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response()->json(['success' => true]);
+    }
+
     public function showLogin()
     {
         return view('auth.login');
@@ -42,6 +58,7 @@ class AuthController extends Controller
                 'email' => trim((string) ($request->input('email') ?? '')),
                 'password' => (string) ($request->input('password') ?? ''),
             ]);
+            $this->rememberReviewUser($request, $user);
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập thành công.',
@@ -56,6 +73,7 @@ class AuthController extends Controller
     {
         try {
             $user = $this->authService->register($request->all());
+            $this->rememberReviewUser($request, $user);
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng ký thành công.',
@@ -74,6 +92,7 @@ class AuthController extends Controller
                 throw new \Exception('Thiếu thông tin đăng nhập Google.');
             }
             $user = $this->authService->googleLogin($credential);
+            $this->rememberReviewUser($request, $user);
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập Google thành công.',
@@ -121,8 +140,10 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
+        $account = $request->attributes->get('account');
+        if (!$account) return response()->json(['success' => false, 'message' => 'Vui lòng đăng nhập.'], 401);
         try {
-            $email = trim((string) ($request->input('email') ?? ''));
+            $email = (string) ($account['TaiKhoan']['Email'] ?? $account['Email'] ?? '');
             $currentPassword = (string) ($request->input('currentPassword') ?? '');
             $newPassword = (string) ($request->input('newPassword') ?? '');
             $confirmPassword = (string) ($request->input('confirmPassword') ?? '');

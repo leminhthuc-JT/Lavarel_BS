@@ -17,4 +17,16 @@ final class OrderRepository extends BaseRepository
     {
         return 'MaDH';
     }
+
+    public function filterOptions(): array
+    {
+        $options = [];
+        foreach (['orderStatuses' => 'TrangThaiDonHang', 'paymentStatuses' => 'TrangThaiThanhToan'] as $key => $field) {
+            $values = array_values(array_filter($this->collection->distinct($field),
+                static fn ($value) => is_string($value) && trim($value) !== ''));
+            sort($values, SORT_STRING);
+            $options[$key] = $values;
+        }
+        return $options;
+    }
 }

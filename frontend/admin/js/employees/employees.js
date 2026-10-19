@@ -1,10 +1,9 @@
+import { createListPage } from '../core/list-page.js';
 import {
     mountShell
 } from '../core/shell.js';
 
-import {
-    request
-} from '../core/api.js';
+import { request as baseRequest } from '../core/api.js';
 
 import {
     esc,
@@ -20,7 +19,7 @@ import {
 mountShell({
     active: 'employees',
     title: 'Quản lý nhân viên',
-    subtitle: 'Quản lý nhân sự, chức vụ và tài khoản trong NhanViens.'
+    subtitle: ''
 });
 
 
@@ -347,6 +346,7 @@ page.innerHTML = `
                 </div>
 
 
+                <div class="form-group"><label for="AccountRole">Quyền tài khoản</label><select id="AccountRole"><option value="NV">Nhân viên</option><option value="MN">Admin</option></select></div>
                 <!-- PASSWORD -->
                 <div class="form-group full">
 
@@ -477,6 +477,12 @@ page.innerHTML = `
 `;
 
 
+const listPage = createListPage({label: 'NHÂN SỰ', reload: loadEmployees, endpoint: '/admin/employees', filters: [{id: 'statusFilter', param: 'status', label: 'Trạng thái làm việc'}], addId: 'addEmployeeBtn'});
+
+function request(path, options = {}, mock = null) {
+  if (!options.method && new URL(path, location.origin).pathname === '/admin/employees') return listPage.request();
+  return baseRequest(path, options, mock);
+}
 /* =====================================================
    ELEMENTS
 ===================================================== */
@@ -599,7 +605,7 @@ async function loadEmployees() {
 
 
     let url =
-        '/admin/employees?limit=100';
+        '/admin/employees?limit=10';
 
 
     if (search) {
@@ -634,6 +640,7 @@ async function loadEmployees() {
             );
 
 
+        if (!result) return;
         const items =
             result?.data?.items
             ?? [];
@@ -1031,6 +1038,7 @@ async function openEditEmployee(
                 item.TaiKhoan?.Email
                 ?? item.Email
                 ?? '';
+        document.getElementById('AccountRole').value = item.TaiKhoan?.Quyen?.MaQ || 'NV';
 
 
         document
@@ -1180,6 +1188,8 @@ function getEmployeePayload() {
     }
 
 
+    payload.TaiKhoan = payload.TaiKhoan || {};
+    payload.TaiKhoan.Quyen = {MaQ: document.getElementById('AccountRole').value};
     return payload;
 }
 
@@ -1619,45 +1629,13 @@ document
     );
 
 
-document
-    .getElementById(
-        'searchBtn'
-    )
-    .addEventListener(
-        'click',
-        loadEmployees
-    );
 
 
-document
-    .getElementById(
-        'statusFilter'
-    )
-    .addEventListener(
-        'change',
-        loadEmployees
-    );
 
 
-document
-    .getElementById(
-        'searchInput'
-    )
-    .addEventListener(
-        'keydown',
-        event => {
 
-            if (
-                event.key ===
-                'Enter'
-            ) {
 
-                loadEmployees();
 
-            }
-
-        }
-    );
 
 
 employeeModal.addEventListener(
@@ -1699,3 +1677,4 @@ deleteModal.addEventListener(
 ===================================================== */
 
 loadEmployees();
+document.addEventListener('admin:reload', loadEmployees);

@@ -6,6 +6,7 @@ const items = [
     ['customers', 'Khách hàng', '♙'],
     ['employees', 'Nhân viên', '♜'],
     ['promotions', 'Khuyến mãi', '✦'],
+    ['reviews', 'Bình luận', '✉'],
     ['favorites', 'Yêu thích', '♡'],
 ];
 

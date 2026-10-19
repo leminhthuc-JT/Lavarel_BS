@@ -84,13 +84,8 @@ class AuthService
 
         $hashedPassword = $user['TaiKhoan']['MatKhau'] ?? null;
 
-        // Nếu tài khoản không có mật khẩu (hoặc để trống): cho phép đăng nhập
-        if (empty($hashedPassword)) {
-            // Cho phép đăng nhập
-        } else {
-            if ($password === '' || !password_verify($password, $hashedPassword)) {
-                throw new Exception('Email hoặc mật khẩu không chính xác.');
-            }
+        if (empty($hashedPassword) || $password === '' || !password_verify($password, $hashedPassword)) {
+            throw new Exception('Email hoặc mật khẩu không chính xác.');
         }
 
         $status = $user['TrangThai'] ?? '';
@@ -227,9 +222,9 @@ class AuthService
     public function changePassword(string $email, ?string $currentPassword = '', ?string $newPassword = '', ?string $confirmPassword = ''): array
     {
         $email = strtolower(trim($email));
-        $currentPassword = trim((string)($currentPassword ?? ''));
-        $newPassword = trim((string)($newPassword ?? ''));
-        $confirmPassword = trim((string)($confirmPassword ?? ''));
+        $currentPassword = (string) ($currentPassword ?? '');
+        $newPassword = (string) ($newPassword ?? '');
+        $confirmPassword = (string) ($confirmPassword ?? '');
 
         if (!$email) throw new Exception('Email không hợp lệ.');
 
@@ -242,10 +237,8 @@ class AuthService
         }
 
         $hashedPassword = $user['TaiKhoan']['MatKhau'] ?? null;
-        if (!empty($hashedPassword) && $currentPassword !== '') {
-            if (!password_verify($currentPassword, $hashedPassword)) {
-                throw new Exception('Mật khẩu hiện tại không chính xác.');
-            }
+        if (empty($hashedPassword) || $currentPassword === '' || !password_verify($currentPassword, $hashedPassword)) {
+            throw new Exception('Mật khẩu hiện tại không chính xác.');
         }
 
         if ($newPassword !== '') {
@@ -260,8 +253,7 @@ class AuthService
             }
             $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
         } else {
-            // Cho phép đặt mật khẩu trống
-            $newHashedPassword = null;
+            throw new Exception('Vui lòng nhập mật khẩu mới.');
         }
 
         $this->userRepository->updatePassword($user['_id'], $newHashedPassword);

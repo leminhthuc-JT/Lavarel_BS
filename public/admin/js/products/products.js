@@ -20,9 +20,15 @@ import {
 mountShell({
     active: 'products',
     title: 'Quản lý sản phẩm',
-    subtitle: 'Quản lý sản phẩm trong collection SanPhams.'
+    subtitle: ''
 });
 
+
+document.querySelector('.hero p')?.remove();
+const productStyles = document.createElement('link');
+productStyles.rel = 'stylesheet';
+productStyles.href = new URL('../../css/products.css', import.meta.url).href;
+document.head.append(productStyles);
 
 const page =
     document.getElementById('pageContent');
@@ -36,75 +42,19 @@ page.innerHTML = `
 
 <section class="card panel">
 
-    <div class="panel-head">
-
-        <div>
-
-            <div class="panel-eyebrow">
-                SẢN PHẨM
-            </div>
-
-            <div class="panel-title">
-                Quản lý sản phẩm
-            </div>
-
-        </div>
-
-
-        <button
-            class="btn btn-primary"
-            id="addProductBtn"
-            type="button"
-        >
-            + Thêm mới
+    <div class="panel-head"><div class="panel-eyebrow">SẢN PHẨM</div></div>
+    <div class="toolbar product-toolbar">
+        <input id="searchInput" type="search" placeholder="Tìm theo mã hoặc tên sản phẩm..." aria-label="Tìm sản phẩm">
+        <button class="btn" id="searchBtn" type="button">Tìm</button>
+        <button class="btn product-icon-button" id="toggleProductFilters" type="button" title="Lọc sản phẩm" aria-label="Lọc sản phẩm" aria-expanded="false" aria-controls="productFilters">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8L3 4Z"/></svg>
         </button>
-
+        <button class="btn btn-primary product-icon-button" id="addProductBtn" type="button" title="Thêm sản phẩm" aria-label="Thêm sản phẩm"><span aria-hidden="true">+</span></button>
     </div>
-
-
-    <div class="toolbar">
-
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="Tìm theo mã hoặc tên sản phẩm..."
-        >
-
-        <select id="categoryFilter">
-
-            <option value="">
-                Tất cả danh mục
-            </option>
-
-        </select>
-
-        <select id="statusFilter">
-
-            <option value="">
-                Tất cả trạng thái
-            </option>
-
-            <option value="Đang bán">
-                Đang bán
-            </option>
-
-            <option value="Ngừng bán">
-                Ngừng bán
-            </option>
-
-        </select>
-
-
-        <button
-            class="btn"
-            id="searchBtn"
-            type="button"
-        >
-            Tìm
-        </button>
-
+    <div class="toolbar product-filters" id="productFilters" hidden>
+        <select id="categoryFilter" aria-label="Danh mục"><option value="">Tất cả danh mục</option></select>
+        <select id="statusFilter" aria-label="Trạng thái"><option value="">Tất cả trạng thái</option><option value="Đang bán">Đang bán</option><option value="Ngừng bán">Ngừng bán</option></select>
     </div>
-
 
     <div class="table-wrap">
 
@@ -143,6 +93,7 @@ page.innerHTML = `
         </table>
 
     </div>
+    <nav id="productPagination" class="product-pagination" aria-label="Phân trang sản phẩm"></nav>
 
 </section>
 
@@ -462,6 +413,43 @@ page.innerHTML = `
 `;
 
 
+
+let productPage = Math.max(1, Number(new URLSearchParams(location.search).get('page')) || 1);
+let productFiltersKey = null;
+let productLoadSequence = 0;
+async function requestProducts(path) {
+    const params = new URL(path, location.origin).searchParams;
+    params.delete('limit');
+    const key = params.toString();
+    if (productFiltersKey !== null && productFiltersKey !== key) productPage = 1;
+    productFiltersKey = key;
+    params.set('page', String(productPage)); params.set('limit', '10');
+    const sequence = ++productLoadSequence;
+    const result = await request('/admin/products?' + params, {method: 'GET'});
+    if (sequence !== productLoadSequence) return null;
+    const pagination = result.data.pagination;
+    productPage = pagination.page;
+    params.set('page', String(productPage));
+    history.replaceState(null, '', `${location.pathname}?${params}`);
+    const totalPages = Math.max(1, pagination.totalPages);
+    const button = (number, label, title, disabled = false) => `<button type="button" class="btn${number === productPage && title.startsWith('Trang') ? ' is-current' : ''}" data-product-page="${number}" title="${title}" aria-label="${title}" ${number === productPage && title.startsWith('Trang') ? 'aria-current="page"' : ''} ${disabled ? 'disabled' : ''}>${label}</button>`;
+    document.getElementById('productPagination').innerHTML = button(productPage - 1, '‹', 'Trang trước', productPage <= 1)
+        + Array.from({length: totalPages}, (_, index) => button(index + 1, index + 1, `Trang ${index + 1}`)).join('')
+        + button(productPage + 1, '›', 'Trang sau', productPage >= totalPages);
+    return result;
+}
+document.getElementById('toggleProductFilters').addEventListener('click', event => {
+    const button = event.currentTarget;
+    const filters = document.getElementById('productFilters');
+    filters.hidden = !filters.hidden;
+    button.setAttribute('aria-expanded', String(!filters.hidden));
+});
+document.getElementById('productPagination').addEventListener('click', event => {
+    const button = event.target.closest('[data-product-page]');
+    if (!button || button.disabled || button.hasAttribute('aria-current')) return;
+    productPage = Number(button.dataset.productPage); loadProducts();
+});
+
 /* =====================================================
    ELEMENTS
 ===================================================== */
@@ -505,7 +493,7 @@ let productToDelete = null;
 ===================================================== */
 
 const API_BASE =
-    'http://localhost:8000/api';
+    '/api';
 
 
 /* =====================================================
@@ -641,7 +629,7 @@ async function loadProducts() {
 
 
     let url =
-        '/admin/products?limit=100';
+        '/admin/products?limit=10';
 
 
     if (search) {
@@ -677,11 +665,10 @@ async function loadProducts() {
     try {
 
         const result =
-            await request(
-                url
-            );
+            await requestProducts(url);
 
 
+        if (!result) return;
         const items =
             result?.data?.items
             ?? [];
@@ -1049,7 +1036,7 @@ function renderCurrentImages(
                 <div class="current-image-item">
 
                     <img
-                        src="http://localhost:8000/uploads/products/${encodeURIComponent(image)}"
+                        src="/assets/${encodeURIComponent(image)}"
                         class="preview-image"
                         alt=""
                     >
@@ -2136,5 +2123,9 @@ deleteModal.addEventListener(
 ===================================================== */
 
 await loadCategories();
-
+const savedProductFilters = new URLSearchParams(location.search);
+for (const [key, id] of [['search', 'searchInput'], ['category', 'categoryFilter'], ['status', 'statusFilter']]) {
+    if (savedProductFilters.has(key)) document.getElementById(id).value = savedProductFilters.get(key);
+}
 await loadProducts();
+document.addEventListener('admin:reload', loadProducts);

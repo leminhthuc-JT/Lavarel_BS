@@ -188,6 +188,9 @@ function getCurrentUser() {
  * Logout
  */
 function clearCurrentUser() {
+    fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin', keepalive: true })
+        .catch(error => console.error('Không thể kết thúc phiên đăng nhập:', error));
+
 
     localStorage.removeItem("user");
     sessionStorage.removeItem("user");

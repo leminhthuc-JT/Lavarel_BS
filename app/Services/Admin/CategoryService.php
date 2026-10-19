@@ -27,7 +27,20 @@ final class CategoryService extends BaseCrudService
 
     protected function buildFilter(string $search, string $status): array
     {
-        return $this->regexFilter($search, ['MaDM', 'TenDM', 'MoTa']);
+        $dates = request()->validate([
+            'created_from' => 'nullable|date_format:Y-m-d',
+            'created_to' => 'nullable|date_format:Y-m-d' . (request()->filled('created_from') ? '|after_or_equal:created_from' : ''),
+        ]);
+        $filter = $this->regexFilter($search, ['MaDM', 'TenDM', 'MoTa']);
+        if (!empty($dates['created_from'])) {
+            $filter['NgayTao']['$gte'] = MongoValue::date($dates['created_from'] . ' 00:00:00');
+        }
+        if (!empty($dates['created_to'])) {
+            $filter['NgayTao']['$lt'] = MongoValue::date(
+                \Carbon\Carbon::parse($dates['created_to'])->addDay()->format('Y-m-d 00:00:00')
+            );
+        }
+        return $filter;
     }
 
     protected function prepare(array $data, bool $isUpdate = false): array

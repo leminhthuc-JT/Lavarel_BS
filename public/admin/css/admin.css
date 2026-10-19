@@ -1,27 +1,37 @@
 /* ===============================
    COLOR SYSTEM
 ================================ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap&subset=vietnamese');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap&subset=vietnamese');
 :root {
-    --sage: #93A79B;
-    --sage-dark: #71877A;
-    --sage-deep: #61776B;
-    --sage-soft: #DDE6E0;
+    --sage: #B1B89A;
+    --sage-dark: #53614A;
+    --sage-deep: #414D3A;
+    --sage-soft: #E6E9DA;
 
-    --cream: #FBF7EF;
-    --paper: #FFFDF8;
+    --cream: #FAF5E9;
+    --paper: #FFFEFA;
 
-    --charcoal: #343A35;
-    --muted: #7D847D;
+    --charcoal: #382D28;
+    --muted: #70665D;
 
-    --border: #E5E1D8;
+    --border: #DED8C9;
 
-    --success: #6F927B;
+    --success: #53614A;
     --warning: #C99753;
     --danger: #B66A5E;
+    --accent: #B88B68;
+    --accent-ink: #8A6144;
+    --surface-muted: #EEE9DD;
+    --border-soft: #EBE4D7;
+    --primary-rgb: 83, 97, 74;
+    --secondary-rgb: 177, 184, 154;
+    --soft-rgb: 230, 233, 218;
+    --cream-rgb: 250, 245, 233;
+    --paper-rgb: 255, 254, 250;
+    --text-rgb: 56, 45, 40;
 
     --shadow:
-        0 12px 34px rgba(45, 55, 48, 0.08);
+        0 12px 34px rgba(var(--text-rgb), 0.08);
 
     --radius: 18px;
 
@@ -111,13 +121,9 @@ button {
     height: 100vh;
 
     background:
-        linear-gradient(
-            180deg,
-            #9CAF9F 0%,
-            #84998D 100%
-        );
+        var(--sage-dark);
 
-    color: white;
+    color: var(--cream);
 
     display: flex;
     flex-direction: column;
@@ -159,7 +165,7 @@ button {
     align-items: center;
 
     background:
-        rgba(255, 253, 248, 0.96);
+        rgba(var(--paper-rgb), 0.96);
 
     border:
         1px solid
@@ -298,8 +304,7 @@ button {
 
     border-radius: 13px;
 
-    color:
-        rgba(255, 255, 255, 0.88);
+    color: var(--cream);
 
     transition:
         background 0.2s ease,
@@ -320,10 +325,9 @@ button {
 
 
 .nav-item.active {
-    background:
-        rgba(255, 255, 255, 0.20);
+    background: var(--sage);
 
-    color: white;
+    color: var(--charcoal);
 
     box-shadow:
         inset 0 0 0 1px
@@ -407,7 +411,7 @@ button {
     line-height: 1.45;
 
     color:
-        rgba(255, 255, 255, 0.90);
+        var(--cream);
 }
 
 
@@ -417,7 +421,7 @@ button {
     font-size: 10px;
 
     color:
-        rgba(255, 255, 255, 0.67);
+        var(--cream);
 }
 
 
@@ -517,12 +521,7 @@ button {
         30px;
 
     background:
-        rgba(
-            255,
-            253,
-            248,
-            0.92
-        );
+        rgba(var(--paper-rgb), 0.92);
 
     backdrop-filter:
         blur(12px);
@@ -579,12 +578,7 @@ button {
 
     box-shadow:
         0 0 0 3px
-        rgba(
-            147,
-            167,
-            155,
-            0.13
-        );
+        rgba(var(--secondary-rgb), 0.13);
 }
 
 
@@ -692,7 +686,7 @@ button {
     font-size: 42px;
 
     letter-spacing:
-        -0.03em;
+        normal;
 
     color:
         var(--charcoal);
@@ -889,7 +883,7 @@ button {
         15px;
 
     background:
-        #ECEAE4;
+        var(--surface-muted);
 
     color:
         var(--charcoal);
@@ -954,7 +948,7 @@ td {
 
     border-bottom:
         1px solid
-        #EEEAE2;
+        var(--border-soft);
 
     text-align: left;
 
@@ -966,7 +960,7 @@ td {
 
 th {
     background:
-        #FCFAF5;
+        var(--cream);
 
     color:
         var(--muted);
@@ -1013,7 +1007,7 @@ th {
         #F8EBD7;
 
     color:
-        #9D6C2E;
+        #79501F;
 }
 
 
@@ -1022,7 +1016,7 @@ th {
         #F4E1DD;
 
     color:
-        #9F5147;
+        #893E35;
 }
 
 
@@ -1073,8 +1067,8 @@ th {
     background:
         linear-gradient(
             135deg,
-            #EDF2EE,
-            #FBF7EF
+            var(--sage-soft),
+            var(--cream)
         );
 
     border:
@@ -1552,7 +1546,7 @@ th {
     border-radius: 12px;
 
     background:
-        #F7F4EC;
+        var(--surface-muted);
 }
 
 
@@ -1620,7 +1614,7 @@ th {
     border-radius: 13px;
 
     background:
-        #F6F4ED;
+        var(--surface-muted);
 
     border:
         1px solid
@@ -1772,18 +1766,8 @@ th {
     background:
         linear-gradient(
             135deg,
-            rgba(
-                221,
-                230,
-                224,
-                .55
-            ),
-            rgba(
-                251,
-                247,
-                239,
-                .7
-            )
+            rgba(var(--soft-rgb), .55),
+            rgba(var(--cream-rgb), .7)
         );
 
     transition:
@@ -1797,12 +1781,7 @@ th {
         translateY(-2px);
 
     border-color:
-        rgba(
-            113,
-            135,
-            122,
-            .45
-        );
+        rgba(var(--primary-rgb), .45);
 }
 
 
@@ -1816,12 +1795,7 @@ th {
     border-radius: 50%;
 
     background:
-        rgba(
-            147,
-            167,
-            155,
-            .16
-        );
+        rgba(var(--secondary-rgb), .16);
 
     color:
         var(--sage-dark);
@@ -1945,7 +1919,7 @@ th {
     display: grid;
     place-items: center;
 
-    background: #F0EEE7;
+    background: var(--surface-muted);
 
     color: var(--charcoal);
 
@@ -2044,7 +2018,7 @@ th {
 
     box-shadow:
         0 16px 40px
-        rgba(52, 58, 53, .18);
+        rgba(var(--text-rgb), .18);
 
     animation:
         toastIn .25s ease;
@@ -2173,7 +2147,7 @@ th {
     display: grid;
     place-items: center;
 
-    background: #F0EEE7;
+    background: var(--surface-muted);
 
     color: var(--charcoal);
 
@@ -2204,12 +2178,16 @@ th {
 
     box-shadow:
         0 16px 40px
-        rgba(52, 58, 53, .18);
+        rgba(var(--text-rgb), .18);
 }
 
 .admin-toast.hidden {
     display: none;
 }
+.hero h1,
+.panel-title,
+.modal-head h2,
+.quick-action strong,
 .promotion-vietnamese-title {
     font-family: "Playfair Display", Georgia, serif;
 }

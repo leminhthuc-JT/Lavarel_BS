@@ -29,11 +29,9 @@ const mock = {success:true,data:{items:[{"MaKH": "KH001", "SanPhams": [{"MaSP": 
 async function load() {
   const tbody = document.getElementById('tbody');
   try {
-    const result = await request('/admin/carts', {}, mock);
+    const result = await request('/admin/carts?search=' + encodeURIComponent(document.getElementById('searchInput').value.trim()) + '&status=' + encodeURIComponent(document.getElementById('statusFilter')?.value || ''));
     const items = result?.data?.items ?? result?.data ?? [];
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const filtered = q ? items.filter(x => JSON.stringify(x).toLowerCase().includes(q)) : items;
-    tbody.innerHTML = filtered.length ? filtered.map(item => `<tr><td><strong>${esc(item.MaKH)}</strong></td><td>${(item.SanPhams||[]).map(x=>`${esc(x.MaSP)} × ${esc(x.SoLuong)}`).join('<br>')}</td><td>${money(item.TongTien)}</td><td>${shortDate(item.NgayCapNhat)}</td></tr>`).join('') :
+    tbody.innerHTML = items.length ? items.map(item => `<tr><td><strong>${esc(item.MaKH)}</strong></td><td>${(item.SanPhams||[]).map(x=>`${esc(x.MaSP)} × ${esc(x.SoLuong)}`).join('<br>')}</td><td>${money(item.TongTien)}</td><td>${shortDate(item.NgayCapNhat)}</td></tr>`).join('') :
       `<tr><td colspan="4" class="empty">Không có dữ liệu</td></tr>`;
   } catch (e) {
     tbody.innerHTML = `<tr><td colspan="4" class="empty">Không tải được dữ liệu: ${esc(e.message)}</td></tr>`;
@@ -42,3 +40,5 @@ async function load() {
 document.getElementById('searchBtn').addEventListener('click', load);
 document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') load(); });
 load();
+
+document.addEventListener('admin:reload', load);

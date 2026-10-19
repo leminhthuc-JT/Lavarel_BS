@@ -12,6 +12,9 @@ final class EmployeeRequest
             'ChucVu' => 'Chức vụ'
         ]);
 
+        \Illuminate\Support\Facades\Validator::make($data, [
+            'ChucVu' => 'required|string|max:100', 'NgayVaoLam' => 'nullable|date',
+        ])->validate();
         return $data;
     }
 }

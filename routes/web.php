@@ -64,7 +64,7 @@ Route::prefix('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(\App\Http\Middleware\EnsureAccount::class . ':admin')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/products', [AdminProductController::class, 'index'])->name('products');
@@ -76,3 +76,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/carts', [AdminCartController::class, 'index'])->name('carts');
     Route::get('/favorites', [AdminFavoriteController::class, 'index'])->name('favorites');
 });
+
+// Bình luận: dùng phiên đăng nhập phía server để giới hạn quyền quản trị.
+Route::prefix('admin/reviews')->middleware(\App\Http\Middleware\EnsureReviewAdmin::class)->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews');
+    Route::get('/data', [\App\Http\Controllers\Admin\ReviewController::class, 'apiIndex']);
+    Route::put('/{code}/{reviewId}/reply', [\App\Http\Controllers\Admin\ReviewController::class, 'reply'])
+        ->middleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+});
+Route::post('/auth/logout', [AuthController::class, 'logout']);

@@ -30,8 +30,9 @@ use App\Http\Controllers\Admin\FavoriteController as AdminFavoriteController;
 */
 
 // Auth APIs
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('web')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/google', [AuthController::class, 'googleLogin']);
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
@@ -71,6 +72,8 @@ Route::post('/favorites', [FavoriteController::class, 'apiStore']);
 Route::delete('/favorites/{maSP}', [FavoriteController::class, 'apiDestroy']);
 
 // Customer & Contact APIs
+Route::get('/account', [CustomerController::class, 'me']);
+Route::put('/account', [CustomerController::class, 'updateMe']);
 Route::get('/customers/{code}', [CustomerController::class, 'apiShow']);
 Route::post('/contact', [ContactController::class, 'apiSend']);
 
@@ -80,11 +83,13 @@ Route::post('/contact', [ContactController::class, 'apiSend']);
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(\App\Http\Middleware\EnsureAccount::class . ':admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'apiIndex']);
     Route::get('/dashboard/revenue', [AdminDashboardController::class, 'apiRevenue']);
 
     Route::post('/products/{code}', [AdminProductController::class, 'apiUpdateWithUpload']);
+
+    Route::patch('/promotions/{code}/status', [AdminPromotionController::class, 'apiUpdateStatus']);
 
     $adminResources = [
         'products' => AdminProductController::class,

@@ -11,6 +11,9 @@ final class CategoryRequest
             'TenDM' => 'Tên danh mục'
         ]);
 
+        \Illuminate\Support\Facades\Validator::make($data, [
+            'TenDM' => 'required|string|max:200', 'MoTa' => 'nullable|string|max:3000',
+        ])->validate();
         return $data;
     }
 }

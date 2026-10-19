@@ -695,3 +695,126 @@
 #3 D:/hk7/LapTrinhMaNguonMo/laragon/www/Bakery_Shop/artisan(34): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #4 {main}
 "} 
+[2026-10-13 15:18:30] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:31] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:31] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:51] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:52] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:55] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:56] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:18:56] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:15] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:24] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:34] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:35] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:36] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:47] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:19:48] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:20:16] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:20:16] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:20:22] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:20:23] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:20:23] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:21:04] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:21:05] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:21:05] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:23:52] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-13 15:24:23] local.ERROR: Declaration of MongoDB\Model\BSONArray::bsonSerialize() must be compatible with MongoDB\BSON\Serializable::bsonSerialize(): stdClass|MongoDB\BSON\Document|MongoDB\BSON\PackedArray|array {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Declaration of MongoDB\\Model\\BSONArray::bsonSerialize() must be compatible with MongoDB\\BSON\\Serializable::bsonSerialize(): stdClass|MongoDB\\BSON\\Document|MongoDB\\BSON\\PackedArray|array at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Model/BSONArray.php:74)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-19 21:47:10] local.ERROR: Uncaught MongoDB\Driver\Exception\ConnectionTimeoutException: No suitable servers found (`serverSelectionTryOnce` set): [connection closed calling hello on 'ac-ggf77hu-shard-00-01.fepmk2v.mongodb.net:27017'] [connection closed calling hello on 'ac-ggf77hu-shard-00-00.fepmk2v.mongodb.net:27017'] [connection closed calling hello on 'ac-ggf77hu-shard-00-02.fepmk2v.mongodb.net:27017']. Topology type: Unknown in D:\baitap\lap_trinh_ma_nguon_mo\tool\laragon\www\Lavarel_BS_new\vendor\mongodb\mongodb\src\functions.php:647
+Stack trace:
+#0 D:\baitap\lap_trinh_ma_nguon_mo\tool\laragon\www\Lavarel_BS_new\vendor\mongodb\mongodb\src\functions.php(647): MongoDB\Driver\Manager->selectServer(NULL)
+#1 D:\baitap\lap_trinh_ma_nguon_mo\tool\laragon\www\Lavarel_BS_new\vendor\mongodb\mongodb\src\Database.php(278): MongoDB\select_server(Object(MongoDB\Driver\Manager), Array)
+#2 Command line code(1): MongoDB\Database->command(Array)
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught MongoDB\\Driver\\Exception\\ConnectionTimeoutException: No suitable servers found (`serverSelectionTryOnce` set): [connection closed calling hello on 'ac-ggf77hu-shard-00-01.fepmk2v.mongodb.net:27017'] [connection closed calling hello on 'ac-ggf77hu-shard-00-00.fepmk2v.mongodb.net:27017'] [connection closed calling hello on 'ac-ggf77hu-shard-00-02.fepmk2v.mongodb.net:27017']. Topology type: Unknown in D:\\baitap\\lap_trinh_ma_nguon_mo\\tool\\laragon\\www\\Lavarel_BS_new\\vendor\\mongodb\\mongodb\\src\\functions.php:647
+Stack trace:
+#0 D:\\baitap\\lap_trinh_ma_nguon_mo\\tool\\laragon\\www\\Lavarel_BS_new\\vendor\\mongodb\\mongodb\\src\\functions.php(647): MongoDB\\Driver\\Manager->selectServer(NULL)
+#1 D:\\baitap\\lap_trinh_ma_nguon_mo\\tool\\laragon\\www\\Lavarel_BS_new\\vendor\\mongodb\\mongodb\\src\\Database.php(278): MongoDB\\select_server(Object(MongoDB\\Driver\\Manager), Array)
+#2 Command line code(1): MongoDB\\Database->command(Array)
+#3 {main}
+  thrown at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/functions.php:647)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-19 21:55:30] local.ERROR: user is not allowed to do action [dropDatabase] on [codex_test_18756e423b7c7b91.] {"exception":"[object] (MongoDB\\Driver\\Exception\\CommandException(code: 8000): user is not allowed to do action [dropDatabase] on [codex_test_18756e423b7c7b91.] at D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Operation/DropDatabase.php:89)
+[stacktrace]
+#0 D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Operation/DropDatabase.php(89): MongoDB/Driver/Server->executeWriteCommand('codex_test_1875...', Object(MongoDB/Driver/Command), Array)
+#1 D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/vendor/mongodb/mongodb/src/Database.php(394): MongoDB/Operation/DropDatabase->execute(Object(MongoDB/Driver/Server))
+#2 D:/baitap/lap_trinh_ma_nguon_mo/tool/laragon/www/Lavarel_BS_new/tests/fixtures.php(4): MongoDB/Database->drop()
+#3 {main}
+"} 

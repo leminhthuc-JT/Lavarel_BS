@@ -13,6 +13,18 @@ final class PromotionService extends BaseCrudService
         parent::__construct(new PromotionRepository());
     }
 
+    public function updateStatus(string $code, string $status): void
+    {
+        if (!in_array($status, ['Đang hoạt động', 'Ngừng hoạt động'], true)) {
+            throw new \InvalidArgumentException('Trạng thái khuyến mãi không hợp lệ.');
+        }
+
+        $result = $this->repository->updateByCode($code, ['TrangThai' => $status]);
+        if ($result->getMatchedCount() === 0) {
+            throw new \OutOfBoundsException('Không tìm thấy khuyến mãi.');
+        }
+    }
+
     protected function codeField(): string { return 'MaKM'; }
 
     protected function validate(array $data, bool $isUpdate = false): array
@@ -35,6 +47,7 @@ final class PromotionService extends BaseCrudService
         if ($status !== '') {
             $filter['TrangThai'] = $status;
         }
+        if (request()->filled('type')) $filter['LoaiKM'] = (string) request()->query('type');
 
         return $filter;
     }

@@ -1,8 +1,9 @@
+import { createListPage } from '../core/list-page.js';
 import { mountShell } from '../core/shell.js';
-import { request } from '../core/api.js';
+import { request as baseRequest } from '../core/api.js';
 import { esc, money, shortDate, statusBadge } from '../core/ui.js';
 
-mountShell({active:'favorites', title:'Danh sách yêu thích', subtitle:'Theo dõi sản phẩm yêu thích trong collection YeuThichs.'});
+mountShell({active:'favorites', title:'Danh sách yêu thích', subtitle: ''});
 
 const page = document.getElementById('pageContent');
 page.innerHTML = `
@@ -24,21 +25,28 @@ page.innerHTML = `
     </div>
   </section>`;
 
+const listPage = createListPage({label: 'YÊU THÍCH', reload: load, endpoint: '/admin/favorites', filters: []});
+
+function request(path, options = {}, mock = null) {
+  if (!options.method && new URL(path, location.origin).pathname === '/admin/favorites') return listPage.request();
+  return baseRequest(path, options, mock);
+}
 const mock = {success:true,data:{items:[{"MaKH": "KH001", "SanPhams": [{"MaSP": "BK01"}, {"MaSP": "BK04"}, {"MaSP": "BK07"}], "NgayCapNhat": "2026-08-31T10:32:55.750Z"}, {"MaKH": "KH002", "SanPhams": [{"MaSP": "BK02"}, {"MaSP": "BK05"}], "NgayCapNhat": "2026-08-31T10:32:55.750Z"}]}};
 
 async function load() {
   const tbody = document.getElementById('tbody');
   try {
-    const result = await request('/admin/favorites', {}, mock);
+    const result = await request('/admin/favorites?search=' + encodeURIComponent(document.getElementById('searchInput').value.trim()) + '&status=' + encodeURIComponent(document.getElementById('statusFilter')?.value || ''));
+    if (!result) return;
     const items = result?.data?.items ?? result?.data ?? [];
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const filtered = q ? items.filter(x => JSON.stringify(x).toLowerCase().includes(q)) : items;
-    tbody.innerHTML = filtered.length ? filtered.map(item => `<tr><td><strong>${esc(item.MaKH)}</strong></td><td>${(item.SanPhams||[]).map(x=>`<span class="badge">${esc(x.MaSP)}</span>`).join(' ')}</td><td>${shortDate(item.NgayCapNhat)}</td></tr>`).join('') :
+    tbody.innerHTML = items.length ? items.map(item => `<tr><td><strong>${esc(item.MaKH)}</strong></td><td>${(item.SanPhams||[]).map(x=>`<span class="badge">${esc(x.MaSP)}</span>`).join(' ')}</td><td>${shortDate(item.NgayCapNhat)}</td></tr>`).join('') :
       `<tr><td colspan="3" class="empty">Không có dữ liệu</td></tr>`;
   } catch (e) {
     tbody.innerHTML = `<tr><td colspan="3" class="empty">Không tải được dữ liệu: ${esc(e.message)}</td></tr>`;
   }
 }
-document.getElementById('searchBtn').addEventListener('click', load);
-document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') load(); });
+
+
 load();
+
+document.addEventListener('admin:reload', load);

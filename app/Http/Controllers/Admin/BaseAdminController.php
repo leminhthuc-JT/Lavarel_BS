@@ -41,7 +41,7 @@ abstract class BaseAdminController extends Controller
     {
         try {
             $data = $request->all();
-            if ($request->hasFile('HinhAnh')) {
+            if (!($this->service instanceof \App\Services\Admin\ProductService) && $request->hasFile('HinhAnh')) {
                 $file = $request->file('HinhAnh');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('assets'), $filename);
@@ -58,7 +58,7 @@ abstract class BaseAdminController extends Controller
     {
         try {
             $data = $request->all();
-            if ($request->hasFile('HinhAnh')) {
+            if (!($this->service instanceof \App\Services\Admin\ProductService) && $request->hasFile('HinhAnh')) {
                 $file = $request->file('HinhAnh');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('assets'), $filename);

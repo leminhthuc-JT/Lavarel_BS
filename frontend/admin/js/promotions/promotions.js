@@ -1,16 +1,14 @@
+import { createListPage } from '../core/list-page.js';
 import {
     mountShell
 } from '../core/shell.js';
 
-import {
-    request
-} from '../core/api.js';
+import { request as baseRequest } from '../core/api.js';
 
 import {
     esc,
     money,
-    shortDate,
-    statusBadge
+    shortDate
 } from '../core/ui.js';
 
 
@@ -21,7 +19,7 @@ import {
 mountShell({
     active: 'promotions',
     title: 'Quản lý khuyến mãi',
-    subtitle: 'Quản lý các chương trình ưu đãi của cửa hàng.'
+    subtitle: ''
 });
 document.querySelector('.hero h1')
     ?.classList.add('promotion-vietnamese-title');
@@ -72,7 +70,7 @@ page.innerHTML = `
             >
 
 
-            <select id="statusFilter">
+            <select id="typeFilter" aria-label="Loại khuyến mãi"><option value="">Tất cả loại</option><option>Tiền</option><option>Phần trăm</option></select><select id="statusFilter">
 
                 <option value="">
                     Tất cả trạng thái
@@ -115,7 +113,7 @@ page.innerHTML = `
                         <th>Đơn tối thiểu</th>
                         <th>Thời gian</th>
                         <th>Số lượng</th>
-                        <th>Trạng thái</th>
+                        <th>Trạng thái</th><th>Thao tác</th>
                     </tr>
 
                 </thead>
@@ -126,7 +124,7 @@ page.innerHTML = `
                     <tr>
 
                         <td
-                            colspan="8"
+                            colspan="9"
                             class="empty"
                         >
                             Đang tải dữ liệu...
@@ -489,6 +487,12 @@ page.innerHTML = `
 `;
 
 
+const listPage = createListPage({label: 'ƯU ĐÃI', reload: loadPromotions, endpoint: '/admin/promotions', filters: [{id: 'typeFilter', param: 'type', label: 'Loại khuyến mãi'}, {id: 'statusFilter', param: 'status', label: 'Trạng thái'}], addId: 'addPromotionBtn'});
+
+function request(path, options = {}, mock = null) {
+  if (!options.method && new URL(path, location.origin).pathname === '/admin/promotions') return listPage.request();
+  return baseRequest(path, options, mock);
+}
 /* =====================================================
    ELEMENTS
 ===================================================== */
@@ -551,7 +555,7 @@ async function loadPromotions() {
         <tr>
 
             <td
-                colspan="8"
+                colspan="9"
                 class="empty"
             >
                 Đang tải dữ liệu...
@@ -580,7 +584,7 @@ async function loadPromotions() {
 
 
     let url =
-        '/admin/promotions?limit=100';
+        '/admin/promotions?limit=10&type=' + encodeURIComponent(document.getElementById('typeFilter').value);
 
 
     if (search) {
@@ -611,6 +615,7 @@ async function loadPromotions() {
             );
 
 
+        if (!result) return;
         const items =
             result?.data?.items
             ?? [];
@@ -633,7 +638,7 @@ async function loadPromotions() {
             <tr>
 
                 <td
-                    colspan="8"
+                    colspan="9"
                     class="empty error-text"
                 >
                     Không tải được dữ liệu
@@ -661,7 +666,7 @@ function renderTable(items) {
             <tr>
 
                 <td
-                    colspan="8"
+                    colspan="9"
                     class="empty"
                 >
                     Chưa có chương trình khuyến mãi
@@ -742,13 +747,21 @@ function renderTable(items) {
 
 
                     <td>
-                        ${
-                            statusBadge(
-                                item.TrangThai
-                            )
-                        }
+                        <select
+                            class="promotion-status-select"
+                            data-code="${esc(item.MaKM)}"
+                            data-previous="${esc(item.TrangThai || '')}"
+                            aria-label="Trạng thái khuyến mãi ${esc(item.MaKM)}"
+                            style="min-width: 170px; padding: 8px 10px; border: 1px solid #ded9cf; border-radius: 12px; background: #fff; color: inherit; font: inherit;"
+                        >
+                            ${!['Đang hoạt động', 'Ngừng hoạt động'].includes(item.TrangThai)
+                                ? '<option value="" selected disabled>Chọn trạng thái</option>' : ''}
+                            <option value="Đang hoạt động" ${item.TrangThai === 'Đang hoạt động' ? 'selected' : ''}>Đang hoạt động</option>
+                            <option value="Ngừng hoạt động" ${item.TrangThai === 'Ngừng hoạt động' ? 'selected' : ''}>Ngừng hoạt động</option>
+                        </select>
                     </td>
 
+                    <td><div class="table-actions"><button class="btn btn-small" data-edit="${esc(item.MaKM)}">Sửa</button><button class="btn btn-small btn-danger" data-delete="${esc(item.MaKM)}">Xóa</button></div></td>
                 </tr>
 
             `
@@ -758,11 +771,52 @@ function renderTable(items) {
 }
 
 
+// Lưu riêng trạng thái, không thay đổi các thông tin khác của khuyến mãi.
+tbody.addEventListener('change', async event => {
+    const select = event.target;
+    if (!select.matches('.promotion-status-select')) return;
+
+    const previous = select.dataset.previous;
+    const status = select.value;
+    if (status === previous) return;
+
+    select.disabled = true;
+    select.setAttribute('aria-busy', 'true');
+    try {
+        const result = await request(
+            `/admin/promotions/${encodeURIComponent(select.dataset.code)}/status`,
+            { method: 'PATCH', headers: { Accept: 'application/json' }, body: JSON.stringify({ TrangThai: status }) }
+        );
+        if (result?.success !== true) {
+            throw new Error(result?.message || 'Không thể cập nhật trạng thái.');
+        }
+        select.dataset.previous = status;
+        select.querySelector('option[value=""]')?.remove();
+        showToast('Cập nhật trạng thái thành công.');
+
+        // Bỏ dòng khỏi bảng khi trạng thái mới không còn khớp bộ lọc.
+        const filter = listPage.getFilter('status');
+        if (filter && filter !== status) await loadPromotions();
+    } catch (error) {
+        select.value = previous;
+        showToast(error.message || 'Không thể cập nhật trạng thái.');
+    } finally {
+        select.disabled = false;
+        select.removeAttribute('aria-busy');
+    }
+});
+
+
 /* =====================================================
    OPEN MODAL
 ===================================================== */
 
+let editingPromotion = null;
 function openModal() {
+    editingPromotion = null;
+    document.getElementById('MaKM').disabled = false;
+    modal.querySelector('h2').textContent = 'Thêm khuyến mãi';
+    saveBtn.textContent = 'Thêm khuyến mãi';
 
     form.reset();
 
@@ -1218,10 +1272,10 @@ form.addEventListener(
 
 
             await request(
-                '/admin/promotions',
+                '/admin/promotions' + (editingPromotion ? '/' + encodeURIComponent(editingPromotion) : ''),
                 {
                     method:
-                        'POST',
+                        editingPromotion ? 'PUT' : 'POST',
 
                     body:
                         JSON.stringify(
@@ -1235,7 +1289,7 @@ form.addEventListener(
 
 
             showToast(
-                'Thêm khuyến mãi thành công.'
+                editingPromotion ? 'Cập nhật khuyến mãi thành công.' : 'Thêm khuyến mãi thành công.'
             );
 
 
@@ -1262,7 +1316,7 @@ form.addEventListener(
 
 
             saveBtn.textContent =
-                'Thêm khuyến mãi';
+                editingPromotion ? 'Lưu khuyến mãi' : 'Thêm khuyến mãi';
 
         }
 
@@ -1370,45 +1424,13 @@ document
     );
 
 
-document
-    .getElementById(
-        'searchBtn'
-    )
-    .addEventListener(
-        'click',
-        loadPromotions
-    );
 
 
-document
-    .getElementById(
-        'statusFilter'
-    )
-    .addEventListener(
-        'change',
-        loadPromotions
-    );
 
 
-document
-    .getElementById(
-        'searchInput'
-    )
-    .addEventListener(
-        'keydown',
-        event => {
 
-            if (
-                event.key ===
-                'Enter'
-            ) {
 
-                loadPromotions();
 
-            }
-
-        }
-    );
 
 
 /* Click ngoài modal */
@@ -1458,3 +1480,26 @@ document.addEventListener(
 ===================================================== */
 
 loadPromotions();
+document.addEventListener('admin:reload', loadPromotions);
+
+tbody.addEventListener('click', async event => {
+    const button = event.target.closest('[data-edit], [data-delete]'); if (!button) return;
+    const code = button.dataset.edit || button.dataset.delete;
+    button.disabled = true;
+    try {
+        if (button.dataset.delete) {
+            if (!confirm('Xóa khuyến mãi ' + code + '?')) return;
+            await request('/admin/promotions/' + encodeURIComponent(code), {method: 'DELETE'});
+            showToast('Đã xóa khuyến mãi.'); await loadPromotions(); return;
+        }
+        const result = await request('/admin/promotions/' + encodeURIComponent(code));
+        openModal(); editingPromotion = code;
+        for (const field of ['MaKM','TenKM','LoaiKM','GiaTri','GiaTriToiDa','DonToiThieu','SoLuong','NgayBatDau','NgayKetThuc','TrangThai','PhamViApDung','MoTa']) {
+            const input = document.getElementById(field);
+            const date = field.startsWith('Ngay') && result.data[field] ? new Date(result.data[field]) : null;
+            input.value = date ? new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16) : (result.data[field] ?? '');
+        }
+        document.getElementById('MaKM').disabled = true;
+        modal.querySelector('h2').textContent = 'Sửa khuyến mãi'; saveBtn.textContent = 'Lưu khuyến mãi'; updateValueUI();
+    } catch (error) { showToast(error.message); } finally { button.disabled = false; }
+});

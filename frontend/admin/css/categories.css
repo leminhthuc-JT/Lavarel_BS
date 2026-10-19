@@ -1,0 +1,15 @@
+.category-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 44px 44px; align-items: center; }
+.category-toolbar input { min-width: 0; width: 100%; height: 44px; }
+.category-toolbar > .btn { height: 44px; }
+.category-filters[hidden] { display: none; }
+.category-filters { align-items: flex-end; }
+.category-filters label { display: flex; flex: 1; min-width: 150px; flex-direction: column; gap: 7px; color: var(--muted); font-size: 13px; }
+.category-filters input { width: 100%; min-width: 0; height: 44px; font-size: 14px; }
+.category-filter-actions { display: flex; gap: 10px; }
+.category-filter-actions .btn { min-height: 44px; }
+@media (max-width: 540px) {
+    .category-toolbar { gap: 8px; }
+    .category-filters label { flex-basis: 100%; min-width: 0; }
+    .category-filter-actions { width: 100%; }
+    .category-filter-actions .btn { flex: 1; }
+}

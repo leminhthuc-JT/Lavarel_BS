@@ -19,10 +19,16 @@ import {
 mountShell({
     active: 'categories',
     title: 'Quản lý danh mục',
-    subtitle: 'Quản lý các nhóm bánh trong collection DanhMucs.'
+    subtitle: ''
 });
 
 
+document.querySelector('.hero p')?.remove();
+for (const filename of ['products.css', 'categories.css']) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet'; stylesheet.href = new URL('../../css/' + filename, import.meta.url).href;
+    document.head.append(stylesheet);
+}
 const page =
     document.getElementById('pageContent');
 
@@ -35,51 +41,17 @@ page.innerHTML = `
 
 <section class="card panel">
 
-    <div class="panel-head">
-
-        <div>
-
-            <div class="panel-eyebrow">
-                DANH MỤC
-            </div>
-
-            <div class="panel-title">
-                Quản lý danh mục
-            </div>
-
-        </div>
-
-
-        <button
-            class="btn btn-primary"
-            id="addCategoryBtn"
-            type="button"
-        >
-            + Thêm mới
-        </button>
-
+    <div class="panel-head"><div class="panel-eyebrow">DANH MỤC</div></div>
+    <div class="toolbar category-toolbar">
+        <input id="searchInput" type="search" placeholder="Tìm theo mã hoặc tên danh mục..." aria-label="Tìm danh mục" title="Nhấn Enter để tìm kiếm">
+        <button class="btn product-icon-button" id="toggleCategoryFilters" type="button" title="Lọc danh mục" aria-label="Lọc danh mục" aria-controls="categoryFilters" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8L3 4Z"/></svg></button>
+        <button class="btn btn-primary product-icon-button" id="addCategoryBtn" type="button" title="Thêm danh mục" aria-label="Thêm danh mục"><span aria-hidden="true">+</span></button>
     </div>
-
-
-    <!-- SEARCH -->
-    <div class="toolbar">
-
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="Tìm theo mã hoặc tên danh mục..."
-        >
-
-        <button
-            class="btn"
-            id="searchBtn"
-            type="button"
-        >
-            Tìm
-        </button>
-
-    </div>
-
+    <form class="toolbar category-filters" id="categoryFilters" hidden>
+        <label for="categoryDateFrom">Ngày tạo từ<input id="categoryDateFrom" type="date" name="created_from"></label>
+        <label for="categoryDateTo">Đến ngày<input id="categoryDateTo" type="date" name="created_to"></label>
+        <div class="category-filter-actions"><button class="btn btn-primary" type="submit">Áp dụng</button><button class="btn" id="resetCategoryFilters" type="button">Đặt lại</button></div>
+    </form>
 
     <!-- TABLE -->
     <div class="table-wrap">
@@ -117,6 +89,7 @@ page.innerHTML = `
         </table>
 
     </div>
+    <nav id="categoryPagination" class="product-pagination" aria-label="Phân trang danh mục"></nav>
 
 </section>
 
@@ -342,6 +315,64 @@ page.innerHTML = `
 `;
 
 
+
+const savedCategoryParams = new URLSearchParams(location.search);
+let categoryPage = Math.max(1, Number(savedCategoryParams.get('page')) || 1);
+let categoryFilterKey = null;
+let categoryLoadSequence = 0;
+let appliedCategoryDates = {created_from: savedCategoryParams.get('created_from') || '', created_to: savedCategoryParams.get('created_to') || ''};
+document.getElementById('searchInput').value = savedCategoryParams.get('search') || '';
+document.getElementById('categoryDateFrom').value = appliedCategoryDates.created_from;
+document.getElementById('categoryDateTo').value = appliedCategoryDates.created_to;
+
+async function requestCategories(path) {
+    const params = new URL(path, location.origin).searchParams;
+    params.delete('limit');
+    for (const [key, value] of Object.entries(appliedCategoryDates)) if (value) params.set(key, value);
+    const key = params.toString();
+    if (categoryFilterKey !== null && key !== categoryFilterKey) categoryPage = 1;
+    categoryFilterKey = key;
+    params.set('page', String(categoryPage)); params.set('limit', '10');
+    const sequence = ++categoryLoadSequence;
+    const result = await request('/admin/categories?' + params, {method: 'GET'});
+    if (sequence !== categoryLoadSequence) return null;
+    const pagination = result.data.pagination;
+    categoryPage = pagination.page; params.set('page', String(categoryPage));
+    history.replaceState(null, '', `${location.pathname}?${params}`);
+    const pages = Math.max(1, pagination.totalPages);
+    const button = (number, label, title, disabled = false, current = false) => `<button type="button" class="btn${current ? ' is-current' : ''}" data-category-page="${number}" title="${title}" aria-label="${title}" ${disabled ? 'disabled' : ''} ${current ? 'aria-current="page"' : ''}>${label}</button>`;
+    document.getElementById('categoryPagination').innerHTML = button(categoryPage - 1, '‹', 'Trang trước', categoryPage <= 1)
+        + Array.from({length: pages}, (_, i) => button(i + 1, i + 1, `Trang ${i + 1}`, false, i + 1 === categoryPage)).join('')
+        + button(categoryPage + 1, '›', 'Trang sau', categoryPage >= pages);
+    return result;
+}
+document.getElementById('toggleCategoryFilters').addEventListener('click', event => {
+    const filters = document.getElementById('categoryFilters'); filters.hidden = !filters.hidden;
+    event.currentTarget.setAttribute('aria-expanded', String(!filters.hidden));
+});
+document.getElementById('categoryFilters').addEventListener('submit', event => {
+    event.preventDefault();
+    const from = document.getElementById('categoryDateFrom'), to = document.getElementById('categoryDateTo');
+    to.setCustomValidity(from.value && to.value && to.value < from.value ? 'Ngày kết thúc phải từ ngày bắt đầu trở đi.' : '');
+    if (!to.reportValidity()) return;
+    appliedCategoryDates = {created_from: from.value, created_to: to.value}; loadCategories();
+});
+document.getElementById('categoryDateTo').addEventListener('input', event => event.target.setCustomValidity(''));
+document.getElementById('categoryDateFrom').addEventListener('input', () => document.getElementById('categoryDateTo').setCustomValidity(''));
+document.getElementById('resetCategoryFilters').addEventListener('click', () => {
+    document.getElementById('categoryFilters').reset(); document.getElementById('categoryDateTo').setCustomValidity('');
+    appliedCategoryDates = {created_from: '', created_to: ''}; categoryPage = 1; loadCategories();
+});
+document.getElementById('categoryPagination').addEventListener('click', event => {
+    const button = event.target.closest('[data-category-page]');
+    if (!button || button.disabled || button.hasAttribute('aria-current')) return;
+    categoryPage = Number(button.dataset.categoryPage); loadCategories();
+});
+let categorySearchTimer;
+document.getElementById('searchInput').addEventListener('input', () => {
+    clearTimeout(categorySearchTimer); categorySearchTimer = setTimeout(loadCategories, 300);
+});
+
 /* =====================================================
    ELEMENTS
 ===================================================== */
@@ -412,7 +443,7 @@ async function loadCategories() {
 
 
     let url =
-        '/admin/categories?limit=100';
+        '/admin/categories?limit=10';
 
 
     if (search) {
@@ -430,11 +461,10 @@ async function loadCategories() {
     try {
 
         const result =
-            await request(
-                url
-            );
+            await requestCategories(url);
 
 
+        if (!result) return;
         const items =
             result?.data?.items
             ?? [];
@@ -1297,14 +1327,7 @@ document
     );
 
 
-document
-    .getElementById(
-        'searchBtn'
-    )
-    .addEventListener(
-        'click',
-        loadCategories
-    );
+
 
 
 document
@@ -1389,3 +1412,4 @@ document.addEventListener(
 ===================================================== */
 
 loadCategories();
+document.addEventListener('admin:reload', loadCategories);

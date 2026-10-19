@@ -21,22 +21,24 @@ async function loadAccountDetails() {
         return;
     }
 
-    currentUserData = {
-        MaKH: user.id || user._id || 'KH1001',
-        HoTen: user.fullName || user.HoTen || 'Khách Hàng Little Prince',
-        Email: user.email || user.Email || 'khachhang@example.com',
-        SDT: user.phone || user.SDT || '0987654321',
-        NgaySinh: user.dob || user.NgaySinh || '2000-01-01',
-        GioiTinh: user.gender || user.GioiTinh || 'Nam',
-        DiaChi: user.address || user.DiaChi || '140 Lê Trọng Tấn, Tân Phú, TP. Hồ Chí Minh',
-        NgayDangKy: user.createdAt || user.NgayDangKy || '2026-01-01',
-        TrangThai: user.status || user.TrangThai || 'Hoạt động'
-    };
+    try {
+        const response = await fetch('/api/account', {headers: {'Accept': 'application/json'}});
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Không tải được tài khoản.');
+        currentUserData = {HoTen: '', Email: '', SDT: '', NgaySinh: '', GioiTinh: '', DiaChi: '', TrangThai: '', ...result.data};
+        currentUserData.Email = result.data.TaiKhoan?.Email || result.data.Email || '';
+        currentUserData.MaKH = currentUserData.MaKH || currentUserData.MaNV || '';
+        currentUserData.NgaySinh = (currentUserData.NgaySinh || '').slice(0, 10);
+    } catch (error) {
+        card.textContent = error.message;
+        return;
+    }
 
     renderAccountCard(currentUserData);
 }
 
 function renderAccountCard(data) {
+    data = Object.fromEntries(Object.entries(data).map(([key, value]) => [key, String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]))]));
     const card = document.getElementById('accountCard');
     const initial = data.HoTen ? data.HoTen.charAt(0).toUpperCase() : 'L';
 
@@ -128,26 +130,28 @@ function closeEditModal() {
     document.getElementById('editProfileModal').style.display = 'none';
 }
 
-document.getElementById('editProfileForm').onsubmit = (e) => {
+document.getElementById('editProfileForm').onsubmit = async (e) => {
     e.preventDefault();
     if (!currentUserData) return;
 
-    currentUserData.HoTen = document.getElementById('editFullName').value.trim();
-    currentUserData.SDT = document.getElementById('editPhone').value.trim();
-    currentUserData.NgaySinh = document.getElementById('editDob').value;
-    currentUserData.GioiTinh = document.getElementById('editGender').value;
-    currentUserData.DiaChi = document.getElementById('editAddress').value.trim();
+    const data = {
+        HoTen: document.getElementById('editFullName').value.trim(),
+        SDT: document.getElementById('editPhone').value.trim(),
+        NgaySinh: document.getElementById('editDob').value || null,
+        GioiTinh: document.getElementById('editGender').value,
+        DiaChi: document.getElementById('editAddress').value.trim()
+    };
+    try {
+        const response = await fetch('/api/account', {method: 'PUT', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(data)});
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Không thể cập nhật.');
+        const user = getCurrentUser() || {};
+        setCurrentUser({...user, fullName: data.HoTen, SDT: data.SDT, DiaChi: data.DiaChi});
+        await loadAccountDetails();
+        closeEditModal();
+        showToast('Cập nhật thông tin tài khoản thành công!', 'success');
+    } catch (error) { showToast(error.message, 'error'); }
 
-    // Update session storage
-    let user = getCurrentUser() || {};
-    user.fullName = currentUserData.HoTen;
-    user.phone = currentUserData.SDT;
-    user.address = currentUserData.DiaChi;
-    setCurrentUser(user);
-
-    renderAccountCard(currentUserData);
-    closeEditModal();
-    showToast('Cập nhật thông tin tài khoản thành công!', 'success');
 };
 
 // Password Modal Functions
@@ -166,24 +170,21 @@ document.getElementById('changePasswordForm').onsubmit = async (e) => {
 
     const oldPass = document
         .getElementById('oldPassword')
-        .value
-        .trim();
+        .value;
 
     const newPass = document
         .getElementById('newPassword')
-        .value
-        .trim();
+        .value;
 
     const confirmPass = document
         .getElementById('confirmNewPassword')
-        .value
-        .trim();
+        .value;
 
     // ==============================
     // VALIDATE FRONTEND
     // ==============================
 
-    // Không bắt buộc mật khẩu hiện tại
+    if (!oldPass || !newPass) { showToast('Vui lòng nhập mật khẩu hiện tại và mật khẩu mới.', 'error'); return; }
     if (newPass && newPass.length < 6) {
         showToast(
             'Mật khẩu mới phải có ít nhất 6 ký tự.',
@@ -303,4 +304,3 @@ document.getElementById('changePasswordForm').onsubmit = async (e) => {
         );
     }
 };
-
