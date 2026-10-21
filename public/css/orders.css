@@ -483,3 +483,6 @@
     font-size: 11px;
     color: var(--text-muted);
 }
+.view-rating-item-card .view-rating-reply { margin-top: 10px; padding: 12px; border-left: 3px solid var(--sage); border-radius: 8px; background: var(--sage-soft); color: var(--text-main); }
+.view-rating-reply p { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.view-rating-reply time { font-size: 12px; color: var(--text-muted); }

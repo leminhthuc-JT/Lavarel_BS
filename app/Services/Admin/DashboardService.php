@@ -254,231 +254,108 @@ final class DashboardService
        REVENUE CHART
     ========================== */
 
-    public function revenue(
-        string $type,
-        ?string $from = null,
-        ?string $to = null
-    ): array {
-
-        [$start, $end, $format] =
-            $this->resolveRange(
-                $type,
-                $from,
-                $to
-            );
-
-
-        $pipeline = [
-
-            [
-                '$match' => [
-
-                    'NgayDat' => [
-
-                        '$gte' =>
-                        new UTCDateTime(
-                            $start
-                                ->getTimestamp()
-                                * 1000
-                        ),
-
-                        '$lte' =>
-                        new UTCDateTime(
-                            $end
-                                ->getTimestamp()
-                                * 1000
-                        )
-
-                    ],
-
-                    'TrangThaiDonHang' => [
-                        '$ne' => 'Đã hủy'
-                    ]
-
-                ]
-            ],
-
-            [
-                '$group' => [
-
-                    '_id' => [
-
-                        '$dateToString' => [
-
-                            'format' =>
-                            $format,
-
-                            'date' =>
-                            '$NgayDat',
-
-                            'timezone' =>
-                            'Asia/Ho_Chi_Minh'
-
-                        ]
-
-                    ],
-
-                    'value' => [
-
-                        '$sum' =>
-                        '$TongThanhToan'
-
-                    ]
-
-                ]
-            ],
-
-            [
-                '$sort' => [
-                    '_id' => 1
-                ]
-            ]
-
-        ];
-
-
-        $results =
-            $this->db
-            ->selectCollection('DonHangs')
-            ->aggregate(
-                $pipeline
-            )
-            ->toArray();
-
-
-        $items = [];
-
-
-        foreach (
-            $results
-            as $item
-        ) {
-
-            $items[] = [
-
-                'label' =>
-                $item['_id'],
-
-                'value' =>
-                $item['value']
-
-            ];
+    public function revenue(string $type, ?string $from = null, ?string $to = null): array
+    {
+        [$start, $end, $unit] = $this->resolveRange($type, $from, $to);
+        $formats = ['day' => '%Y-%m-%d', 'month' => '%Y-%m', 'year' => '%Y'];
+        // Legacy orders use the placement date only when no explicit recognition/payment date exists.
+        $date = ['$ifNull' => [
+            $this->revenueDate('$NgayGhiNhanDoanhThu'),
+            ['$ifNull' => [$this->revenueDate('$NgayThanhToan'), $this->revenueDate('$NgayDat')]],
+        ]];
+        $results = $this->db->selectCollection('DonHangs')->aggregate([
+            ['$match' => [
+                'TrangThaiThanhToan' => 'Đã thanh toán',
+                'TrangThaiDonHang' => ['$nin' => ['Đã hủy', 'Đã huỷ']],
+            ]],
+            ['$set' => ['_revenueDate' => $date]],
+            ['$facet' => [
+                'buckets' => [
+                    ['$match' => ['_revenueDate' => [
+                        '$gte' => new UTCDateTime($start), '$lt' => new UTCDateTime($end->addDay()),
+                    ]]],
+                    ['$group' => [
+                        '_id' => ['$dateToString' => ['format' => $formats[$unit], 'date' => '$_revenueDate', 'timezone' => 'Asia/Ho_Chi_Minh']],
+                        'value' => ['$sum' => ['$convert' => ['input' => '$TongThanhToan', 'to' => 'decimal', 'onError' => 0, 'onNull' => 0]]],
+                        'orders' => ['$sum' => 1],
+                    ]],
+                ],
+                'missingDates' => [
+                    ['$match' => ['_revenueDate' => null]], ['$count' => 'count'],
+                ],
+            ]],
+        ])->toArray();
+        $buckets = [];
+        $orderCount = 0;
+        foreach ($results[0]['buckets'] ?? [] as $bucket) {
+            $buckets[(string) $bucket['_id']] = (float) (string) $bucket['value'];
+            $orderCount += (int) $bucket['orders'];
         }
-
-
-        return $items;
+        $items = [];
+        $cursor = match ($unit) {
+            'month' => $start->startOfMonth(), 'year' => $start->startOfYear(), default => $start,
+        };
+        while ($cursor <= $end) {
+            $key = $cursor->format(match ($unit) { 'month' => 'Y-m', 'year' => 'Y', default => 'Y-m-d' });
+            $title = $cursor->format(match ($unit) { 'month' => 'm/Y', 'year' => 'Y', default => 'd/m/Y' });
+            $items[] = ['label' => $unit === 'day' && $start->year === $end->year ? $cursor->format('d/m') : $title,
+                'title' => $title, 'value' => $buckets[$key] ?? 0];
+            $cursor = match ($unit) { 'month' => $cursor->addMonth(), 'year' => $cursor->addYear(), default => $cursor->addDay() };
+        }
+        return ['items' => $items, 'total' => array_sum(array_column($items, 'value')),
+            'from' => $start->format('Y-m-d'), 'to' => $end->format('Y-m-d'),
+            'granularity' => $unit, 'timezone' => 'Asia/Ho_Chi_Minh', 'orderCount' => $orderCount,
+            'missingDateCount' => (int) ($results[0]['missingDates'][0]['count'] ?? 0)];
     }
 
+    private function revenueDate(string $field): array
+    {
+        // Date-only/naive legacy strings are local dates; strings with offsets retain their timezone.
+        return ['$switch' => ['branches' => [
+            ['case' => ['$eq' => [['$type' => $field], 'date']], 'then' => $field],
+            ['case' => ['$eq' => [['$type' => $field], 'string']], 'then' => [
+                '$cond' => [
+                    ['$regexMatch' => ['input' => $field, 'regex' => '(Z|[+-][0-9]{2}:?[0-9]{2})$', 'options' => 'i']],
+                    ['$convert' => ['input' => $field, 'to' => 'date', 'onError' => null, 'onNull' => null]],
+                    ['$dateFromString' => ['dateString' => $field, 'timezone' => 'Asia/Ho_Chi_Minh', 'onError' => null, 'onNull' => null]],
+                ],
+            ]],
+        ], 'default' => null]];
+    }
 
-
-    private function resolveRange(
-        string $type,
-        ?string $from,
-        ?string $to
-    ): array {
-
+    private function resolveRange(string $type, ?string $from, ?string $to): array
+    {
+        $today = \Carbon\CarbonImmutable::now('Asia/Ho_Chi_Minh')->startOfDay();
+        $unit = 'day';
         switch ($type) {
-
-            case 'month':
-
-                $start =
-                    new \DateTime(
-                        'first day of January this year 00:00:00'
-                    );
-
-                $end =
-                    new \DateTime(
-                        'last day of December this year 23:59:59'
-                    );
-
-                $format =
-                    '%m/%Y';
-
+            case '7days':
+                $start = $today->subDays(6); $end = $today;
                 break;
-
-
-
-            case 'year':
-
-                $start =
-                    new \DateTime(
-                        '-4 years January 1 00:00:00'
-                    );
-
-                $end =
-                    new \DateTime(
-                        'December 31 this year 23:59:59'
-                    );
-
-                $format =
-                    '%Y';
-
+            case '1month':
+                $start = $today->subMonthNoOverflow()->addDay(); $end = $today;
                 break;
-
-
-
+            case '6months':
+                $start = $today->startOfMonth()->subMonths(5); $end = $today; $unit = 'month';
+                break;
             case 'custom':
-
-                if (
-                    !$from ||
-                    !$to
-                ) {
-
-                    throw new
-                        \InvalidArgumentException(
-                            'Thiếu khoảng thời gian'
-                        );
+                foreach ([$from, $to] as $date) {
+                    if (!$date || !preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/D', $date, $parts)
+                        || !checkdate((int) $parts[2], (int) $parts[3], (int) $parts[1])) {
+                        throw new \InvalidArgumentException('Vui lòng chọn ngày hợp lệ (YYYY-MM-DD).');
+                    }
                 }
-
-
-                $start =
-                    new \DateTime(
-                        $from . ' 00:00:00'
-                    );
-
-                $end =
-                    new \DateTime(
-                        $to . ' 23:59:59'
-                    );
-
-
-                /*
-                Khoảng custom:
-                mặc định group theo ngày
-                */
-
-                $format =
-                    '%d/%m';
-
+                $start = \Carbon\CarbonImmutable::parse($from, 'Asia/Ho_Chi_Minh')->startOfDay();
+                $end = \Carbon\CarbonImmutable::parse($to, 'Asia/Ho_Chi_Minh')->startOfDay();
+                if ($start > $end) {
+                    throw new \InvalidArgumentException('Ngày bắt đầu không được lớn hơn ngày kết thúc.');
+                }
+                if ($start->diffInDays($end) > 92) {
+                    $unit = $start->diffInMonths($end) > 119 ? 'year' : 'month';
+                }
                 break;
-
-
-
-            case 'day':
-
             default:
-
-                $start =
-                    new \DateTime(
-                        '-13 days 00:00:00'
-                    );
-
-                $end =
-                    new \DateTime(
-                        'today 23:59:59'
-                    );
-
-                $format =
-                    '%d/%m';
-
-                break;
+                throw new \InvalidArgumentException('Bộ lọc thời gian không hợp lệ.');
         }
-
-
-        return [
-            $start,
-            $end,
-            $format
-        ];
+        return [$start, $end, $unit];
     }
 }

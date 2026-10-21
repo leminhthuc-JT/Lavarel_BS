@@ -1,0 +1,18 @@
+.customers-table td { vertical-align: middle; }
+.customers-table .table-actions { flex-wrap: nowrap; gap: 6px; }
+.customers-table .customer-action-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; min-width: 34px; height: 34px; padding: 0; border-radius: 8px; background: var(--sage-soft); color: var(--sage-deep); }
+.customers-table .customer-action-icon.btn-danger { color: #893E35; }
+.customers-table .customer-action-icon:hover:not(:disabled) { background: var(--sage); }
+.customers-table .customer-action-icon:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+.customers-table .customer-status .badge { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; border-radius: 999px; padding: 6px 10px; line-height: 1.2; }
+.customers-table .customer-status .badge::before { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: currentColor; }
+.customers-table .customer-status.is-active .badge { background: #EAF4EC; color: #326647; }
+.customers-table .customer-status.is-locked .badge { background: var(--sage-soft); color: #893E35; }
+#customerModal [hidden], #customerResetDialog [hidden] { display: none; }
+#customerModal .customer-security .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+.customer-reset-dialog { width: min(480px, calc(100vw - 32px)); max-height: 88vh; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; background: var(--paper); color: var(--charcoal); box-shadow: var(--shadow); }
+.customer-reset-dialog::backdrop { background: rgba(var(--text-rgb), .4); }
+.customer-reset-dialog h2 { margin-top: 0; }
+.customer-reset-dialog p { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+#customerResetError { color: #893E35; }
+#customerTemporaryPassword { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--sage-soft); color: var(--charcoal); font: inherit; }

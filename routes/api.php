@@ -88,6 +88,9 @@ Route::prefix('admin')->middleware(\App\Http\Middleware\EnsureAccount::class . '
     Route::get('/dashboard/revenue', [AdminDashboardController::class, 'apiRevenue']);
 
     Route::post('/products/{code}', [AdminProductController::class, 'apiUpdateWithUpload']);
+    Route::post('/customers/{code}/reset-password', [AdminCustomerController::class, 'resetPassword']);
+    Route::post('/employees/{code}/reset-password', [AdminEmployeeController::class, 'resetPassword']);
+    Route::patch('/employees/{code}/account-lock', [AdminEmployeeController::class, 'updateAccountLock']);
 
     Route::patch('/promotions/{code}/status', [AdminPromotionController::class, 'apiUpdateStatus']);
 

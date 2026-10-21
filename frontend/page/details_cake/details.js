@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    THE LITTLE PRINCE — PRODUCT DETAILS
 ========================================================= */
 
@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    const maSP = urlParams.get('MaSP') || 'BK01';
+    const pathCode = window.location.pathname.match(/^\/details\/([^/]+)\/?$/)?.[1];
+    const maSP = (pathCode ? decodeURIComponent(pathCode) : '') || urlParams.get('MaSP') || '';
 
     await loadProductDetail(maSP);
 
@@ -56,71 +57,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 ========================================================= */
 
 async function loadProductDetail(maSP) {
-
     try {
-
-        let product = null;
-
-
-        /* ---- Thử lấy sản phẩm theo MaSP ---- */
-
-        try {
-
-            product = await fetchApi(`/products/${maSP}`);
-
-        } catch (e) {
-
-            console.warn(
-                'Không lấy được sản phẩm theo MaSP, thử lấy toàn bộ sản phẩm.'
-            );
-
-            const all = await fetchApi('/products');
-
-            product = all.find(
-                p => (p.MaSP || p._id) === maSP
-            ) || null;
-
-        }
-
-
-        /* ---- Fallback sample ---- */
-
-        if (!product) {
-
-            product = getSampleProduct(maSP);
-
-        }
-
-
+        if (!maSP) throw new Error('Thiếu mã sản phẩm.');
+        const product = await fetchApi(`/products/${encodeURIComponent(maSP)}`, {cache: 'no-store'});
+        if (!product || product.MaSP !== maSP) throw new Error('Sản phẩm trả về không khớp mã yêu cầu.');
         currentProduct = product;
-
         renderDetailsUI(product);
-
         renderProductReviews(product);
-
-        loadRelatedProducts(
-            product.MaDM || product.category_code || 'DM01',
-            maSP
-        );
-
-
-    } catch (err) {
-
-        console.error(
-            'Lỗi khi tải chi tiết sản phẩm:',
-            err
-        );
-
-        const sample = getSampleProduct(maSP);
-
-        currentProduct = sample;
-
-        renderDetailsUI(sample);
-
-        renderProductReviews(sample);
-
+        loadRelatedProducts(product.MaDM || product.category_code || 'DM01', maSP);
+    } catch (error) {
+        currentProduct = null;
+        reviewState.reviews = [];
+        const details = document.getElementById('detailsContainer');
+        const reviews = document.getElementById('productReviews');
+        if (details) details.textContent = 'Không tải được sản phẩm. Vui lòng tải lại trang.';
+        if (reviews) reviews.textContent = 'Không tải được đánh giá của sản phẩm này.';
     }
-
 }
 
 
@@ -627,7 +579,7 @@ function handleBuyNow() {
             currentQuantity
         );
         if (ok) {
-            window.location.href = '../cart/cart.html';
+            window.location.href = '/cart';
         }
     }
 
@@ -695,7 +647,7 @@ async function loadRelatedProducts(
                             class="product-card"
                             onclick="
                                 window.location.href =
-                                'details.html?MaSP=${pMaSP}'
+                                '/details?MaSP=${pMaSP}'
                             "
                             style="cursor:pointer;"
                         >
@@ -1458,7 +1410,7 @@ function fetchCustomerName(maKH) {
             /* Một số API trả về mảng hoặc { data: ... } */
 
             if (Array.isArray(data)) {
-                data = data.find(c => c.MaKH === maKH) || data[0];
+                data = data.find(c => c.MaKH === maKH);
             } else if (data && data.data) {
                 data = data.data;
             }
@@ -1554,15 +1506,10 @@ function createReviewHTML(review) {
 
     /* ---- Staff reply ---- */
 
-    if (
-        review.TraLoi &&
-        (
-            review.TraLoi.BinhLuan ||
-            review.TraLoi.MaNV
-        )
-    ) {
+    if (typeof review.TraLoi?.BinhLuan === 'string' && review.TraLoi.BinhLuan.trim()) {
 
-        const replyDate = formatReviewDate(review.TraLoi.NgayDang);
+        const replyTime = getTimeValue(review.TraLoi.NgayDang);
+        const replyDate = replyTime ? new Date(replyTime).toLocaleString('vi-VN') : '';
 
         replyHTML = `
 
@@ -1572,7 +1519,7 @@ function createReviewHTML(review) {
 
                     <div class="review-reply-author">
                         <i class="fa-solid fa-store"></i>
-                        <span>The Little Prince</span>
+                        <span>Phản hồi từ cửa hàng</span>
                     </div>
 
                     ${

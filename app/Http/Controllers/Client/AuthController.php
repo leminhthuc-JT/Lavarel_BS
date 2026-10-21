@@ -21,6 +21,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $request->session()->put('review_user', [
             'id' => $user['id'] ?? '', 'email' => $user['email'] ?? '',
+            'password_version' => (int) ($user['sessionVersion'] ?? 0),
         ]);
     }
 
@@ -149,6 +150,7 @@ class AuthController extends Controller
             $confirmPassword = (string) ($request->input('confirmPassword') ?? '');
 
             $result = $this->authService->changePassword($email, $currentPassword, $newPassword, $confirmPassword);
+            $this->rememberReviewUser($request, ['id' => (string) $account['_id'], 'email' => $email, 'sessionVersion' => (int) ($account['TaiKhoan']['SessionVersion'] ?? 0) + 1]);
             return response()->json(['success' => true, 'message' => $result['message'] ?? 'Đổi mật khẩu thành công.']);
         } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);

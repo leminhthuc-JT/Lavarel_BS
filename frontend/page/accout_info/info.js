@@ -7,7 +7,7 @@ let currentUserData = null;
 
 async function loadAccountDetails() {
     const card = document.getElementById('accountCard');
-    const user = getCurrentUser();
+    const user = getCurrentUser() || (document.getElementById('headerAvatarBtn')?.dataset.accountRole ? {} : null);
 
     if (!user) {
         card.innerHTML = `
@@ -15,7 +15,7 @@ async function loadAccountDetails() {
                 <div class="empty-state-icon"><i class="fa-regular fa-user"></i></div>
                 <h3>Bạn chưa đăng nhập tài khoản</h3>
                 <p>Vui lòng đăng nhập để xem và quản lý thông tin cá nhân của bạn.</p>
-                <a href="../auth/login.html" class="btn btn-primary">Đăng nhập ngay <span>→</span></a>
+                <a href="/login" class="btn btn-primary">Đăng nhập ngay <span>→</span></a>
             </div>
         `;
         return;
@@ -35,6 +35,11 @@ async function loadAccountDetails() {
     }
 
     renderAccountCard(currentUserData);
+    if (new URLSearchParams(location.search).has('change-password')) openPasswordModal();
+    if (currentUserData.TaiKhoan?.MustChangePassword) {
+        openPasswordModal();
+        showToast('Vui lòng dùng mật khẩu tạm để đổi sang mật khẩu mới trước khi tiếp tục.', 'error');
+    }
 }
 
 function renderAccountCard(data) {
@@ -107,7 +112,7 @@ function renderAccountCard(data) {
             <div class="actions-row">
                 <button class="btn btn-primary" onclick="openEditModal()"><i class="fa-solid fa-pen"></i>Chỉnh sửa thông tin</button>
                 <button class="btn btn-outline" onclick="openPasswordModal()"><i class="fa-solid fa-lock"></i>Đổi mật khẩu</button>
-                <a href="../orders/orders.html" class="btn btn-outline"><i class="fa-solid fa-clock-rotate-left"></i>Xem lịch sử đơn hàng</a>
+                <a href="/orders" class="btn btn-outline"><i class="fa-solid fa-clock-rotate-left"></i>Xem lịch sử đơn hàng</a>
             </div>
             <button class="btn btn-dark actions-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</button>
         </div>
@@ -283,6 +288,7 @@ document.getElementById('changePasswordForm').onsubmit = async (e) => {
             .getElementById('changePasswordForm')
             .reset();
 
+        if (currentUserData?.TaiKhoan) currentUserData.TaiKhoan.MustChangePassword = false;
         closePasswordModal();
 
         showToast(

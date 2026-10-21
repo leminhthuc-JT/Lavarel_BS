@@ -123,7 +123,7 @@ async function loadCustomerOrders() {
     const maKH  = user ? (user.MaKH || user.id || user._id || user.email) : 'guest';
 
     try {
-        const apiOrders = await fetchApi(`/orders/my-orders?maKH=${encodeURIComponent(maKH)}`);
+        const apiOrders = await fetchApi(`/orders/my-orders?maKH=${encodeURIComponent(maKH)}`, {cache: 'no-store'});
         customerOrders = Array.isArray(apiOrders) && apiOrders.length > 0
             ? apiOrders
             : getLocalOrders(maKH);
@@ -594,7 +594,8 @@ async function doSubmitAllRatings(reviewsList, submitBtn) {
         });
 
         /* Cập nhật local data đơn hàng */
-        const savedRatings = result?.data?.DanhGia || reviewsList;
+        const savedRatings = result?.DanhGia;
+        if (!Array.isArray(savedRatings)) throw new Error('Server chưa trả về đánh giá đã lưu. Vui lòng tải lại trang.');
         order.DanhGia = savedRatings;
         customerOrders[currentOrderIdx] = order;
 
@@ -705,6 +706,7 @@ function buildViewRatingHTML(danhGiaData) {
                           `
                 }
 
+                ${item.TraLoi?.BinhLuan?.trim() ? `<div class="view-rating-reply"><strong>Phản hồi từ cửa hàng</strong><p>${escapeHTML(item.TraLoi.BinhLuan)}</p>${item.TraLoi.NgayDang ? `<time>${escapeHTML(new Date(item.TraLoi.NgayDang).toLocaleString('vi-VN'))}</time>` : ''}</div>` : ''}
                 ${
                     dateStr
                         ? `<span class="view-rating-date">
@@ -748,5 +750,3 @@ function showOrderToast(msg, isError = false) {
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3200);
 }
-
-

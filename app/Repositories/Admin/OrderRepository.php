@@ -18,6 +18,15 @@ final class OrderRepository extends BaseRepository
         return 'MaDH';
     }
 
+    public function updateStatusIfCurrent(mixed $order, array $changes): bool
+    {
+        $filter = ['_id' => $order['_id']];
+        foreach (['TrangThaiDonHang', 'TrangThaiThanhToan', 'NgayCapNhat', 'GhiChu'] as $field) {
+            $filter[$field] = $order[$field] ?? null;
+        }
+        return $this->collection->updateOne($filter, ['$set' => $changes])->getModifiedCount() === 1;
+    }
+
     public function filterOptions(): array
     {
         $options = [];

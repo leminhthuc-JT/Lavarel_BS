@@ -32,7 +32,7 @@ export function mountShell({
                         >
                     </div>
 
-                    <div class="profile">
+                    <button type="button" class="profile account-menu-trigger" id="adminProfileTrigger" aria-label="Menu tài khoản Admin">
 
                         <div class="avatar">
                             A
@@ -48,7 +48,8 @@ export function mountShell({
                             </div>
                         </div>
 
-                    </div>
+                        <svg class="account-menu-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                    </button>
 
                 </header>
 
@@ -106,4 +107,5 @@ export function mountShell({
     `;
 
     initSidebar();
+    window.PatisserieAccountMenu?.(document.getElementById('adminProfileTrigger'), true);
 }

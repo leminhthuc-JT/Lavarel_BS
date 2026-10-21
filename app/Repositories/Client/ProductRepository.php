@@ -18,6 +18,16 @@ final class ProductRepository extends BaseRepository
         return 'MaSP';
     }
 
+    public function reviewCustomerNames(array $codes): array
+    {
+        if (!$codes) return [];
+        $customers = \Illuminate\Support\Facades\DB::connection('mongodb')->getMongoDB()->selectCollection('KhachHangs')
+            ->find(['MaKH' => ['$in' => $codes]], ['projection' => ['MaKH' => 1, 'HoTen' => 1]]);
+        $names = [];
+        foreach ($customers as $customer) $names[$customer['MaKH']] = $customer['HoTen'] ?? '';
+        return $names;
+    }
+
     public function updateReviewLikes(string $code, string $reviewId, array $values): void
     {
         $ids = [$reviewId];
@@ -37,7 +47,7 @@ final class ProductRepository extends BaseRepository
     public function pushReview(string $maSP, array $review)
     {
         return $this->collection->updateOne(
-            ['MaSP' => $maSP],
+            ['MaSP' => $maSP, 'DanhGia' => ['$not' => ['$elemMatch' => ['MaDH' => $review['MaDH'], 'MaKH' => $review['MaKH']]]]],
             ['$push' => ['DanhGia' => $review]]
         );
     }

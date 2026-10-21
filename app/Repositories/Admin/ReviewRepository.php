@@ -56,17 +56,31 @@ final class ReviewRepository extends BaseRepository
         ];
     }
 
-    public function saveReply(string $code, string $reviewId, array $reply): void
+    public function saveReply(string $code, string $reviewId, array $reply, ?string $customer = null): void
     {
+        $product = $this->findByCode($code);
+        if (!$product) throw new \OutOfBoundsException('Không tìm thấy sản phẩm.');
         $ids = [$reviewId];
         if (preg_match('/^[a-f0-9]{24}$/i', $reviewId)) $ids[] = new ObjectId($reviewId);
-        // Cập nhật riêng phản hồi, không ghi đè cả mảng đánh giá.
-        $result = $this->collection->updateOne(
-            ['MaSP' => $code, 'DanhGia._id' => ['$in' => $ids]],
-            ['$set' => ['DanhGia.$.TraLoi' => $reply]]
-        );
-        if ($result->getMatchedCount() === 0) {
-            throw new \OutOfBoundsException('Không tìm thấy bình luận của sản phẩm này.');
+        $matches = [];
+        foreach ($product['DanhGia'] ?? [] as $review) {
+            foreach ($ids as $id) {
+                if (get_debug_type($review['_id'] ?? null) === get_debug_type($id) && (string) $review['_id'] === (string) $id) {
+                    $matches[] = $review; break;
+                }
+            }
         }
+        if (!$matches) throw new \OutOfBoundsException('Không tìm thấy bình luận của sản phẩm này.');
+        if (count($matches) !== 1) throw new \LogicException('Mã đánh giá bị trùng trong sản phẩm; cần kiểm tra dữ liệu gốc.');
+        $review = $matches[0];
+        if (empty($review['MaKH']) || ($customer !== null && $review['MaKH'] !== $customer)
+            || (isset($review['MaSP']) && $review['MaSP'] !== $code)) {
+            throw new \InvalidArgumentException('Đánh giá không khớp sản phẩm hoặc khách hàng.');
+        }
+        $result = $this->collection->updateOne([
+            '_id' => $product['_id'], 'MaSP' => $code,
+            'DanhGia' => ['$elemMatch' => ['_id' => $review['_id'], 'MaKH' => $review['MaKH']]],
+        ], ['$set' => ['DanhGia.$.TraLoi' => $reply]]);
+        if ($result->getMatchedCount() === 0) throw new \OutOfBoundsException('Đánh giá vừa thay đổi. Vui lòng tải lại.');
     }
 }

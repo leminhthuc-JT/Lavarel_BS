@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/account-menu.css') }}">
     @yield('styles')
 </head>
 <body>
+<script src="{{ asset('js/account-menu.js') }}"></script>
 
 @include('components.header')
 

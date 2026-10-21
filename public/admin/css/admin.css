@@ -3,31 +3,32 @@
 ================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap&subset=vietnamese');
 :root {
-    --sage: #B1B89A;
-    --sage-dark: #53614A;
-    --sage-deep: #414D3A;
-    --sage-soft: #E6E9DA;
+    --sage: #E6B8C2;
+    --sage-dark: #9C5667;
+    --sage-deep: #824555;
+    --sage-soft: #F8E5E9;
 
-    --cream: #FAF5E9;
-    --paper: #FFFEFA;
+    --cream: #FFF6F1;
+    --paper: #FFFEFC;
 
     --charcoal: #382D28;
     --muted: #70665D;
 
-    --border: #DED8C9;
+    --border: #EBDDE0;
 
-    --success: #53614A;
+    --success: #326647;
+    --success-soft: #E3F0E6;
     --warning: #C99753;
     --danger: #B66A5E;
-    --accent: #B88B68;
-    --accent-ink: #8A6144;
-    --surface-muted: #EEE9DD;
-    --border-soft: #EBE4D7;
-    --primary-rgb: 83, 97, 74;
-    --secondary-rgb: 177, 184, 154;
-    --soft-rgb: 230, 233, 218;
-    --cream-rgb: 250, 245, 233;
-    --paper-rgb: 255, 254, 250;
+    --accent: #A87457;
+    --accent-ink: #80563F;
+    --surface-muted: #F4EAE6;
+    --border-soft: #F2E7E8;
+    --primary-rgb: 156, 86, 103;
+    --secondary-rgb: 230, 184, 194;
+    --soft-rgb: 248, 229, 233;
+    --cream-rgb: 255, 246, 241;
+    --paper-rgb: 255, 254, 252;
     --text-rgb: 56, 45, 40;
 
     --shadow:
@@ -35,7 +36,7 @@
 
     --radius: 18px;
 
-    --sidebar-width: 270px;
+    --sidebar-width: 240px;
     --sidebar-collapsed-width: 82px;
 }
 
@@ -129,9 +130,9 @@ button {
     flex-direction: column;
 
     padding:
-        20px
-        18px
-        16px;
+        16px
+        14px
+        12px;
 
     overflow: hidden;
 
@@ -149,7 +150,7 @@ button {
 
     flex-shrink: 0;
 
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 
@@ -159,50 +160,25 @@ button {
 
 .brand {
     width: 100%;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background:
-        rgba(var(--paper-rgb), 0.96);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.65);
-
-    border-radius: 16px;
-
-    padding:
-        15px
-        12px;
-
-    min-height: 118px;
-
-    box-shadow:
-        0 10px 28px
-        rgba(44, 55, 48, 0.09);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 8px 0;
+    min-height: 0;
+    box-shadow: none;
 }
 
 
 .brand-logo {
     display: block;
-
     width: 100%;
     max-width: 190px;
-
     height: auto;
-
     object-fit: contain;
-
     opacity: 1;
-
-    /*
-       QUAN TRỌNG:
-       không mix-blend-mode
-       không filter brightness
-       => logo không bị dìm nữa
-    */
 }
 
 
@@ -213,7 +189,7 @@ button {
 .sidebar-toggle {
     position: absolute;
 
-    right: -31px;
+    right: -27px;
     top: 50%;
 
     transform:
@@ -261,7 +237,7 @@ button {
     display: flex;
     flex-direction: column;
 
-    gap: 7px;
+    gap: 4px;
 
     min-height: 0;
 
@@ -289,20 +265,20 @@ button {
 
 
 .nav-item {
-    min-height: 49px;
+    min-height: 44px;
 
     flex-shrink: 0;
 
     display: flex;
     align-items: center;
 
-    gap: 14px;
+    gap: 10px;
 
     padding:
-        11px
-        14px;
+        9px
+        12px;
 
-    border-radius: 13px;
+    border-radius: 10px;
 
     color: var(--cream);
 
@@ -336,20 +312,20 @@ button {
 
 
 .nav-icon {
-    width: 24px;
+    width: 20px;
 
-    min-width: 24px;
+    min-width: 20px;
 
     text-align: center;
 
-    font-size: 17px;
+    font-size: 16px;
 
     line-height: 1;
 }
 
 
 .nav-label {
-    font-size: 15px;
+    font-size: 14px;
 
     white-space: nowrap;
 
@@ -365,11 +341,11 @@ button {
 .sidebar-story {
     flex-shrink: 0;
 
-    margin-top: 14px;
+    margin-top: 10px;
 
     padding:
-        14px
-        8px
+        10px
+        6px
         2px;
 
     border-top:
@@ -380,22 +356,16 @@ button {
 
 .sidebar-prince-art {
     display: block;
-
     width: 100%;
-    max-width: 150px;
-
-    height: 90px;
-
-    object-fit: cover;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
     object-position: center;
-
-    margin:
-        0 auto
-        10px;
-
-    border-radius: 14px;
-
-    opacity: 0.96;
+    margin: 0 auto 10px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 
@@ -440,10 +410,7 @@ button {
 .admin-layout.sidebar-collapsed
 .brand {
     min-height: 57px;
-
-    padding: 7px;
-
-    border-radius: 14px;
+    padding: 7px 0;
 }
 
 
@@ -995,10 +962,10 @@ th {
         11px;
 
     background:
-        var(--sage-soft);
+        var(--success-soft);
 
     color:
-        var(--sage-dark);
+        var(--success);
 }
 
 
@@ -1275,7 +1242,7 @@ th {
 
     :root {
         --sidebar-width:
-            240px;
+            220px;
     }
 
     .kpis {
@@ -1587,12 +1554,7 @@ th {
 
     box-shadow:
         0 4px 12px
-        rgba(
-            80,
-            99,
-            87,
-            .12
-        );
+        rgba(var(--primary-rgb), .12);
 }
 
 
@@ -2194,4 +2156,21 @@ th {
 
 .sidebar-quote {
     font-family: "Playfair Display", Georgia, serif;
+}
+
+/* Shared management toolbar controls. */
+.btn.product-icon-button { background: var(--sage-dark); color: var(--paper); }
+.btn.product-icon-button:hover, .btn.product-icon-button[aria-expanded="true"] { background: var(--sage-deep); color: var(--paper); }
+
+/* Revenue chart: keep the canvas and range controls inside the grid on mobile. */
+.revenue-card { min-width: 0; }
+.revenue-card .chart-tabs { max-width: 100%; }
+.revenue-card .chart-tab { white-space: nowrap; }
+.revenue-card .date-range { flex-wrap: wrap; }
+.revenue-card .date-range input { min-width: 0; max-width: 100%; }
+#revenueStatus, #revenueNotice {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }

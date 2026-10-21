@@ -89,7 +89,7 @@ class AuthService
         }
 
         $status = $user['TrangThai'] ?? '';
-        if (!in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
+        if (!empty($user['TaiKhoan']['BiKhoa']) || !in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
             throw new Exception('Tài khoản của bạn hiện không hoạt động.');
         }
 
@@ -129,7 +129,7 @@ class AuthService
         $user = $this->userRepository->findByEmail($email);
         if ($user) {
             $status = $user['TrangThai'] ?? '';
-            if (!in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
+            if (!empty($user['TaiKhoan']['BiKhoa']) || !in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
                 throw new Exception('Tài khoản của bạn hiện không hoạt động.');
             }
             if (empty($user['googleId']) || (string) $user['googleId'] !== $googleId) {
@@ -232,7 +232,7 @@ class AuthService
         if (!$user) throw new Exception('Tài khoản không tồn tại.');
 
         $status = $user['TrangThai'] ?? '';
-        if (!in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
+        if (!empty($user['TaiKhoan']['BiKhoa']) || !in_array($status, ['Hoạt động', 'Đang làm việc'], true)) {
             throw new Exception('Tài khoản của bạn hiện không hoạt động.');
         }
 
@@ -276,6 +276,7 @@ class AuthService
             'DiaChi' => $user['DiaChi'] ?? '',
             'role' => $quyen['MaQ'] ?? 'KH',
             'roleName' => $quyen['TenQ'] ?? 'Khách hàng',
+            'sessionVersion' => (int) ($taiKhoan['SessionVersion'] ?? 0),
             'avatar' => $avatar ?? $user['Avatar'] ?? null
         ];
     }

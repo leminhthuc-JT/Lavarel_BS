@@ -7,7 +7,7 @@ let currentUserData = null;
 
 async function loadAccountDetails() {
     const card = document.getElementById('accountCard');
-    const user = getCurrentUser();
+    const user = getCurrentUser() || (document.getElementById('headerAvatarBtn')?.dataset.accountRole ? {} : null);
 
     if (!user) {
         card.innerHTML = `
@@ -35,6 +35,11 @@ async function loadAccountDetails() {
     }
 
     renderAccountCard(currentUserData);
+    if (new URLSearchParams(location.search).has('change-password')) openPasswordModal();
+    if (currentUserData.TaiKhoan?.MustChangePassword) {
+        openPasswordModal();
+        showToast('Vui lòng dùng mật khẩu tạm để đổi sang mật khẩu mới trước khi tiếp tục.', 'error');
+    }
 }
 
 function renderAccountCard(data) {
@@ -283,6 +288,7 @@ document.getElementById('changePasswordForm').onsubmit = async (e) => {
             .getElementById('changePasswordForm')
             .reset();
 
+        if (currentUserData?.TaiKhoan) currentUserData.TaiKhoan.MustChangePassword = false;
         closePasswordModal();
 
         showToast(

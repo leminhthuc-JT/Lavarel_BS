@@ -880,57 +880,21 @@ function setupHeader(
 
         avatarEl.type = 'button';
 
-        const goToAccount = () => {
-            window.location.assign('/account-info');
-        };
-
-        const goToLogin = () => {
-            window.location.assign('/login');
-        };
-
-        avatarEl.onclick = null;
-
-        if (user) {
-
-            const initials =
-                user.fullName
-                    ? user.fullName
-                        .charAt(0)
-                        .toUpperCase()
-                    : (
-                        user.email
-                            ? user.email
-                                .charAt(0)
-                                .toUpperCase()
-                            : 'U'
-                    );
-
-            avatarEl.textContent =
-                initials;
-
-            avatarEl.title =
-                user.fullName ||
-                user.email;
-
-            avatarEl.addEventListener(
-                'click',
-                goToAccount,
-                { once: false }
-            );
-
+        // The Laravel header provides the role from the verified server session.
+        const role = avatarEl.dataset.accountRole;
+        if (role === 'MN') {
+            avatarEl.innerHTML = '<i class="fa-regular fa-user"></i>';
+            avatarEl.title = 'Tài khoản Admin';
+            avatarEl.setAttribute('aria-label', 'Tài khoản Admin');
+            window.PatisserieAccountMenu?.(avatarEl);
+        } else if (role || (role === undefined && user)) {
+            avatarEl.textContent = (user?.fullName || user?.email || 'U').charAt(0).toUpperCase();
+            avatarEl.title = user?.fullName || user?.email || 'Tài khoản';
+            avatarEl.onclick = () => window.location.assign('/account-info');
         } else {
-
-            avatarEl.innerHTML =
-                '<i class="fa-regular fa-user"></i>';
-
-            avatarEl.title =
-                'Đăng nhập';
-
-            avatarEl.addEventListener(
-                'click',
-                goToLogin,
-                { once: false }
-            );
+            avatarEl.innerHTML = '<i class="fa-regular fa-user"></i>';
+            avatarEl.title = 'Đăng nhập';
+            avatarEl.onclick = () => window.location.assign('/login');
         }
     }
 

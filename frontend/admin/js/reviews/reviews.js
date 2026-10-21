@@ -56,14 +56,14 @@ function toast(message) {
   toastTimer = setTimeout(() => $('reviewToast').classList.add('hidden'), 4000);
 }
 function render() {
-  $('reviewList').innerHTML = items.length ? items.map((item, index) => {
+  $('reviewList').innerHTML = items.length ? items.map(item => {
     const review = item.DanhGia || {}, reply = review.TraLoi, replied = Boolean(reply?.BinhLuan);
     return `<article class="admin-review-card">
       <div class="admin-review-head"><div><strong>${esc(item.TenKH || review.HoTen || review.MaKH || 'Khách hàng')}</strong><span class="review-customer-code">${esc(review.MaKH || '')}</span><div class="admin-review-product">${esc(item.TenSP || item.MaSP)} · ${esc(item.MaSP)}</div></div><span class="badge ${replied ? '' : 'warn'}">${replied ? 'Đã phản hồi' : 'Chưa phản hồi'}</span></div>
       <div class="admin-review-meta"><span class="admin-review-stars" aria-label="${esc(review.SoSao || 0)} trên 5 sao">${stars(review.SoSao)}</span><time>${esc(date(review.NgayDang))}</time></div>
       <p class="admin-review-text">${esc(review.BinhLuan || 'Khách hàng chỉ đánh giá sao, không để lại nội dung.')}</p>
       ${replied ? `<div class="admin-review-reply"><strong>Phản hồi từ cửa hàng</strong><time>${esc(date(reply.NgayDang))}</time><p>${esc(reply.BinhLuan)}</p></div>` : ''}
-      <div class="admin-review-actions"><a href="/details/${encodeURIComponent(item.MaSP)}" target="_blank" rel="noopener">Xem sản phẩm ↗</a><button class="btn btn-primary" type="button" data-reply="${index}" ${id(review) ? '' : 'disabled title="Bình luận thiếu mã định danh"'}>${replied ? 'Sửa phản hồi' : 'Phản hồi'}</button></div>
+      <div class="admin-review-actions"><a href="/details/${encodeURIComponent(item.MaSP)}" target="_blank" rel="noopener">Xem sản phẩm ↗</a><button class="btn btn-primary" type="button" data-reply="${esc(id(review))}" data-product="${esc(item.MaSP)}" data-customer="${esc(review.MaKH || '')}" ${id(review) ? '' : 'disabled title="Bình luận thiếu mã định danh"'}>${replied ? 'Sửa phản hồi' : 'Phản hồi'}</button></div>
     </article>`;
   }).join('') : '<div class="empty">Không có bình luận phù hợp.</div>';
 }
@@ -81,8 +81,10 @@ async function load() {
   }
 }
 function count() { $('replyCount').textContent = `${$('replyText').value.length}/2000 ký tự`; }
-function openReply(index, button) {
-  selected = items[index]; if (!selected) return;
+function openReply(productCode, reviewId, customerCode, button) {
+  const matches = items.filter(item => item.MaSP === productCode && id(item.DanhGia || {}) === reviewId && (item.DanhGia?.MaKH || '') === customerCode);
+  if (matches.length !== 1) { toast('Không xác định duy nhất đánh giá. Vui lòng tải lại.'); return; }
+  selected = matches[0];
   returnFocus = button;
   const review = selected.DanhGia;
   $('replyTitle').textContent = review.TraLoi?.BinhLuan ? 'Sửa phản hồi' : 'Phản hồi khách hàng';
@@ -94,7 +96,7 @@ function closeReply() {
   if (saving) return;
   $('replyModal').classList.add('hidden'); selected = null; returnFocus?.focus();
 }
-$('reviewList').addEventListener('click', event => { const btn = event.target.closest('[data-reply]'); if (btn && !btn.disabled) openReply(Number(btn.dataset.reply), btn); });
+$('reviewList').addEventListener('click', event => { const btn = event.target.closest('[data-reply]'); if (btn && !btn.disabled) openReply(btn.dataset.product, btn.dataset.reply, btn.dataset.customer, btn); });
 $('replyText').addEventListener('input', count);
 $('closeReply').addEventListener('click', closeReply); $('cancelReply').addEventListener('click', closeReply);
 $('replyModal').addEventListener('click', event => { if (event.target === $('replyModal')) closeReply(); });
@@ -115,7 +117,7 @@ $('replyForm').addEventListener('submit', async event => {
   saving = true; $('saveReply').disabled = true; $('closeReply').disabled = true; $('cancelReply').disabled = true;
   $('replyText').disabled = true; $('saveReply').textContent = 'Đang lưu...'; $('replyError').classList.add('hidden');
   try {
-    const reply = await call(`/admin/reviews/${encodeURIComponent(selected.MaSP)}/${encodeURIComponent(id(selected.DanhGia))}/reply`, { method: 'PUT', body: JSON.stringify({ BinhLuan: text }) });
+    const reply = await call(`/admin/reviews/${encodeURIComponent(selected.MaSP)}/${encodeURIComponent(id(selected.DanhGia))}/reply`, { method: 'PUT', body: JSON.stringify({ BinhLuan: text, MaKH: selected.DanhGia.MaKH }) });
     selected.DanhGia.TraLoi = reply;
     saving = false; closeReply(); toast('Đã lưu phản hồi. Khách hàng có thể xem tại trang sản phẩm.'); await load();
   } catch (error) { $('replyError').textContent = error.message; $('replyError').classList.remove('hidden'); }

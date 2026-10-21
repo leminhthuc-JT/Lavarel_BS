@@ -89,9 +89,11 @@ class UserRepository
                 'TaiKhoan.MatKhau' => $hashedPassword,
                 'updatedAt' => new UTCDateTime()
             ],
+            '$inc' => ['TaiKhoan.SessionVersion' => 1],
             '$unset' => [
                 'resetPasswordToken' => '',
-                'resetPasswordExpiresAt' => ''
+                'resetPasswordExpiresAt' => '',
+                'TaiKhoan.MustChangePassword' => ''
             ]
         ];
 

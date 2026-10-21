@@ -23,6 +23,20 @@ mountShell({
 });
 
 
+const employeeStyles = document.createElement('link');
+employeeStyles.rel = 'stylesheet'; employeeStyles.href = new URL('../../css/employees.css', import.meta.url).href;
+document.head.append(employeeStyles);
+const employeeIcon = name => {
+  const paths = {
+    pencil: '<path d="m16 3 5 5-12 12-6 1 1-6Z"/><path d="m14 5 5 5"/>',
+    lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+    'lock-open': '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>',
+    'trash-2': '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>',
+    key: '<circle cx="8" cy="8" r="5"/><path d="m12 12 9 9m-3-3 3-3m-6 0 3-3"/>',
+  };
+  return `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
+};
+
 const page =
     document.getElementById('pageContent');
 
@@ -97,7 +111,7 @@ page.innerHTML = `
     <!-- TABLE -->
     <div class="table-wrap">
 
-        <table>
+        <table class="employees-table">
 
             <thead>
 
@@ -348,7 +362,7 @@ page.innerHTML = `
 
                 <div class="form-group"><label for="AccountRole">Quyền tài khoản</label><select id="AccountRole"><option value="NV">Nhân viên</option><option value="MN">Admin</option></select></div>
                 <!-- PASSWORD -->
-                <div class="form-group full">
+                <div class="form-group full" id="employeePasswordField">
 
                     <label for="MatKhau">
                         Mật khẩu
@@ -357,15 +371,16 @@ page.innerHTML = `
                     <input
                         id="MatKhau"
                         type="password"
-                        placeholder="Để trống nếu không muốn đổi mật khẩu"
+                        placeholder="Tạo mật khẩu cho tài khoản mới" minlength="6" autocomplete="new-password"
                     >
 
                     <small class="field-hint">
-                        Khi sửa nhân viên, để trống nếu không muốn thay đổi mật khẩu.
+                        Mật khẩu tài khoản mới có ít nhất 6 ký tự.
                     </small>
 
                 </div>
 
+                <div class="form-group full employee-security" id="employeeSecurity" hidden><label>Bảo mật tài khoản</label><button type="button" class="btn" id="resetEmployeePassword">${employeeIcon('key')} Reset mật khẩu</button></div>
             </div>
 
 
@@ -519,6 +534,63 @@ const saveBtn =
 
 
 let employeeToDelete = null;
+function setEmployeePasswordMode(editing) {
+    const password = document.getElementById('MatKhau');
+    password.disabled = editing; password.required = !editing;
+    document.getElementById('employeePasswordField').hidden = editing;
+    document.getElementById('employeeSecurity').hidden = !editing;
+}
+page.insertAdjacentHTML('beforeend', `<dialog id="employeeResetDialog" class="employee-reset-dialog" aria-labelledby="employeeResetTitle">
+  <h2 id="employeeResetTitle">Reset mật khẩu</h2><p id="employeeResetMessage"></p>
+  <form id="employeeResetForm"><p>Thao tác tạo mật khẩu tạm mới và vô hiệu hóa các phiên đăng nhập cũ. Nhân viên phải đổi mật khẩu khi đăng nhập lại.</p><button type="submit" class="btn btn-primary" id="confirmEmployeeReset">Xác nhận reset</button></form>
+  <div id="employeeResetResult" hidden><label for="employeeTemporaryPassword">Mật khẩu tạm (chỉ hiển thị lần này)</label><input id="employeeTemporaryPassword" type="text" readonly autocomplete="off"><p>Hãy chuyển mật khẩu tạm cho đúng nhân viên qua kênh riêng an toàn.</p></div>
+  <p id="employeeResetError" role="alert"></p><div class="form-actions"><button type="button" class="btn" id="closeEmployeeReset">Đóng</button></div>
+</dialog>`);
+const resetDialog = document.getElementById('employeeResetDialog');
+let resetCode = null, resetBusy = false;
+document.getElementById('resetEmployeePassword').onclick = () => {
+  const editingCode = document.getElementById('employeeMode').value === 'edit' ? document.getElementById('MaNV').value : null;
+  if (!editingCode || resetBusy) return;
+  resetCode = editingCode;
+  document.getElementById('employeeResetMessage').textContent = `Xác nhận reset mật khẩu nhân viên ${resetCode}?`;
+  document.getElementById('employeeResetForm').hidden = false;
+  document.getElementById('employeeResetResult').hidden = true;
+  document.getElementById('employeeTemporaryPassword').value = '';
+  document.getElementById('employeeResetError').textContent = '';
+  resetDialog.showModal();
+};
+document.getElementById('closeEmployeeReset').onclick = () => resetDialog.close();
+resetDialog.addEventListener('close', () => { document.getElementById('employeeTemporaryPassword').value = ''; resetCode = null; });
+resetDialog.addEventListener('cancel', event => { if (resetBusy) event.preventDefault(); });
+document.getElementById('employeeResetForm').onsubmit = async event => {
+  event.preventDefault(); if (!resetCode || resetBusy) return;
+  resetBusy = true; document.getElementById('confirmEmployeeReset').disabled = true; document.getElementById('closeEmployeeReset').disabled = true;
+  document.getElementById('employeeResetError').textContent = '';
+  try {
+    const response = await request('/admin/employees/' + encodeURIComponent(resetCode) + '/reset-password', {method: 'POST', body: JSON.stringify({confirmed: true})});
+    document.getElementById('employeeTemporaryPassword').value = response.data.temporaryPassword;
+    document.getElementById('employeeResetForm').hidden = true;
+    document.getElementById('employeeResetResult').hidden = false;
+    showToast('Đã reset mật khẩu. Nhân viên phải đổi mật khẩu khi đăng nhập lại.');
+  } catch (error) { document.getElementById('employeeResetError').textContent = error.message; }
+  finally { resetBusy = false; document.getElementById('confirmEmployeeReset').disabled = false; document.getElementById('closeEmployeeReset').disabled = false; }
+};
+
+tbody.addEventListener('click', async event => {
+    const button = event.target.closest('[data-lock-employee]');
+    if (!button || button.disabled) return;
+    const code = button.dataset.lockEmployee;
+    const previous = button.dataset.locked === 'true';
+    if (!confirm(`${previous ? 'Mở khóa' : 'Khóa'} tài khoản nhân viên ${code}? Trạng thái làm việc được giữ nguyên.`)) return;
+    button.disabled = true;
+    try {
+        await request('/admin/employees/' + encodeURIComponent(code) + '/account-lock', {method: 'PATCH', body: JSON.stringify({confirmed: true, locked: !previous, expected_locked: previous})});
+        showToast(previous ? 'Đã mở khóa tài khoản.' : 'Đã khóa tài khoản và vô hiệu hóa phiên đăng nhập cũ.');
+        await loadEmployees();
+    } catch (error) { showToast(error.message); }
+    finally { button.disabled = false; }
+});
+
 
 
 /* =====================================================
@@ -752,12 +824,8 @@ function renderEmployees(items) {
                     </td>
 
 
-                    <td>
-                        ${
-                            statusBadge(
-                                item.TrangThai
-                            )
-                        }
+                    <td class="employee-status ${item.TrangThai === 'Đang làm việc' ? 'is-active' : 'is-locked'}">
+                        <div class="employee-status-stack">${statusBadge(item.TrangThai)}${item.TaiKhoan?.BiKhoa ? '<span class="badge employee-account-locked">Tài khoản bị khóa</span>' : ''}</div>
                     </td>
 
 
@@ -766,21 +834,23 @@ function renderEmployees(items) {
                         <div class="table-actions">
 
                             <button
-                                class="btn btn-small edit-employee-btn"
+                                class="btn employee-action-icon edit-employee-btn" title="Sửa nhân viên" aria-label="Sửa nhân viên"
                                 data-code="${esc(item.MaNV)}"
                                 type="button"
                             >
-                                Sửa
+                                ${employeeIcon('pencil')}
                             </button>
 
 
+                            <button type="button" class="btn employee-action-icon" data-lock-employee="${esc(item.MaNV)}" data-locked="${Boolean(item.TaiKhoan?.BiKhoa)}" ${item.CanLockAccount === false ? 'disabled' : ''} title="${item.CanLockAccount === false ? 'Không thể tự khóa tài khoản đang đăng nhập' : item.TaiKhoan?.BiKhoa ? 'Mở khóa tài khoản' : 'Khóa tài khoản'}" aria-label="${item.TaiKhoan?.BiKhoa ? 'Mở khóa tài khoản' : 'Khóa tài khoản'}">${employeeIcon(item.TaiKhoan?.BiKhoa ? 'lock-open' : 'lock')}</button>
+
                             <button
-                                class="btn btn-small btn-danger delete-employee-btn"
+                                class="btn employee-action-icon btn-danger delete-employee-btn" title="Xóa nhân viên" aria-label="Xóa nhân viên"
                                 data-code="${esc(item.MaNV)}"
                                 data-name="${esc(item.HoTen)}"
                                 type="button"
                             >
-                                Xóa
+                                ${employeeIcon('trash-2')}
                             </button>
 
                         </div>
@@ -858,6 +928,7 @@ function bindRowEvents() {
 function openCreateEmployee() {
 
     employeeForm.reset();
+    setEmployeePasswordMode(false);
 
 
     document
@@ -941,6 +1012,7 @@ async function openEditEmployee(
 
 
         employeeForm.reset();
+        setEmployeePasswordMode(true);
 
 
         document
@@ -1157,13 +1229,7 @@ function getEmployeePayload() {
             .trim();
 
 
-    const password =
-        document
-            .getElementById(
-                'MatKhau'
-            )
-            .value;
-
+    const password = document.getElementById('employeeMode').value === 'create' ? document.getElementById('MatKhau').value : '';
 
     if (
         email ||

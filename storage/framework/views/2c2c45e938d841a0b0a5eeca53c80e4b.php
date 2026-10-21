@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/account-menu.css')); ?>">
     <?php echo $__env->yieldContent('styles'); ?>
 </head>
 <body>
+<script src="<?php echo e(asset('js/account-menu.js')); ?>"></script>
 
 <?php echo $__env->make('components.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 

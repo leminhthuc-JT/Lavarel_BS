@@ -40,7 +40,7 @@ const page =
 
 page.innerHTML = `
 
-<section class="card panel">
+<section class="card panel product-panel">
 
     <div class="panel-head"><div class="panel-eyebrow">SẢN PHẨM</div></div>
     <div class="toolbar product-toolbar">
@@ -64,6 +64,7 @@ page.innerHTML = `
 
                 <tr>
                     <th>Mã SP</th>
+                    <th>Ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Danh mục</th>
                     <th>Tồn kho</th>
@@ -80,7 +81,7 @@ page.innerHTML = `
                 <tr>
 
                     <td
-                        colspan="7"
+                        colspan="8"
                         class="empty"
                     >
                         Đang tải dữ liệu...
@@ -143,6 +144,7 @@ page.innerHTML = `
             >
 
 
+            <div class="product-modal-body">
             <div class="form-grid">
 
 
@@ -287,6 +289,7 @@ page.innerHTML = `
                         Kích thước / Giá
                     </label>
 
+                    <div class="product-size-heading"><span>Kích thước</span><span>Giá bán (VNĐ)</span></div>
                     <div
                         class="size-list"
                         id="sizeList"
@@ -312,6 +315,7 @@ page.innerHTML = `
             ></div>
 
 
+            </div>
             <div class="form-actions">
 
                 <button
@@ -592,7 +596,7 @@ async function loadProducts() {
         <tr>
 
             <td
-                colspan="7"
+                colspan="8"
                 class="empty"
             >
                 Đang tải dữ liệu...
@@ -691,7 +695,7 @@ async function loadProducts() {
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="8"
                     class="empty"
                 >
                     Không tải được dữ liệu
@@ -725,18 +729,7 @@ function renderSizePrice(
     }
 
 
-    return sizes
-        .map(
-            item => `
-
-                <div>
-                    ${esc(item.Ten ?? '')}:
-                    ${money(item.Gia ?? 0)}
-                </div>
-
-            `
-        )
-        .join('');
+    return `<div class="product-price-list">${sizes.map(item => `<div class="product-price-row"><span>${esc(item.Ten ?? '')}</span><span class="product-price-value">${money(item.Gia ?? 0)}</span></div>`).join('')}</div>`;
 
 }
 
@@ -756,7 +749,7 @@ function renderProducts(
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="8"
                     class="empty"
                 >
                     Chưa có sản phẩm
@@ -784,6 +777,12 @@ function renderProducts(
                     </td>
 
 
+                    <td>
+                        <div class="product-thumbnail" role="img" aria-label="${esc(item.TenSP)}">
+                            <span>Không ảnh</span>
+                            ${Array.isArray(item.HinhAnh) && item.HinhAnh[0] ? `<img src="/assets/${encodeURIComponent(item.HinhAnh[0])}" alt="${esc(item.TenSP)}" width="56" height="56" loading="lazy">` : ''}
+                        </div>
+                    </td>
                     <td>
                         ${esc(item.TenSP)}
                     </td>
@@ -842,6 +841,9 @@ function renderProducts(
         .join('');
 
 
+    tbody.querySelectorAll('.product-thumbnail img').forEach(image => {
+        image.addEventListener('error', () => image.remove());
+    });
     bindRowEvents();
 }
 
@@ -870,12 +872,15 @@ function addSizeRow(
         <input
             type="text"
             class="size-name"
+            aria-label="Kích thước"
             placeholder="VD: Nhỏ"
             value="${esc(name)}"
         >
 
+        <div class="product-size-price">
         <input
             type="number"
+            aria-label="Giá bán VNĐ"
             class="size-price"
             min="0"
             placeholder="Giá"
@@ -885,9 +890,11 @@ function addSizeRow(
         <button
             type="button"
             class="btn btn-small btn-danger remove-size-btn"
+            title="Xóa kích thước" aria-label="Xóa kích thước"
         >
             ×
         </button>
+        </div>
 
     `;
 

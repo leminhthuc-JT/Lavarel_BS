@@ -761,7 +761,7 @@ function renderTable(items) {
                         </select>
                     </td>
 
-                    <td><div class="table-actions"><button class="btn btn-small" data-edit="${esc(item.MaKM)}">Sửa</button><button class="btn btn-small btn-danger" data-delete="${esc(item.MaKM)}">Xóa</button></div></td>
+                    <td class="promotion-actions-cell"><div class="table-actions promotion-actions"><button type="button" class="btn promotion-action-icon" data-edit="${esc(item.MaKM)}" title="Sửa khuyến mãi" aria-label="Sửa khuyến mãi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 3 5 5-12 12-6 1 1-6Z"/><path d="m14 5 5 5"/></svg></button><button type="button" class="btn btn-danger promotion-action-icon" data-delete="${esc(item.MaKM)}" title="Xóa khuyến mãi" aria-label="Xóa khuyến mãi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></svg></button></div></td>
                 </tr>
 
             `

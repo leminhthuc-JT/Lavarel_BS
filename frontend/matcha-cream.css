@@ -1,16 +1,16 @@
-/* Customer theme. Imported only by the storefront and authentication styles. */
+/* Strawberry Pâtisserie customer theme; legacy variable names retain stylesheet compatibility. Imported only by the storefront and authentication styles. */
 :root:root {
-    --matcha-primary: #53614A;
-    --matcha-hover: #414D39;
-    --matcha-secondary: #B1B89A;
-    --matcha-soft: #E6E9DA;
-    --matcha-background: #FAF5E9;
-    --matcha-card: #FFFEFA;
-    --matcha-accent: #B88B68;
-    --matcha-accent-ink: #8A6144;
+    --matcha-primary: #9C5667;
+    --matcha-hover: #824555;
+    --matcha-secondary: #E6B8C2;
+    --matcha-soft: #F8E5E9;
+    --matcha-background: #FFF6F1;
+    --matcha-card: #FFFEFC;
+    --matcha-accent: #A87457;
+    --matcha-accent-ink: #80563F;
     --matcha-text: #382D28;
     --matcha-muted: #70665D;
-    --matcha-border: #DED8C9;
+    --matcha-border: #EBDDE0;
     --sage: var(--matcha-primary);
     --sage-dark: var(--matcha-primary);
     --sage-deep: var(--matcha-hover);
@@ -18,7 +18,7 @@
     --sage-soft: var(--matcha-soft);
     --cream: var(--matcha-background);
     --cream-light: var(--matcha-card);
-    --cream-dark: #EEE9DD;
+    --cream-dark: #F4EAE6;
     --white: var(--matcha-card);
     --ivory: var(--matcha-card);
     --text-main: var(--matcha-text);
@@ -29,9 +29,11 @@
     --text-light: var(--matcha-muted);
     --border: var(--matcha-border);
     --border-color: var(--matcha-border);
-    --border-subtle: #EBE4D7;
+    --border-subtle: #F2E7E8;
     --accent-gold: var(--matcha-accent);
-    --success: var(--matcha-primary);
+    --success: #326647;
+    --success-soft: #E3F0E6;
+    --success-border: #BED6C4;
 }
 
 :root body { background-color: var(--matcha-background); color: var(--matcha-text); }
@@ -59,15 +61,15 @@
 }
 :root body :is(input, select, textarea) { accent-color: var(--matcha-primary); }
 :root body :is(input, select, textarea):focus {
-    border-color: var(--matcha-primary); box-shadow: 0 0 0 3px rgba(83, 97, 74, .16);
+    border-color: var(--matcha-primary); box-shadow: 0 0 0 3px rgba(156, 86, 103, .16);
 }
 :root body :is(.product-card, .contact-info-card, .contact-form-card, .checkout-card, .order-summary-panel, .account-card, .order-card, .rating-card, .modal-content, .auth-panel) {
     background-color: var(--matcha-card); border-color: var(--matcha-border);
 }
 :root body :is(.status-badge.confirmed, .status-badge.delivered, .status-badge.received, .store-status-bar, .toast.success, .form-message.success, .success-message, .voucher-message.success, .review-type:not(.negative), .moderation-result.safe, .review-badge-sentiment.positive) {
-    background: var(--matcha-secondary); color: var(--matcha-text); border-color: var(--matcha-secondary);
+    background: var(--success-soft); color: var(--success); border-color: var(--success-border);
 }
-:root body .status-indicator.active { background: var(--matcha-primary); }
+:root body .status-indicator.active { background: var(--success); }
 :root body .discount-value { color: var(--matcha-primary); }
 :root body .view-rating-box { background-color: var(--matcha-soft); }
 :root body :is(.auth-header h1, .auth-header h2, .section-title h2, .contact-title, .cate-title) { color: var(--matcha-text); }
@@ -77,10 +79,10 @@
 :root body .hero h1 { color: var(--matcha-text) !important; }
 :root body .hero h1 :is(em, in), :root body .story h2 b[style] { color: var(--matcha-primary) !important; }
 :root body :is(.hero, .about-hero, .cate-header) {
-    background: radial-gradient(circle at 8% 20%, rgba(184, 139, 104, .16), transparent 25%), radial-gradient(circle at 90% 70%, rgba(177, 184, 154, .18), transparent 25%), var(--matcha-background);
+    background: radial-gradient(circle at 8% 20%, rgba(168, 116, 87, .16), transparent 25%), radial-gradient(circle at 90% 70%, rgba(230, 184, 194, .18), transparent 25%), var(--matcha-background);
 }
 :root body .showcase-overlay {
-    background: linear-gradient(90deg, rgba(83, 97, 74, .32), rgba(83, 97, 74, .20) 45%, rgba(83, 97, 74, .08));
+    background: linear-gradient(90deg, rgba(156, 86, 103, .32), rgba(156, 86, 103, .20) 45%, rgba(156, 86, 103, .08));
 }
 :root body :is(.stars, .review-stars, .rating-stars, .star-btn.active, .star-btn:hover) { color: var(--matcha-accent-ink); }
 :root body .details-arrow-btn:hover { background: var(--matcha-hover); color: var(--matcha-card); }
@@ -91,3 +93,10 @@
 :root body :is(.terms a, .auth-header a) { color: var(--matcha-primary); border-color: var(--matcha-secondary); }
 :root body .form-group input { color: var(--matcha-text); border-color: var(--matcha-border); }
 :root body .form-group input:hover, :root body .remember input { border-color: var(--matcha-primary); }
+
+/* Page decorations that previously used literal sage colors. */
+:root body .cart-page { background: radial-gradient(circle at 8% 15%, rgba(230, 184, 194, .35), transparent 24%), radial-gradient(circle at 92% 30%, rgba(168, 116, 87, .18), transparent 25%), var(--matcha-background); }
+:root body .cart-items-panel { background-color: var(--matcha-card); border-color: var(--matcha-border); }
+:root body .cart-items-panel::before { background: rgba(230, 184, 194, .24); }
+:root body :is(.category-icon, .quality-item > span, .why-icon, .philo-num) { background: var(--matcha-soft); }
+:root .site-header { box-shadow: 0 2px 15px rgba(156, 86, 103, .15); }

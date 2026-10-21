@@ -19,7 +19,7 @@ final class ProductService
         );
 
         return array_map(
-            fn ($item) => DocumentSerializer::document($item),
+            fn ($item) => $this->productReviews(DocumentSerializer::document($item)),
             $items
         );
     }
@@ -32,7 +32,24 @@ final class ProductService
             throw new \RuntimeException('Không tìm thấy sản phẩm');
         }
 
-        return DocumentSerializer::document($item);
+        return $this->productReviews(DocumentSerializer::document($item), true);
+    }
+
+    private function productReviews(array $product, bool $withNames = false): array
+    {
+        $reviews = $product['DanhGia'] ?? [];
+        if (isset($reviews['SoSao']) || isset($reviews['BinhLuan'])) $reviews = [$reviews];
+        $product['DanhGia'] = array_values(array_filter(is_array($reviews) ? $reviews : [], static fn ($review) =>
+            is_array($review) && (!isset($review['MaSP']) || $review['MaSP'] === $product['MaSP'])));
+        if ($withNames) {
+            $codes = array_values(array_unique(array_filter(array_column($product['DanhGia'], 'MaKH'))));
+            $names = (new ProductRepository())->reviewCustomerNames($codes);
+            foreach ($product['DanhGia'] as &$review) {
+                if (isset($names[$review['MaKH'] ?? ''])) $review['HoTen'] = $names[$review['MaKH']];
+            }
+            unset($review);
+        }
+        return $product;
     }
 
     public function toggleReviewLike(string $maSP, string $reviewId, ?string $maKH, bool $liked): array

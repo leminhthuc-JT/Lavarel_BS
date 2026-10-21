@@ -33,11 +33,20 @@ class DashboardController extends Controller
     public function apiRevenue(Request $request)
     {
         try {
-            $type = $request->query('type', 'day');
+            $validated = $request->validate([
+                'type' => 'sometimes|in:7days,1month,6months,custom',
+                'from' => 'required_if:type,custom|nullable|date_format:Y-m-d',
+                'to' => 'required_if:type,custom|nullable|date_format:Y-m-d|after_or_equal:from',
+            ]);
+            $type = $validated['type'] ?? '7days';
             $from = $request->query('from', null);
             $to   = $request->query('to', null);
             $items = $this->dashboardService->revenue($type, $from, $to);
-            return response()->json(['success' => true, 'data' => ['items' => $items]]);
+            return response()->json(['success' => true, 'data' => $items]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }

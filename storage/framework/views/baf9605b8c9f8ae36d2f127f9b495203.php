@@ -22,7 +22,7 @@
             <a href="<?php echo e(route('cart')); ?>" class="nav-icon-btn" title="Giỏ hàng" aria-label="Giỏ hàng">
                 <i class="fa-solid fa-bag-shopping"></i><span class="badge-count cart-count">0</span>
             </a>
-            <button class="avatar-btn" id="headerAvatarBtn" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
+            <button class="avatar-btn" id="headerAvatarBtn" data-account-role="<?php echo e(data_get(request()->attributes->get('account'), 'TaiKhoan.Quyen.MaQ', '')); ?>" title="Tài khoản"><i class="fa-regular fa-user"></i></button>
         </div>
     </div>
 </header>

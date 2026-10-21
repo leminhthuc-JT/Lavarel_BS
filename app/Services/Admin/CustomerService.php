@@ -13,6 +13,17 @@ final class CustomerService extends BaseCrudService
         parent::__construct(new CustomerRepository());
     }
 
+    public function resetPassword(string $code): string
+    {
+        $customer = $this->repository->findByCode($code);
+        if (!$customer) throw new \OutOfBoundsException('Không tìm thấy khách hàng.');
+        $temporary = bin2hex(random_bytes(10));
+        if (!$this->repository->resetCustomerPassword($customer, password_hash($temporary, PASSWORD_DEFAULT))) {
+            throw new \LogicException('Mật khẩu vừa thay đổi ở phiên khác. Vui lòng thử lại.');
+        }
+        return $temporary;
+    }
+
     protected function codeField(): string { return 'MaKH'; }
 
     protected function validate(array $data, bool $isUpdate = false): array

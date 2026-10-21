@@ -179,23 +179,23 @@ page.innerHTML = `
 
                     <button
                         class="chart-tab active"
-                        data-type="day"
+                        data-type="7days"
                     >
-                        Ngày
+                        7 ngày
                     </button>
 
                     <button
                         class="chart-tab"
-                        data-type="month"
+                        data-type="1month"
                     >
-                        Tháng
+                        1 tháng
                     </button>
 
                     <button
                         class="chart-tab"
-                        data-type="year"
+                        data-type="6months"
                     >
-                        Năm
+                        6 tháng
                     </button>
 
                     <button
@@ -278,6 +278,8 @@ page.innerHTML = `
             </div>
 
 
+            <p id="revenueStatus" role="status" aria-live="polite"></p>
+            <p id="revenueNotice" role="status" hidden></p>
             <div class="chart-container">
 
                 <canvas
@@ -687,6 +689,8 @@ let revenueChart;
 ========================= */
 
 function renderChart(items) {
+    const theme = getComputedStyle(document.documentElement);
+    const primary = theme.getPropertyValue('--sage-dark').trim() || '#9C5667';
 
     const canvas =
         document.getElementById(
@@ -749,10 +753,10 @@ function renderChart(items) {
                                 values,
 
                             borderColor:
-                                '#71877A',
+                                primary,
 
                             backgroundColor:
-                                'rgba(147, 167, 155, 0.12)',
+                                `rgba(${theme.getPropertyValue('--primary-rgb').trim() || '156,86,103'}, 0.12)`,
 
                             fill:
                                 true,
@@ -770,7 +774,7 @@ function renderChart(items) {
                                 5,
 
                             pointBackgroundColor:
-                                '#71877A'
+                                primary
 
                         }
 
@@ -811,6 +815,7 @@ function renderChart(items) {
 
                             callbacks: {
 
+                                title(contexts) { return items[contexts[0]?.dataIndex]?.title || ''; },
                                 label(context) {
 
                                     return money(
@@ -870,19 +875,7 @@ function renderChart(items) {
 
                                 callback(value) {
 
-                                    if (
-                                        value >=
-                                        1000000
-                                    ) {
-
-                                        return (
-                                            value /
-                                            1000000
-                                        ) + 'tr';
-
-                                    }
-
-                                    return value;
+                                    return money(value);
 
                                 }
 
@@ -1096,9 +1089,7 @@ async function loadDashboard() {
         counts.pendingOrders ?? 0;
 
 
-    renderChart(
-        data.revenue ?? []
-    );
+
 
 
     renderOrders(
@@ -1113,60 +1104,43 @@ async function loadDashboard() {
    CHART FILTER
 ========================= */
 
-async function loadRevenue(
-    type,
-    from = '',
-    to = ''
-) {
-
-    let url =
-        `/admin/dashboard/revenue?type=${type}`;
-
-
-    if (from) {
-
-        url +=
-            `&from=${encodeURIComponent(from)}`;
-
-    }
-
-
-    if (to) {
-
-        url +=
-            `&to=${encodeURIComponent(to)}`;
-
-    }
-
-
-    try {
-
-        const result =
-            await request(
-                url,
-                {},
-                null
-            );
-
-
-        renderChart(
-            result.data.items
-            ?? result.data
-            ?? []
-        );
-
-    }
-    catch (error) {
-
-        console.warn(
-            'Revenue API chưa có, dùng mock.'
-        );
-
-    }
-
+let revenueRequest = 0;
+function resetRevenue(message, loading = false) {
+    if (revenueChart) { revenueChart.destroy(); revenueChart = null; }
+    document.getElementById('chartRevenue').textContent = '—';
+    document.getElementById('revenueChart').hidden = true;
+    document.getElementById('revenueChart').parentElement.setAttribute('aria-busy', String(loading));
+    document.getElementById('revenueStatus').textContent = message;
+    document.getElementById('revenueNotice').hidden = true;
 }
-
-
+async function loadRevenue(type, from = '', to = '') {
+    const current = ++revenueRequest;
+    resetRevenue('Đang tải doanh thu…', true);
+    const params = new URLSearchParams({ type });
+    if (from) params.set('from', from);
+    if (to) params.set('to', to);
+    try {
+        const result = await request(`/admin/dashboard/revenue?${params}`, { method: 'GET' }, null);
+        if (current !== revenueRequest) return;
+        const data = result.data;
+        const canvas = document.getElementById('revenueChart');
+        canvas.parentElement.setAttribute('aria-busy', 'false');
+        canvas.hidden = false;
+        renderChart(data.items);
+        document.getElementById('chartRevenue').textContent = money(data.total);
+        const dateLabel = value => value.split('-').reverse().join('/');
+        document.getElementById('revenueStatus').textContent =
+            `${dateLabel(data.from)} – ${dateLabel(data.to)}` +
+            (data.orderCount ? '' : ' · Chưa có doanh thu trong khoảng thời gian này.');
+        const notice = document.getElementById('revenueNotice');
+        notice.hidden = !data.missingDateCount;
+        notice.textContent = data.missingDateCount
+            ? `${data.missingDateCount} đơn đã thanh toán thiếu ngày hợp lệ, chưa thể tính doanh thu.` : '';
+    } catch (error) {
+        if (current !== revenueRequest) return;
+        resetRevenue(error.message || 'Không thể tải doanh thu. Vui lòng thử lại.');
+    }
+}
 
 /* =========================
    TAB EVENTS
@@ -1218,6 +1192,8 @@ document
                         'custom'
                     ) {
 
+                        ++revenueRequest;
+                        resetRevenue('Chọn khoảng thời gian và nhấn Áp dụng.');
                         customRange
                             .classList
                             .remove(
@@ -1282,6 +1258,11 @@ document
             }
 
 
+            if (from > to) {
+                alert('Ngày bắt đầu không được lớn hơn ngày kết thúc.');
+                return;
+            }
+
             loadRevenue(
                 'custom',
                 from,
@@ -1293,3 +1274,4 @@ document
 
 
 loadDashboard();
+loadRevenue('7days');

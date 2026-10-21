@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    THE LITTLE PRINCE — ORDERS PAGE
    Luồng:
      1. Tải danh sách đơn hàng
@@ -59,7 +59,7 @@ async function loadProductsCatalog() {
  * Ưu tiên HinhAnh[0] của sản phẩm trong đơn -> catalog -> fallback mã SP -> resolveImageUrl
  */
 function getProductFirstImage(item, idx = 0) {
-    if (!item) return typeof resolveImageUrl === 'function' ? resolveImageUrl(null, idx) : '../../assets/logo.png';
+    if (!item) return typeof resolveImageUrl === 'function' ? resolveImageUrl(null, idx) : '/assets/logo.png';
 
     const maSP = item.MaSP || '';
     let raw = null;
@@ -84,9 +84,9 @@ function getProductFirstImage(item, idx = 0) {
         raw = `${maSP.toLowerCase()}_1.png`;
     }
 
-    // Làm sạch trường hợp bị lặp ../../assets/
+    // Làm sạch trường hợp bị lặp /assets/
     if (typeof raw === 'string') {
-        raw = raw.replace(/^(\.\.\/\.\.\/assets\/)+/g, '../../assets/');
+        raw = raw.replace(/^(\.\.\/\.\.\/assets\/)+/g, '/assets/');
     }
 
     // 4. Nếu có hàm resolveImageUrl từ common.js
@@ -100,10 +100,10 @@ function getProductFirstImage(item, idx = 0) {
         if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('data:') || raw.startsWith('../')) {
             return raw;
         }
-        return `../../assets/${raw}`;
+        return `/assets/${raw}`;
     }
 
-    return '../../assets/logo.png';
+    return '/assets/logo.png';
 }
 
 // ─── KHỞI TẠO ────────────────────────────────────────────
@@ -123,7 +123,7 @@ async function loadCustomerOrders() {
     const maKH  = user ? (user.MaKH || user.id || user._id || user.email) : 'guest';
 
     try {
-        const apiOrders = await fetchApi(`/orders/my-orders?maKH=${encodeURIComponent(maKH)}`);
+        const apiOrders = await fetchApi(`/orders/my-orders?maKH=${encodeURIComponent(maKH)}`, {cache: 'no-store'});
         customerOrders = Array.isArray(apiOrders) && apiOrders.length > 0
             ? apiOrders
             : getLocalOrders(maKH);
@@ -137,7 +137,7 @@ async function loadCustomerOrders() {
                 <div class="empty-state-icon">📋</div>
                 <h3>Bạn chưa có đơn hàng nào</h3>
                 <p>Hãy đặt mua những món bánh thơm ngon ngọt ngào từ thực đơn của chúng tôi nhé!</p>
-                <a href="../menu/menu.html" class="btn btn-primary">Khám phá thực đơn <span>→</span></a>
+                <a href="/menu" class="btn btn-primary">Khám phá thực đơn <span>→</span></a>
             </div>`;
         return;
     }
@@ -289,7 +289,7 @@ function renderModalBody(order) {
                         <div style="display:flex;align-items:center;gap:12px;">
                             <img src="${getProductFirstImage(i, idx)}" alt="${escapeHTML(i.TenSP || 'Bánh')}"
                                  style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #e8e8e8;"
-                                 onerror="this.src='../../assets/logo.png'">
+                                 onerror="this.src='/assets/logo.png'">
                             <div>
                                 <strong style="display:block;color:var(--text-main);">${escapeHTML(i.TenSP || 'Bánh')}</strong>
                                 <span style="font-size:12px;color:var(--text-muted);">${escapeHTML(i.TenKichThuoc || 'Tiêu chuẩn')} × ${i.SoLuong || 1}</span>
@@ -398,7 +398,7 @@ function openRatingForm() {
         return `
             <div class="rating-product-item" data-masp="${maSP}" data-tensp="${escapeHTML(tenSP)}" data-hinhanh="${escapeHTML(img)}">
                 <div class="rating-product-header">
-                    <img src="${img}" alt="${escapeHTML(tenSP)}" class="rating-product-img" onerror="this.src='../../assets/logo.png'">
+                    <img src="${img}" alt="${escapeHTML(tenSP)}" class="rating-product-img" onerror="this.src='/assets/logo.png'">
                     <div>
                         <strong class="rating-product-name">${escapeHTML(tenSP)}${escapeHTML(kichThuoc)}</strong>
                         <div class="rating-product-meta">Mã: ${escapeHTML(maSP)}</div>
@@ -594,7 +594,8 @@ async function doSubmitAllRatings(reviewsList, submitBtn) {
         });
 
         /* Cập nhật local data đơn hàng */
-        const savedRatings = result?.data?.DanhGia || reviewsList;
+        const savedRatings = result?.DanhGia;
+        if (!Array.isArray(savedRatings)) throw new Error('Server chưa trả về đánh giá đã lưu. Vui lòng tải lại trang.');
         order.DanhGia = savedRatings;
         customerOrders[currentOrderIdx] = order;
 
@@ -657,7 +658,7 @@ function buildViewRatingHTML(danhGiaData) {
 
         /* Link tới trang chi tiết sản phẩm */
         const productLink = item.MaSP
-            ? `../details_cake/details.html?MaSP=${encodeURIComponent(item.MaSP)}`
+            ? `/details?MaSP=${encodeURIComponent(item.MaSP)}`
             : '#';
 
         const productNameHTML = item.MaSP
@@ -680,7 +681,7 @@ function buildViewRatingHTML(danhGiaData) {
 
                 <div class="view-rating-product-row">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${img}" alt="${escapeHTML(tenSP)}" class="rating-product-img-small" onerror="this.src='../../assets/logo.png'">
+                        <img src="${img}" alt="${escapeHTML(tenSP)}" class="rating-product-img-small" onerror="this.src='/assets/logo.png'">
                         <strong class="review-product-title">
                             ${productNameHTML}
                         </strong>
@@ -705,6 +706,7 @@ function buildViewRatingHTML(danhGiaData) {
                           `
                 }
 
+                ${item.TraLoi?.BinhLuan?.trim() ? `<div class="view-rating-reply"><strong>Phản hồi từ cửa hàng</strong><p>${escapeHTML(item.TraLoi.BinhLuan)}</p>${item.TraLoi.NgayDang ? `<time>${escapeHTML(new Date(item.TraLoi.NgayDang).toLocaleString('vi-VN'))}</time>` : ''}</div>` : ''}
                 ${
                     dateStr
                         ? `<span class="view-rating-date">

@@ -32,16 +32,20 @@ final class ReviewController extends Controller
     {
         $request->merge(['BinhLuan' => is_string($request->input('BinhLuan'))
             ? trim($request->input('BinhLuan')) : $request->input('BinhLuan')]);
-        $data = $request->validate(['BinhLuan' => 'required|string|max:2000']);
+        $data = $request->validate(['BinhLuan' => 'required|string|max:2000', 'MaKH' => 'nullable|string|max:50']);
         $admin = $request->attributes->get('review_admin');
         $reply = ['BinhLuan' => $data['BinhLuan'], 'MaNV' => $admin['MaNV'],
             'HoTen' => $admin['HoTen'], 'NgayDang' => new UTCDateTime()];
         try {
-            (new ReviewRepository())->saveReply($code, $reviewId, $reply);
+            (new ReviewRepository())->saveReply($code, $reviewId, $reply, $data['MaKH'] ?? null);
             return response()->json(['success' => true, 'message' => 'Đã lưu phản hồi.',
                 'data' => DocumentSerializer::document($reply)]);
         } catch (\OutOfBoundsException $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 404);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        } catch (\LogicException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 409);
         } catch (\Throwable $e) {
             report($e);
             return response()->json(['success' => false, 'message' => 'Không lưu được phản hồi. Vui lòng thử lại.'], 500);

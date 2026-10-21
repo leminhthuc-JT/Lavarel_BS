@@ -13,7 +13,7 @@
  * 6. Kiểm tra dữ liệu
  * 7. Gọi AI moderation
  *
- * Phần lưu MongoDB sẽ nối sau khi hoàn thiện API review.
+ * Đánh giá được lưu qua API đánh giá của đơn hàng.
  * =========================================================
  */
 
@@ -22,7 +22,6 @@
    API
 ========================================================= */
 
-const API_BASE = "/api";
 
 
 /* =========================================================
@@ -163,7 +162,7 @@ function getProductCode() {
 
 
     const maSP =
-        params.get("maSP");
+        params.get("MaSP") || params.get("maSP");
 
 
     if (maSP) {
@@ -207,7 +206,7 @@ function getProductCode() {
     }
 
 
-    return "BK01";
+    return null;
 }
 
 
@@ -965,93 +964,23 @@ ratingForm.addEventListener(
             );
 
 
-            /*
-             * Dữ liệu review chuẩn bị gửi backend.
-             *
-             * Đây chính là cấu trúc tương ứng
-             * với MongoDB của bạn.
-             */
-
-            const reviewData = {
-
-                MaKH:
-                    maKH,
-
-                SoSao:
-                    rating,
-
-                BinhLuan:
-                    content,
-
-                LuotThich:
-                    0,
-
-                NgayDang:
-                    new Date().toISOString(),
-
-                LoaiBL:
-                    getSentimentLabel(
-                        moderation
-                    ),
-
-                TraLoi:
-                    {}
-
-            };
-
-
-            console.log(
-                "Review chuẩn bị lưu:",
-                {
-                    MaSP:
-                        maSP,
-
-                    review:
-                        reviewData,
-
-                    images:
-                        selectedImages
-                }
-            );
-
-
-            /*
-             * =================================================
-             * CHƯA GỌI API LƯU REVIEW
-             * =================================================
-             *
-             * Sau khi backend review hoàn thiện,
-             * sẽ thay phần này bằng:
-             *
-             * POST
-             * /products/{maSP}/reviews
-             *
-             * Body:
-             *
-             * {
-             *     MaKH,
-             *     SoSao,
-             *     BinhLuan,
-             *     LuotThich: 0,
-             *     NgayDang,
-             *     LoaiBL,
-             *     TraLoi
-             * }
-             *
-             */
-
-
-            setTimeout(
-                () => {
-
-                    showModerationResult(
-                        "Đánh giá đã được kiểm tra thành công. Phần lưu vào cơ sở dữ liệu sẽ được kết nối sau.",
-                        "safe"
-                    );
-
-                },
-                500
-            );
+            if (!maSP) throw new Error('Thiếu mã sản phẩm cần đánh giá.');
+            const params = new URLSearchParams(window.location.search);
+            const orderCode = params.get('MaDH') || params.get('orderId');
+            const account = await fetchApi('/account', {cache: 'no-store'});
+            if (!account.MaKH) throw new Error('Vui lòng đăng nhập bằng tài khoản khách hàng.');
+            const orders = await fetchApi(`/orders/my-orders?maKH=${encodeURIComponent(account.MaKH)}`, {cache: 'no-store'});
+            const eligible = (Array.isArray(orders) ? orders : []).filter(order =>
+                (!orderCode || order.MaDH === orderCode) && ['Đã giao', 'Đã nhận hàng'].includes(order.TrangThaiDonHang)
+                && !(Array.isArray(order.DanhGia) ? order.DanhGia.length : order.DanhGia)
+                && new Set((order.SanPhams || []).map(product => product.MaSP)).size === 1
+                && (order.SanPhams || []).some(product => product.MaSP === maSP));
+            if (eligible.length !== 1) throw new Error('Vui lòng chọn đúng đơn hàng chưa đánh giá tại trang Đơn hàng.');
+            await fetchApi(`/orders/${encodeURIComponent(eligible[0].MaDH)}/rating`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({reviews: [{MaSP: maSP, SoSao: rating, BinhLuan: content, LoaiBL: getSentimentLabel(moderation)}]}),
+            });
+            showModerationResult('Đã lưu đánh giá thành công.', 'safe');
 
 
         } catch (error) {
@@ -1063,7 +992,7 @@ ratingForm.addEventListener(
 
 
             showModerationResult(
-                "Có lỗi xảy ra. Vui lòng thử lại.",
+                error.message || "Có lỗi xảy ra. Vui lòng thử lại.",
                 "danger"
             );
 
@@ -1162,100 +1091,18 @@ function getSentimentLabel(
    LOAD PRODUCT FROM LOCAL STORAGE
 ========================================================= */
 
-function loadProduct() {
-
-    const stored =
-        localStorage.getItem(
-            "ratingProduct"
-        );
-
-
-    if (!stored) {
-
-        return;
-
-    }
-
-
+async function loadProduct() {
+    const code = getProductCode();
+    if (!code) return;
     try {
-
-        const product =
-            JSON.parse(
-                stored
-            );
-
-
-        if (
-            product.TenSP ||
-            product.tenSP
-        ) {
-
-            productName.textContent =
-                product.TenSP ||
-                product.tenSP;
-
-        }
-
-
-        if (
-            product.MaSP ||
-            product.maSP
-        ) {
-
-            productCode.textContent =
-                `Mã sản phẩm: ${
-                    product.MaSP ||
-                    product.maSP
-                }`;
-
-        }
-
-
-        if (
-            product.Gia ||
-            product.gia
-        ) {
-
-            productPrice.textContent =
-                formatPrice(
-                    product.Gia ||
-                    product.gia
-                );
-
-        }
-
-
-        const image =
-            getProductImage(
-                product
-            );
-
-
-        if (image) {
-
-            productImage.innerHTML =
-                `
-                    <img
-                        src="${image}"
-                        alt="${escapeHTML(
-                            product.TenSP ||
-                            product.tenSP ||
-                            "Sản phẩm"
-                        )}"
-                    >
-                `;
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Không thể load product:",
-            error
-        );
-
-    }
-
+        const product = await fetchApi(`/products/${encodeURIComponent(code)}`, {cache: 'no-store'});
+        if (product.MaSP !== code) throw new Error('Sản phẩm không khớp.');
+        productName.textContent = product.TenSP || code;
+        productCode.textContent = `Mã sản phẩm: ${code}`;
+        productPrice.textContent = formatPrice(product.KichThuoc?.[0]?.Gia || product.Gia || 0);
+        const image = getProductImage(product);
+        if (image) productImage.innerHTML = `<img src="${escapeHTML(image)}" alt="${escapeHTML(product.TenSP || code)}">`;
+    } catch (error) { showModerationResult('Không tải được sản phẩm cần đánh giá.', 'danger'); }
 }
 
 

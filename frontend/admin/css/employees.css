@@ -1,0 +1,24 @@
+.employees-table td { vertical-align: middle; }
+.employees-table .table-actions { flex-wrap: nowrap; gap: 6px; }
+.employees-table .employee-action-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; min-width: 34px; height: 34px; padding: 0; border-radius: 8px; background: var(--sage-soft); color: var(--sage-deep); }
+.employees-table .employee-action-icon.btn-danger { color: #893E35; }
+.employees-table .employee-action-icon:hover:not(:disabled) { background: var(--sage); }
+.employees-table .employee-action-icon:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+.employees-table .employee-status .badge { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; border-radius: 999px; padding: 6px 10px; line-height: 1.2; }
+.employees-table .employee-status .badge::before { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: currentColor; }
+.employees-table .employee-status.is-active .badge { background: #EAF4EC; color: #326647; }
+.employees-table .employee-status.is-locked .badge { background: var(--sage-soft); color: #893E35; }
+#employeeModal [hidden], #employeeResetDialog [hidden] { display: none; }
+#employeeModal .employee-security .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+.employee-reset-dialog { width: min(480px, calc(100vw - 32px)); max-height: 88vh; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; background: var(--paper); color: var(--charcoal); box-shadow: var(--shadow); }
+.employee-reset-dialog::backdrop { background: rgba(var(--text-rgb), .4); }
+.employee-reset-dialog h2 { margin-top: 0; }
+.employee-reset-dialog p { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+#employeeResetError { color: #893E35; }
+#employeeTemporaryPassword { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--sage-soft); color: var(--charcoal); font: inherit; }
+
+.employees-table .table-actions { justify-content: center; }
+.employees-table th:last-child { text-align: center; }
+.employees-table .employee-status-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.employees-table .employee-status .employee-account-locked { background: var(--sage-soft); color: #893E35; }
+.employees-table .employee-action-icon:disabled { opacity: .4; cursor: not-allowed; }

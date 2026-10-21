@@ -22,10 +22,12 @@ final class EnsureAccount
                 return response()->json(['success' => false, 'message' => 'Không thể xác minh tài khoản.'], 503);
             }
             if (!$user || (string) $user['_id'] !== (string) ($identity['id'] ?? '')
+                || (int) ($identity['password_version'] ?? 0) !== (int) ($user['TaiKhoan']['SessionVersion'] ?? 0)
+                || !empty($user['TaiKhoan']['BiKhoa'])
                 || !in_array($user['TrangThai'] ?? '', ['Hoạt động', 'Đang làm việc'], true)) {
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                return response()->json(['success' => false, 'message' => 'Tài khoản không hoạt động. Vui lòng đăng nhập lại.'], 401);
+                return response()->json(['success' => false, 'message' => 'Tài khoản hoặc phiên đăng nhập không còn hợp lệ. Vui lòng đăng nhập lại.'], 401);
             }
             $request->attributes->set('account', $user);
         }
@@ -36,6 +38,15 @@ final class EnsureAccount
         }
         if ($required === 'admin' && ($user['TaiKhoan']['Quyen']['MaQ'] ?? '') !== 'MN') {
             return response()->json(['success' => false, 'message' => 'Bạn không có quyền quản trị.'], 403);
+        }
+        if ($user && !empty($user['TaiKhoan']['MustChangePassword'])
+            && !$request->is('api/auth/change-password', 'api/auth/logout')
+            && !($request->is('api/account') && $request->isMethod('GET'))) {
+            if ($request->is('api/*')) {
+                return response()->json(['success' => false, 'message' => 'Vui lòng đổi mật khẩu tạm trước khi tiếp tục.',
+                    'password_change_required' => true], 403);
+            }
+            if (!$request->is('account-info')) return redirect('/account-info?change-password=required');
         }
         if ($privateApi && $user) {
             $code = (string) ($user['MaKH'] ?? '');
