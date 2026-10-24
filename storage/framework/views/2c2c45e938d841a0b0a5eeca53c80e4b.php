@@ -28,6 +28,7 @@
 
 <script src="<?php echo e(asset('js/common.js')); ?>"></script>
 <?php echo $__env->yieldContent('scripts'); ?>
+<?php echo $__env->make('components.chatbot', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
 </html>
 <?php /**PATH D:\baitap\lap_trinh_ma_nguon_mo\tool\laragon\www\Lavarel_BS_new\resources\views/layouts/app.blade.php ENDPATH**/ ?>

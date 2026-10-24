@@ -1,5 +1,7 @@
 const items = [
     ['dashboard', 'Tổng quan', '⌂'],
+    ['forecast', 'AI Dự báo doanh thu', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18M7 14l4-4 4 3 6-8M16 5h5v5"/></svg>'],
+    ['product-recommendations', 'Gợi ý bổ sung bánh', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v14H4zM8 7V3h8v4M9 14h6M12 11v6"/></svg>'],
     ['products', 'Sản phẩm', '▥'],
     ['categories', 'Danh mục', '◇'],
     ['orders', 'Đơn hàng', '▤'],

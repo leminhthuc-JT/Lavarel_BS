@@ -4,31 +4,71 @@
 
 <?php $__env->startSection('styles'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/home.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/hero-star-trail.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/hero-editorial.css')); ?>">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 <main>
     <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-copy">
-                <p class="eyebrow">NGHỆ THUẬT BÁNH THỦ CÔNG</p>
-                <h1 style="color: #5C4033;">Một chút <in style="color:#50695F ;">ngọt ngào,</in><br>cho ngày thật đẹp.</h1>
-                <p class="hero-desc">
-                    Khám phá thế giới bánh ngọt tinh tế được chế tác tỉ mỉ mỗi ngày
-                    từ bếp bánh của Hoàng Tử Bé. Chúng tôi kết hợp nguyên liệu
-                    thượng hạng cùng sự chân thành để tạo nên những hạnh phúc trọn vẹn.
-                </p>
-                <div class="hero-buttons">
-                    <a href="<?php echo e(route("menu")); ?>" class="btn btn-primary">Khám phá thực đơn <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="<?php echo e(route("about")); ?>" class="btn btn-outline">Câu chuyện của chúng tôi</a>
+    <?php
+        $heroSlides = [
+            ['title' => ['SWEET', 'MOMENTS'], 'asset' => 'strawberry', 'garnish' => 'berry', 'name' => 'Bánh kem dâu',
+             'alt' => 'Bánh kem nhiều lớp phủ dâu đỏ, ảnh tách nền từ bộ ảnh của tiệm',
+             'details' => [['Dâu & kem', 'Điểm nhấn đỏ mọng trên lớp kem trắng.'], ['Từng lớp bánh', 'Những tầng bánh xen kẽ lớp kem mềm.'], ['Một chút ngọt ngào', 'Cho cuộc hẹn và những ngày thật đẹp.']]],
+            ['title' => ['CHOCOLATE', 'DREAMS'], 'asset' => 'chocolate', 'garnish' => 'chocolate', 'name' => 'Bánh chocolate',
+             'alt' => 'Bánh chocolate nhiều lớp, phủ chocolate chảy và hạt trang trí',
+             'details' => [['Chocolate', 'Lớp phủ óng mượt, sắc nâu ấm áp.'], ['Tầng bánh mềm', 'Kết cấu nhiều lớp đầy cuốn hút.'], ['Khoảnh khắc sẻ chia', 'Một chiếc bánh cho những người thương.']]],
+            ['title' => ['LITTLE', 'DELIGHTS'], 'asset' => 'donut', 'garnish' => 'candy', 'name' => 'Donut hồng',
+             'alt' => 'Bộ bánh donut phủ đường hồng cùng cốm màu, nền trong suốt',
+             'details' => [['Sắc hồng dịu ngọt', 'Lớp phủ hồng cùng những hạt cốm màu.'], ['Nhỏ xinh, vui mắt', 'Những vòng bánh tròn đầy đáng yêu.'], ['Niềm vui bé nhỏ', 'Thêm một chút ngọt ngào cho buổi trà.']]],
+            ['title' => ['MADE WITH', 'LOVE'], 'asset' => 'handcrafted', 'garnish' => 'almond', 'name' => 'Bánh cuộn thủ công',
+             'alt' => 'Bánh cuộn phủ kem, caramel và hạnh nhân từ ảnh sản phẩm hiện có',
+             'details' => [['Caramel & hạnh nhân', 'Lớp phủ vàng nâu cùng hạt hạnh nhân.'], ['Dấu ấn thủ công', 'Những đường kem mềm, tự nhiên.'], ['Làm bằng yêu thương', 'Một chút chăm chút trong từng chiếc bánh.']]],
+        ];
+    ?>
+    <section class="hero romantic-hero" data-romantic-hero data-star-trail aria-label="Bộ sưu tập bánh The Little Prince" aria-roledescription="carousel">
+        <div class="romantic-hero__stage">
+            <div class="romantic-hero__slides">
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="romantic-slide <?php echo e($i === 0 ? 'is-active' : ''); ?>" data-slide="<?php echo e($i); ?>" data-name="<?php echo e($slide['name']); ?>" <?php if($i !== 0): ?> hidden <?php endif; ?>>
+                        <div class="romantic-slide__headline" aria-hidden="true"><span><?php echo e($slide['title'][0]); ?></span> <span><?php echo e($slide['title'][1]); ?></span></div>
+                        <figure class="romantic-slide__product">
+                            <img src="<?php echo e(asset('assets/hero/' . $slide['asset'] . '.webp')); ?>" alt="<?php echo e($slide['alt']); ?>" width="1254" height="1254" decoding="async" <?php if($i === 0): ?> fetchpriority="high" <?php endif; ?>>
+                        </figure>
+                        <div class="romantic-slide__garnishes" aria-hidden="true">
+                            <?php for($g = 0; $g < 3; $g++): ?>
+                                <img src="<?php echo e(asset('assets/hero/garnish-' . $slide['garnish'] . '.webp')); ?>" width="96" height="96" alt="" decoding="async" draggable="false">
+                            <?php endfor; ?>
+                        </div>
+                        <div class="romantic-slide__details">
+                            <?php $__currentLoopData = $slide['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j => $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="romantic-slide__detail" style="--detail-order: <?php echo e($j); ?>"><span class="romantic-slide__detail-number">0<?php echo e($j + 1); ?></span><div><h2><?php echo e($detail[0]); ?></h2><p><?php echo e($detail[1]); ?></p></div></div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+            <div class="romantic-hero__copy">
+                <p class="romantic-hero__eyebrow">NGHỆ THUẬT BÁNH THỦ CÔNG</p>
+                <h1>Một chút ngọt ngào,<br>cho ngày thật đẹp.</h1>
+                <p>Bánh thủ công và chút tinh tế kiểu Pháp. Từ bếp bánh Hoàng Tử Bé, gửi bạn những khoảnh khắc dịu ngọt.</p>
+                <div class="romantic-hero__links">
+                    <a href="<?php echo e(route('menu')); ?>" class="romantic-hero__primary">Khám phá thực đơn <span aria-hidden="true">↗</span></a>
+                    <a href="<?php echo e(route('about')); ?>" class="romantic-hero__story">Câu chuyện của chúng tôi</a>
                 </div>
             </div>
-
-            <div class="hero-image image-frame">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=85"
-                     alt="Bánh kem thủ công Little Prince" id="heroImage">
+            <div class="romantic-hero__shadow" aria-hidden="true"></div>
+            <div class="romantic-hero__selector" role="group" aria-label="Chọn bánh nổi bật">
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <button type="button" class="romantic-hero__thumb" data-hero-select="<?php echo e($i); ?>" aria-label="<?php echo e($slide['title'][0] . ' ' . $slide['title'][1]); ?> — <?php echo e($slide['name']); ?>" aria-current="<?php echo e($i === 0 ? 'true' : 'false'); ?>" title="<?php echo e($slide['name']); ?>">
+                        <img src="<?php echo e(asset('assets/hero/' . $slide['asset'] . '.webp')); ?>" width="64" height="64" alt="" decoding="async">
+                        <span><?php echo e($slide['name']); ?></span>
+                    </button>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
+            <div class="romantic-hero__playback"><span data-hero-count>01 / 04</span><button type="button" data-hero-autoplay aria-label="Dừng tự động chuyển slide" title="Dừng tự động chuyển slide"><span data-hero-play-icon aria-hidden="true">Ⅱ</span></button></div>
+            <p class="romantic-hero__status" data-hero-status role="status" aria-live="polite"></p>
         </div>
     </section>
 
@@ -189,6 +229,8 @@
 
 <?php $__env->startSection('scripts'); ?>
     <script src="<?php echo e(asset('js/home.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/hero-star-trail.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/hero-editorial.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\baitap\lap_trinh_ma_nguon_mo\tool\laragon\www\Lavarel_BS_new\resources\views/client/home.blade.php ENDPATH**/ ?>

@@ -378,12 +378,25 @@
 }
 
 .qty-val {
+    width: 42px;
     min-width: 32px;
+    height: 100%;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-family: inherit;
+    appearance: textfield;
+    -moz-appearance: textfield;
     color: var(--text-main);
     font-size: 13px;
     font-weight: 700;
     text-align: center;
 }
+
+.qty-val::-webkit-inner-spin-button,
+.qty-val::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.qty-val:focus-visible { outline: 2px solid #9C5667; outline-offset: -3px; border-radius: 5px; }
 
 
 

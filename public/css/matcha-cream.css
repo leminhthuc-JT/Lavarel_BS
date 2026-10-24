@@ -42,7 +42,18 @@
 :root .main-nav a.active::after { background-color: var(--matcha-background); }
 :root .site-header .avatar-btn { background: transparent; color: var(--matcha-background); }
 :root .site-header .avatar-btn:hover { background: var(--matcha-hover); color: var(--matcha-background); }
-:root .site-header .logo img { background-color: var(--matcha-card); border-radius: var(--radius-sm, 8px); }
+:root .site-header .logo { flex-shrink: 0; }
+:root .site-header .logo img { display: block; width: 112px; height: auto; max-height: 56px; object-fit: contain; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+@media (max-width: 480px) {
+    :root .site-header .logo img { width: 96px; }
+    :root .site-header .nav-wrap { gap: 12px; }
+    :root .site-header .nav-actions { gap: 12px; }
+}
+@media (max-width: 360px) {
+    :root .site-header .logo img { width: 72px; }
+    :root .site-header .nav-wrap { gap: 8px; }
+    :root .site-header .nav-actions { gap: 6px; }
+}
 
 :root body :is(.btn-primary, .btn-add-cart, .add-cart-btn, .primary-button, .btn-submit-contact, .btn-submit-order, .voucher-apply-btn, .qr-confirm-btn, .submit-button) {
     background: var(--matcha-primary); border-color: var(--matcha-primary); color: var(--matcha-card);

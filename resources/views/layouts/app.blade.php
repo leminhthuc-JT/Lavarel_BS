@@ -28,5 +28,6 @@
 
 <script src="{{ asset('js/common.js') }}"></script>
 @yield('scripts')
+@include('components.chatbot')
 </body>
 </html>

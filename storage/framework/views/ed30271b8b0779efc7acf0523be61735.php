@@ -4,6 +4,7 @@
 
 <?php $__env->startSection('styles'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/about.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/baking-process.css')); ?>">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -61,32 +62,63 @@
     </section>
 
     <!-- ARTISANAL PROCESS -->
-    <section class="section process">
+    <section class="section process baking-process" aria-label="Quy trình làm bánh">
         <div class="container">
             <div class="section-heading">
                 <h2>Quy trình tạo nên chiếc bánh<br>hoàn hảo</h2>
                 <p>Từ lúc 04:00 sáng mỗi ngày, bếp bánh Little Prince đã thắp sáng ngọn lửa nướng đầu tiên.</p>
             </div>
+            <div class="baking-motion-controls" hidden>
+                <button type="button" class="baking-motion-toggle" aria-pressed="false">Tạm dừng chuyển động</button>
+            </div>
             <div class="process-steps">
                 <div class="step-item">
-                    <div class="step-circle">1</div>
+                    <button type="button" class="cat-scene cat-scene--ingredients" aria-label="Chọn công đoạn 1: Tuyển chọn nguyên liệu" aria-pressed="false" aria-describedby="baking-description-1">
+                        <span class="cat-illustration">
+                            <video class="baking-video" muted loop playsinline preload="none" poster="<?php echo e(asset('assets/baking-process/videos/ingredients.webp')); ?>" width="960" height="540" aria-hidden="true">
+                                <source src="<?php echo e(asset('assets/baking-process/videos/ingredients.mp4')); ?>" type="video/mp4">
+                            </video>
+                        </span>
+                    </button>
+                    <span class="baking-step-number" aria-hidden="true">01</span>
                     <h4>Tuyển chọn nguyên liệu</h4>
-                    <p>Trái cây mọng hái sáng sớm và bơ Pháp hảo hạng.</p>
+                    <p id="baking-description-1">Trái cây mọng hái sáng sớm và bơ Pháp hảo hạng.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-circle">2</div>
+                    <button type="button" class="cat-scene cat-scene--dough" aria-label="Chọn công đoạn 2: Ủ men và cán bột thủ công" aria-pressed="false" aria-describedby="baking-description-2">
+                        <span class="cat-illustration">
+                            <video class="baking-video" muted loop playsinline preload="none" poster="<?php echo e(asset('assets/baking-process/videos/dough.webp')); ?>" width="960" height="540" aria-hidden="true">
+                                <source src="<?php echo e(asset('assets/baking-process/videos/dough.mp4')); ?>" type="video/mp4">
+                            </video>
+                        </span>
+                    </button>
+                    <span class="baking-step-number" aria-hidden="true">02</span>
                     <h4>Ủ men &amp; Cán bột thủ công</h4>
-                    <p>Quy trình cán ngàn lớp tỉ mỉ giữ độ giòn xốp tự nhiên.</p>
+                    <p id="baking-description-2">Quy trình cán ngàn lớp tỉ mỉ giữ độ giòn xốp tự nhiên.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-circle">3</div>
+                    <button type="button" class="cat-scene cat-scene--oven" aria-label="Chọn công đoạn 3: Nướng mẻ tươi sớm" aria-pressed="false" aria-describedby="baking-description-3">
+                        <span class="cat-illustration">
+                            <video class="baking-video" muted loop playsinline preload="none" poster="<?php echo e(asset('assets/baking-process/videos/oven.webp')); ?>" width="960" height="540" aria-hidden="true">
+                                <source src="<?php echo e(asset('assets/baking-process/videos/oven.mp4')); ?>" type="video/mp4">
+                            </video>
+                        </span>
+                    </button>
+                    <span class="baking-step-number" aria-hidden="true">03</span>
                     <h4>Nướng mẻ tươi sớm</h4>
-                    <p>Bánh được nướng tươi chuẩn nhiệt độ và thời gian hoàn hảo.</p>
+                    <p id="baking-description-3">Bánh được nướng tươi chuẩn nhiệt độ và thời gian hoàn hảo.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-circle">4</div>
+                    <button type="button" class="cat-scene cat-scene--decoration" aria-label="Chọn công đoạn 4: Trang trí nghệ thuật" aria-pressed="false" aria-describedby="baking-description-4">
+                        <span class="cat-illustration">
+                            <video class="baking-video" muted loop playsinline preload="none" poster="<?php echo e(asset('assets/baking-process/videos/decoration.webp')); ?>" width="960" height="540" aria-hidden="true">
+                                <source src="<?php echo e(asset('assets/baking-process/videos/decoration.mp4')); ?>" type="video/mp4">
+                            </video>
+                        </span>
+                    </button>
+                    <span class="baking-step-number" aria-hidden="true">04</span>
                     <h4>Trang trí nghệ thuật</h4>
-                    <p>Điểm xuyết hoa tươi và kem chantilly trước khi trao tới tay bạn.</p>
+                    <p id="baking-description-4">Điểm xuyết hoa tươi và kem chantilly trước khi trao tới tay bạn.</p>
                 </div>
             </div>
         </div>

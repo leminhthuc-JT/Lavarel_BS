@@ -227,6 +227,7 @@ function renderProductCard(product, index = 0) {
 }
 
 function attachProductCardEvents() {
+    setupFeaturedProductMotion();
     document.querySelectorAll('.btn-like-heart').forEach(btn => {
         btn.onclick = (e) => {
             e.stopPropagation();
@@ -266,4 +267,39 @@ function attachProductCardEvents() {
             }
         };
     });
+}
+
+// Animate only when a card enters view; content stays visible without motion APIs.
+function setupFeaturedProductMotion() {
+    const container = document.getElementById('productContainer');
+    if (!container || !('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const cards = Array.from(container.querySelectorAll('.product-card'));
+    const observer = new IntersectionObserver(entries => {
+        const entering = entries.filter(entry => entry.isIntersecting);
+        entering.forEach((entry, index) => {
+            observer.unobserve(entry.target);
+            if (typeof entry.target.animate !== 'function' ||
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const animation = entry.target.animate([
+                { opacity: 0, translate: '0 22px' },
+                { opacity: 1, translate: '0 0' }
+            ], {
+                duration: 620,
+                delay: (index % 4) * 70,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                fill: 'backwards'
+            });
+            // Keyboard interaction should never wait for an entrance to finish.
+            entry.target.addEventListener('focusin', () => animation.cancel(), { once: true });
+            const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const stopMotion = () => { if (preference.matches) animation.cancel(); };
+            preference.addEventListener('change', stopMotion);
+            animation.finished.catch(() => {}).finally(() => {
+                preference.removeEventListener('change', stopMotion);
+            });
+        });
+    }, { threshold: 0.08 });
+    cards.forEach(card => observer.observe(card));
 }

@@ -1,0 +1,87 @@
+{
+  "model": "Random Forest Regressor",
+  "source": "Dữ liệu mô phỏng",
+  "is_synthetic": true,
+  "trained_at": "2026-10-22T21:25:29.971784+07:00",
+  "training_seconds": 3.056,
+  "data": {
+    "synthetic_orders": 5000,
+    "eligible_orders": 4117,
+    "excluded_orders": 883,
+    "fallback_order_date_count": 0,
+    "duplicate_orders_skipped": 0,
+    "history_start": "2025-10-01",
+    "history_end": "2026-10-02",
+    "history_days": 367,
+    "zero_revenue_days": 0,
+    "total_revenue": 1547201040.0,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "date_policy": "Ưu tiên NgayThanhToan; chỉ với đơn mô phỏng thiếu ngày thanh toán, dùng NgayDat. Ngày trống trong lịch sử mô phỏng đã xác nhận được tính 0.",
+    "database": "QL_CakeShop",
+    "collection": "DonHangs",
+    "query": {
+      "isSynthetic": true
+    }
+  },
+  "features": [
+    "day_of_week",
+    "month",
+    "is_weekend",
+    "revenue_lag_1",
+    "revenue_lag_7",
+    "revenue_lag_14",
+    "rolling_mean_7",
+    "rolling_mean_14"
+  ],
+  "model_parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 10,
+    "max_features": 1.0,
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 3,
+    "min_samples_split": 2,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 300,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "train": {
+    "from": "2025-10-15",
+    "to": "2026-07-23",
+    "rows": 282
+  },
+  "test": {
+    "from": "2026-07-24",
+    "to": "2026-10-02",
+    "rows": 71
+  },
+  "final_fit_rows": 353,
+  "random_forest": {
+    "mae": 1546868.7464788733,
+    "rmse": 1931750.8522142821,
+    "wape": 34.69968045162668
+  },
+  "seasonal_naive": {
+    "mae": 2008395.7746478873,
+    "rmse": 2512607.1777014052,
+    "wape": 45.05275044137738
+  },
+  "comparison": "better",
+  "comparison_metric": "MAE",
+  "evaluation": "Chia theo thời gian 80/20; backtest theo từng khối 7 ngày dự báo đệ quy, không shuffle, không refit trong tập test.",
+  "wape_note": "WAPE tính theo %. Nếu tổng doanh thu thực tế bằng 0 và dự báo khác 0, WAPE không xác định (null).",
+  "forecast_note": "Dự báo 7 ngày ngay sau ngày cuối dataset mô phỏng đã train; không phải dự báo tự động tính từ hôm nay.",
+  "versions": {
+    "scikit_learn": "1.9.1",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

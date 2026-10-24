@@ -181,5 +181,6 @@
 
 <script src="{{ asset("js/auth.js") }}"></script>
 
+@include('components.chatbot')
 </body>
 </html>

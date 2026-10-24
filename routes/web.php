@@ -48,6 +48,11 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
 Route::get('/reset-password', [AuthController::class, 'showResetPassword'])->name('reset-password');
 
+Route::prefix('chatbot')->middleware(\App\Http\Middleware\ChatbotAccess::class)->group(function () {
+    Route::post('/message', [\App\Http\Controllers\Client\ChatbotController::class, 'message'])->name('chatbot.message');
+    Route::post('/reset', [\App\Http\Controllers\Client\ChatbotController::class, 'reset'])->name('chatbot.reset');
+});
+
 // Fallback POST auth routes for direct /auth requests
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -67,6 +72,8 @@ Route::prefix('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware(\App\Http\Middleware\EnsureAccount::class . ':admin')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/forecast', [\App\Http\Controllers\Admin\ForecastController::class, 'index'])->name('forecast');
+    Route::get('/product-recommendations', [\App\Http\Controllers\Admin\ProductRecommendationController::class, 'index'])->name('product-recommendations');
     Route::get('/products', [AdminProductController::class, 'index'])->name('products');
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories');
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');

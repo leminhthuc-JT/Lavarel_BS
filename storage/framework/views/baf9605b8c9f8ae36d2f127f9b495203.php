@@ -1,7 +1,7 @@
 <header class="site-header">
     <div class="container nav-wrap">
         <a href="<?php echo e(route('home')); ?>" class="logo">
-            <span class="logo-script"><img src="<?php echo e(asset('assets/logo.png')); ?>" alt="The Little Prince Logo" width="80"></span>
+            <span class="logo-script"><img src="<?php echo e(asset('admin/assets/brand-logo.png')); ?>" alt="The Little Prince Logo" width="112" height="55"></span>
         </a>
 
         <button class="menu-toggle" id="menuToggle" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>

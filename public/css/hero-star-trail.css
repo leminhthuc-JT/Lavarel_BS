@@ -1,0 +1,6 @@
+[data-star-trail] { position: relative; isolation: isolate; }
+.hero-star-trail { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; user-select: none; }
+.hero-star-trail__star { position: absolute; top: 0; left: 0; width: 15px; height: 15px; opacity: 0; background: #C79958; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 94%, 50% 72%, 21% 94%, 32% 57%, 2% 35%, 39% 35%); }
+.hero-star-trail__star:nth-child(3n + 2) { background: #9C5667; }
+.hero-star-trail__star:nth-child(3n) { background: #D6AC77; }
+@media (prefers-reduced-motion: reduce), (hover: none) { .hero-star-trail { display: none; } }

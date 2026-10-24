@@ -227,9 +227,17 @@ function renderCartPage() {
                             </button>
 
 
-                            <span class="qty-val">
-                                ${qty}
-                            </span>
+                            <input
+                                class="qty-val"
+                                type="number"
+                                min="1"
+                                step="1"
+                                inputmode="numeric"
+                                value="${qty}"
+                                aria-label="Số lượng sản phẩm"
+                                onchange="setCartItemQty(${index}, this)"
+                                onkeydown="if (event.key === 'Enter') { event.preventDefault(); this.blur(); }"
+                            >
 
 
                             <button
@@ -457,6 +465,22 @@ function renderCartPage() {
 /* =========================================================
    UPDATE QUANTITY
 ========================================================= */
+
+function setCartItemQty(index, input) {
+    const cart = getCart();
+    if (!Array.isArray(cart) || !cart[index]) return;
+    const previous = Number(cart[index].SoLuong) || 1;
+    const value = input.value.trim();
+    const quantity = Number(value);
+    if (!/^\d+$/.test(value) || !Number.isSafeInteger(quantity) || quantity < 1) {
+        input.value = previous;
+        showToast('Vui lòng nhập số lượng nguyên từ 1 trở lên.', 'error');
+        return;
+    }
+    // Restore on rejection (including stock limit); successful updates re-render the existing cart.
+    input.value = previous;
+    if (quantity !== previous) updateCartItemQty(index, quantity - previous);
+}
 
 function updateCartItemQty(index, delta) {
 

@@ -86,6 +86,9 @@ Route::post('/contact', [ContactController::class, 'apiSend']);
 Route::prefix('admin')->middleware(\App\Http\Middleware\EnsureAccount::class . ':admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'apiIndex']);
     Route::get('/dashboard/revenue', [AdminDashboardController::class, 'apiRevenue']);
+    Route::get('/forecast', [\App\Http\Controllers\Admin\ForecastController::class, 'data']);
+    Route::get('/forecast/metrics', [\App\Http\Controllers\Admin\ForecastController::class, 'metrics']);
+    Route::get('/product-recommendations', [\App\Http\Controllers\Admin\ProductRecommendationController::class, 'data']);
 
     Route::post('/products/{code}', [AdminProductController::class, 'apiUpdateWithUpload']);
     Route::post('/customers/{code}/reset-password', [AdminCustomerController::class, 'resetPassword']);

@@ -1,0 +1,97 @@
+.baking-process {
+    --baking-primary: #9C5667;
+    --baking-secondary: #E6B8C2;
+    --baking-ground: #F8EFE0;
+    --baking-ink: #382D28;
+    --baking-accent: #A87457;
+    background: var(--baking-ground);
+}
+.baking-process .process-steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(20px, 2.5vw, 36px);
+    margin-top: 30px;
+}
+.baking-process .process-steps::before { content: none; }
+.baking-process .step-item {
+    display: block;
+    min-width: 0;
+    text-align: center;
+}
+.baking-process .cat-scene {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.baking-process .cat-illustration {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 400ms ease;
+}
+.baking-process .baking-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+.baking-process .cat-scene:hover .cat-illustration,
+.baking-process .cat-scene:focus-visible .cat-illustration { transform: translateY(-5px) rotate(-1deg); }
+.baking-process .cat-scene:focus-visible { outline: 2px solid var(--baking-primary); outline-offset: 5px; border-radius: 8px; }
+.baking-process .baking-step-number {
+    display: inline-block;
+    min-width: 36px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    color: var(--baking-accent);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    border-bottom: 2px solid transparent;
+    transition: border-color 250ms ease, color 250ms ease;
+}
+.baking-process .step-item.is-selected .baking-step-number { color: var(--baking-primary); border-bottom-color: var(--baking-primary); }
+.baking-process .step-item.is-selected h4 { color: var(--baking-primary); }
+.baking-process .step-item h4 { margin: 0 0 12px; color: var(--baking-ink); font-size: clamp(21px, 1.8vw, 25px); line-height: 1.25; }
+.baking-process .step-item p { max-width: 260px; margin: 0 auto; color: var(--baking-ink); font-size: 14px; line-height: 1.7; }
+.baking-process .baking-motion-controls { text-align: center; margin-top: 20px; }
+.baking-process .baking-motion-controls[hidden] { display: none; }
+.baking-process .baking-motion-toggle { border: 0; background: transparent; padding: 10px 12px; min-height: 44px; color: var(--baking-primary); font: inherit; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.baking-process .baking-motion-toggle:focus-visible { outline: 2px solid var(--baking-primary); outline-offset: 2px; }
+.baking-process.reveal-ready .step-item { opacity: 0; transform: translateY(18px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.7,.2,1); }
+.baking-process.reveal-ready .step-item.is-revealed { opacity: 1; transform: none; }
+.baking-process.reveal-ready .step-item.is-revealed:nth-child(2) { transition-delay: 130ms; }
+.baking-process.reveal-ready .step-item.is-revealed:nth-child(3) { transition-delay: 260ms; }
+.baking-process.reveal-ready .step-item.is-revealed:nth-child(4) { transition-delay: 390ms; }
+@media (max-width: 1050px) {
+    .baking-process .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 36px; }
+    .baking-process .cat-scene { max-width: 420px; }
+}
+@media (max-width: 600px) {
+    .baking-process .process-steps { grid-template-columns: minmax(0, 1fr); gap: 34px 18px; margin-top: 22px; }
+    .baking-process .cat-scene { margin-bottom: 12px; }
+    .baking-process .step-item h4 { font-size: 21px; }
+    .baking-process .step-item p { font-size: 13px; line-height: 1.65; }
+}
+@media (max-width: 420px) {
+    .baking-process .process-steps { grid-template-columns: minmax(0, 1fr); gap: 42px; }
+    .baking-process .cat-scene { max-width: 420px; }
+    .baking-process .step-item p { max-width: 285px; font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .baking-process .cat-scene .cat-illustration { transform: none; transition: none; }
+    .baking-process.reveal-ready .step-item { opacity: 1; transform: none; transition: none; }
+    .baking-process .baking-motion-controls { display: none; }
+}
